@@ -101,7 +101,7 @@ public final class GameScreen implements Screen {
         this.gameMenu = new GameMenu(chessGame, this);
         this.gamePreference = new GamePreference(this);
 
-        Gdx.graphics.setTitle("LibGDX Simple Parallel Chess 2.0");
+        Gdx.graphics.setTitle("LibGDX Simple Parallel Chess 2.0");//TODO: cambiar titulo a recurso
 
         final VerticalGroup verticalGroup = new VerticalGroup();
 

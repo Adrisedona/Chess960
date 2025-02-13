@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
+
 import com.google.common.collect.ImmutableList;
 
 public class FenFisherRandom {
@@ -21,8 +21,7 @@ public class FenFisherRandom {
 			throw new IllegalArgumentException("List already inicialiced");
 		}
 		List<String> temp = new ArrayList<>();
-		FileHandle handle = Gdx.files.internal("fen/fenfisherrandom.fen");
-		try (Scanner sc = new Scanner(handle.read())) {
+		try (Scanner sc = new Scanner(Gdx.files.internal("fen/fenfisherrandom.fen").read())) {
 			while (sc.hasNextLine()) {
 				temp.add(sc.nextLine());
 			}
