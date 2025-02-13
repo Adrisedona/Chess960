@@ -49,7 +49,7 @@ public final class GameScreen implements Screen {
             public Board getBoard(final GameScreen gameScreen) {
                 return FenUtilities.createGameFromSavedData(GuiUtils.MOVE_LOG_PREF.getString(GuiUtils.MOVE_LOG_STATE), gameScreen.getMoveHistory().getMoveLog());
             }
-        }, NEw_CHESS960_GAME {
+        }, NEW_CHESS960_GAME {
 			@Override
             public Board getBoard(final GameScreen gameScreen) {
                 return FenUtilities.createGameFromFEN(FenFisherRandom.getRandomFen());
