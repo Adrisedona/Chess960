@@ -41,22 +41,22 @@ public final class GameScreen implements Screen {
     public enum BOARD_STATE {
         NEW_GAME {
             @Override
-            public Board getBoard(final GameScreen gameScreen) {
-                return Board.createStandardBoard(BoardUtils.DEFAULT_TIMER_MINUTE, BoardUtils.DEFAULT_TIMER_SECOND, BoardUtils.DEFAULT_TIMER_MILLISECOND);
+            public Board getBoard(final GameScreen gameScreen, int minutes, int seconds, int milliseconds) {
+                return Board.createStandardBoard(minutes, seconds, milliseconds);
             }
         }, LOAD_GAME {
             @Override
-            public Board getBoard(final GameScreen gameScreen) {
+            public Board getBoard(final GameScreen gameScreen, int minutes, int seconds, int milliseconds) {
                 return FenUtilities.createGameFromSavedData(GuiUtils.MOVE_LOG_PREF.getString(GuiUtils.MOVE_LOG_STATE), gameScreen.getMoveHistory().getMoveLog());
             }
         }, NEW_CHESS960_GAME {
 			@Override
-            public Board getBoard(final GameScreen gameScreen) {
-                return FenUtilities.createGameFromFEN(FenFisherRandom.getRandomFen());
+            public Board getBoard(final GameScreen gameScreen, int minutes, int seconds, int milliseconds) {
+                return FenUtilities.createGameFromFEN(FenFisherRandom.getRandomFen(), minutes, seconds, milliseconds);
             }
 		};
 
-        public abstract Board getBoard(final GameScreen gameScreen);
+        public abstract Board getBoard(final GameScreen gameScreen, int minutes, int seconds, int milliseconds);
     }
 
     //setter
