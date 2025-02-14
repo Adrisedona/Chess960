@@ -492,7 +492,7 @@ public abstract class Move {
         }
 
         public static Move createMove(final Board board, final Piece piece, final int destinationCoordinate) {//TODO: check more than one legal move
-            return piece.calculateLegalMoves(board).stream().filter(move -> move.getCurrentCoordinate() == piece.getPiecePosition() && move.getDestinationCoordinate() == destinationCoordinate).findAny().orElseGet(MoveFactory::getNullMove);
+            return piece.calculateLegalMoves(board).stream().filter(move -> move.getCurrentCoordinate() == piece.getPiecePosition() && move.getDestinationCoordinate() == destinationCoordinate).findFirst().orElseGet(MoveFactory::getNullMove);
         }
 
         public static Move createMoveFromMoveHistory(final Board board, final int currentCoordinate, final int destinationCoordinate) {
