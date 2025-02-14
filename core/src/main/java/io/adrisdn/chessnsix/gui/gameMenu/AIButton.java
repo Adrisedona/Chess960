@@ -11,12 +11,12 @@ import com.badlogic.gdx.utils.Align;
 
 import io.adrisdn.chessnsix.gui.GuiUtils;
 import io.adrisdn.chessnsix.gui.board.GameProps;
-import io.adrisdn.chessnsix.gui.gameScreen.GameScreen;
+import io.adrisdn.chessnsix.gui.screens.GameScreen;
 
 public final class AIButton extends TextButton {
 
-    public AIButton(final io.adrisdn.chessnsix.gui.gameScreen.GameScreen gameScreen) {
-        super("Setup AI", GuiUtils.UI_SKIN);
+    public AIButton(final io.adrisdn.chessnsix.gui.screens.GameScreen gameScreen) {
+        super("Setup AI", GuiUtils.UI_SKIN);//TODO: fix string
         final AIDialog aiDialog = new AIDialog(gameScreen);
         this.addListener(new ClickListener() {
             @Override
@@ -31,18 +31,18 @@ public final class AIButton extends TextButton {
 
         private final CheckBox whitePlayerCheckBox, blackPlayerCheckBox;
 
-        private AIDialog(final io.adrisdn.chessnsix.gui.gameScreen.GameScreen gameScreen) {
-            super("Setup AI", GuiUtils.UI_SKIN);
+        private AIDialog(final io.adrisdn.chessnsix.gui.screens.GameScreen gameScreen) {
+            super("Setup AI", GuiUtils.UI_SKIN);//TODO: fix string
 
-            this.whitePlayerCheckBox = new CheckBox("White as AI", GuiUtils.UI_SKIN);
-            this.blackPlayerCheckBox = new CheckBox("Black as AI", GuiUtils.UI_SKIN);
+            this.whitePlayerCheckBox = new CheckBox("White as AI", GuiUtils.UI_SKIN);//TODO: fix string
+            this.blackPlayerCheckBox = new CheckBox("Black as AI", GuiUtils.UI_SKIN);//TODO: fix string
 
             this.getContentTable().padTop(10);
 
             this.getContentTable().add(this.whitePlayerCheckBox).align(Align.left).row();
             this.getContentTable().add(this.blackPlayerCheckBox).align(Align.left).row();
 
-            final Label label = new Label("Select Level", GuiUtils.UI_SKIN);
+            final Label label = new Label("Select Level", GuiUtils.UI_SKIN);//TODO: fix string
             label.setColor(Color.BLACK);
             this.getContentTable().add(label);
             this.getContentTable().add(gameScreen.getGameBoard().getArtificialIntelligence().getLevelSelector()).row();
@@ -54,7 +54,7 @@ public final class AIButton extends TextButton {
         private static final class OKButton extends TextButton {
 
             public OKButton(final GameScreen gameScreen, final AIDialog aiDialog) {
-                super("Ok", GuiUtils.UI_SKIN);
+                super("Ok", GuiUtils.UI_SKIN);//TODO: fix string
                 this.addListener(new ClickListener() {
                     @Override
                     public void clicked(final InputEvent event, final float x, final float y) {

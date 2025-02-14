@@ -14,7 +14,7 @@ import io.adrisdn.chessnsix.chess.engine.board.Move;
 import io.adrisdn.chessnsix.chess.engine.board.MoveTransition;
 import io.adrisdn.chessnsix.chess.engine.pieces.Piece;
 import io.adrisdn.chessnsix.gui.GuiUtils;
-import io.adrisdn.chessnsix.gui.gameScreen.GameScreen;
+import io.adrisdn.chessnsix.gui.screens.GameScreen;
 
 public final class TileActor extends Image {
 
@@ -64,7 +64,9 @@ public final class TileActor extends Image {
                             } else {
                                 gameScreen.getGameBoard().updateHumanPiece(getPiece(gameScreen.getChessBoard(), gameScreen.getGameBoard().getHumanPiece(), tileID));
                                 gameScreen.getGameBoard().drawBoard(gameScreen, gameScreen.getChessBoard(), gameScreen.getDisplayOnlyBoard());
-								Gdx.input.vibrate(500);
+								if (GuiUtils.IS_SMARTPHONE) {
+									Gdx.input.vibrate(500);
+								}
                                 if (getPiece(gameScreen.getChessBoard(), gameScreen.getGameBoard().getHumanPiece(), tileID) != null && gameScreen.getGameBoard().isHighlightMove()) {
                                     gameScreen.getDisplayOnlyBoard().highlightLegalMove(gameScreen.getGameBoard(), gameScreen.getChessBoard());
                                 }

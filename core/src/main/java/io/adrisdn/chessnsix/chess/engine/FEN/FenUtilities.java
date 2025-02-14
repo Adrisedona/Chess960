@@ -43,7 +43,7 @@ public final class FenUtilities {
     }
 
     public static String getGameData(final MoveLog moveLog, final Board board) {
-        final ImmutableList<Coordinate> coordinateList = ImmutableList.copyOf(moveLog.getMoves().parallelStream().map(move -> new Coordinate(move.getCurrentCoordinate(), move.getDestinationCoordinate())).collect(Collectors.toList()));
+        final ImmutableList<Coordinate> coordinateList = ImmutableList.copyOf(moveLog.getMoves().stream().map(move -> new Coordinate(move.getCurrentCoordinate(), move.getDestinationCoordinate())).collect(Collectors.toList()));
         return formGameData(coordinateList, "", 0).trim() + getPlayerTimer(board);
     }
 
@@ -136,6 +136,83 @@ public final class FenUtilities {
         final League playerLeague = getLeague(fenPartitions[1]);
 
         final Builder builder = new Builder(Integer.parseInt(fenPartitions[fenPartitions.length - 1]), playerLeague, getEnPassantPawn(playerLeague, fenPartitions[3]));
+
+        final boolean whiteKingSideCastle = kingSideCastle(fenPartitions[2], true);
+        final boolean whiteQueenSideCastle = queenSideCastle(fenPartitions[2], true);
+        final boolean blackKingSideCastle = kingSideCastle(fenPartitions[2], false);
+        final boolean blackQueenSideCastle = queenSideCastle(fenPartitions[2], false);
+
+        final String gameConfiguration = fenPartitions[0];
+        final char[] boardTiles = replaceNumWithDash(gameConfiguration.replaceAll("/", "")).toCharArray();
+        int i = 0;
+        while (i < boardTiles.length) {
+            switch (boardTiles[i]) {
+                case 'r':
+                    builder.setPiece(new Rook(League.BLACK, i));
+                    i++;
+                    break;
+                case 'n':
+                    builder.setPiece(new Knight(League.BLACK, i));
+                    i++;
+                    break;
+                case 'b':
+                    builder.setPiece(new Bishop(League.BLACK, i));
+                    i++;
+                    break;
+                case 'q':
+                    builder.setPiece(new Queen(League.BLACK, i));
+                    i++;
+                    break;
+                case 'k':
+                    builder.setPiece(new King(League.BLACK, i, blackKingSideCastle, blackQueenSideCastle));
+                    i++;
+                    break;
+                case 'p':
+                    builder.setPiece(new Pawn(League.BLACK, i));
+                    i++;
+                    break;
+                case 'R':
+                    builder.setPiece(new Rook(League.WHITE, i));
+                    i++;
+                    break;
+                case 'N':
+                    builder.setPiece(new Knight(League.WHITE, i));
+                    i++;
+                    break;
+                case 'B':
+                    builder.setPiece(new Bishop(League.WHITE, i));
+                    i++;
+                    break;
+                case 'Q':
+                    builder.setPiece(new Queen(League.WHITE, i));
+                    i++;
+                    break;
+                case 'K':
+                    builder.setPiece(new King(League.WHITE, i, whiteKingSideCastle, whiteQueenSideCastle));
+                    i++;
+                    break;
+                case 'P':
+                    builder.setPiece(new Pawn(League.WHITE, i));
+                    i++;
+                    break;
+                case '-':
+                    i++;
+                    break;
+                default:
+                    throw new RuntimeException("Invalid FEN String " + gameConfiguration);
+            }
+        }
+        return builder.build();
+    }
+
+	public static Board createGameFromFEN(final String fenString, int minutes, int seconds, int millisecond) {
+        final String[] fenPartitions = fenString.trim().split(" ");
+
+        final League playerLeague = getLeague(fenPartitions[1]);
+
+        final Builder builder = new Builder(Integer.parseInt(fenPartitions[fenPartitions.length - 1]), playerLeague, getEnPassantPawn(playerLeague, fenPartitions[3]))
+			.updateBlackTimer(minutes, seconds, millisecond)
+			.updateWhiteTimer(minutes, seconds, millisecond);
 
         final boolean whiteKingSideCastle = kingSideCastle(fenPartitions[2], true);
         final boolean whiteQueenSideCastle = queenSideCastle(fenPartitions[2], true);

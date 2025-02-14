@@ -7,9 +7,9 @@ import com.badlogic.gdx.graphics.GL20;
 import io.adrisdn.chessnsix.chess.engine.FEN.FenFisherRandom;
 import io.adrisdn.chessnsix.chess.engine.board.Board;
 import io.adrisdn.chessnsix.gui.board.GameProps.GameEnd;
-import io.adrisdn.chessnsix.gui.gameScreen.About;
-import io.adrisdn.chessnsix.gui.gameScreen.GameScreen;
-import io.adrisdn.chessnsix.gui.gameScreen.WelcomeScreen;
+import io.adrisdn.chessnsix.gui.screens.About;
+import io.adrisdn.chessnsix.gui.screens.GameScreen;
+import io.adrisdn.chessnsix.gui.screens.WelcomeScreen;
 
 public final class ChessGame extends Game {
 
@@ -20,12 +20,11 @@ public final class ChessGame extends Game {
     @Override
     public void create() {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		FenFisherRandom.InitFisherRandomList();
         this.gameScreen = new GameScreen(this);
         this.aboutScreen = new About(this);
         this.welcomeScreen = new WelcomeScreen(this);
         this.setScreen(this.welcomeScreen);
-
-		FenFisherRandom.InitFisherRandomList();
     }
 
     public GameScreen getGameScreen() {

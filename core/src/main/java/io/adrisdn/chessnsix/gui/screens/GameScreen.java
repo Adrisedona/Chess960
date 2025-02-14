@@ -1,4 +1,4 @@
-package io.adrisdn.chessnsix.gui.gameScreen;
+package io.adrisdn.chessnsix.gui.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;

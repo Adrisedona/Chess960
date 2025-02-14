@@ -13,7 +13,7 @@ public final class PawnStructureAnalyse {
     public static final int DOUBLED_PAWN_PENALTY = -10;
 
     private static ImmutableList<Piece> calculatePlayerPawns(final Player player) {
-        return ImmutableList.copyOf(player.getActivePieces().parallelStream().filter(piece -> piece.getPieceType() == PieceType.PAWN).collect(Collectors.toList()));
+        return ImmutableList.copyOf(player.getActivePieces().stream().filter(piece -> piece.getPieceType() == PieceType.PAWN).collect(Collectors.toList()));
     }
 
     private static int calculatePawnColumnStack(final int[] pawnsOnColumnTable) {

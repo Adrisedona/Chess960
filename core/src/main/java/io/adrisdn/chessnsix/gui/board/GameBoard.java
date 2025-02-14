@@ -16,7 +16,7 @@ import io.adrisdn.chessnsix.chess.engine.pieces.Piece;
 import io.adrisdn.chessnsix.chess.engine.player.Player;
 import io.adrisdn.chessnsix.gui.ArtificialIntelligence;
 import io.adrisdn.chessnsix.gui.GuiUtils;
-import io.adrisdn.chessnsix.gui.gameScreen.GameScreen;
+import io.adrisdn.chessnsix.gui.screens.GameScreen;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -168,23 +168,23 @@ public final class GameBoard extends Table {
 
 	public void displayTimeOutMessage(final Board chessBoard, final Stage stage) {
 		if (chessBoard.currentPlayer().isTimeOut()) {
-			final Label label = new Label(chessBoard.currentPlayer() + " player is timed out!", GuiUtils.UI_SKIN);
+			final Label label = new Label(chessBoard.currentPlayer() + " player is timed out!", GuiUtils.UI_SKIN);//TODO: fix string
 			label.setColor(Color.BLACK);
-			new Dialog("Time out", GuiUtils.UI_SKIN).text(label).button("Ok").show(stage);
+			new Dialog("Time out", GuiUtils.UI_SKIN).text(label).button("Ok").show(stage);//TODO: fix string
 			this.updateGameEnd(GameProps.GameEnd.ENDED);
 		}
 	}
 
 	public void displayEndGameMessage(final Board chessBoard, final Stage stage) {
-		final String state = chessBoard.currentPlayer().isInCheckmate() ? "Checkmate"
-				: chessBoard.currentPlayer().isInStalemate() ? "Stalemate" : null;
+		final String state = chessBoard.currentPlayer().isInCheckmate() ? "Checkmate"//TODO: fix string
+				: chessBoard.currentPlayer().isInStalemate() ? "Stalemate" : null;//TODO: fix string
 		if (state == null) {
 			return;
 		}
-		final Label label = new Label(chessBoard.currentPlayer() + " player is in " + state.toLowerCase() + " !",
+		final Label label = new Label(chessBoard.currentPlayer() + " player is in " + state.toLowerCase() + " !",//TODO: fix string
 				GuiUtils.UI_SKIN);
 		label.setColor(Color.BLACK);
-		new Dialog(state, GuiUtils.UI_SKIN).text(label).button("Ok").show(stage);
+		new Dialog(state, GuiUtils.UI_SKIN).text(label).button("Ok").show(stage);//TODO: fix string
 		this.updateGameEnd(GameProps.GameEnd.ENDED);
 	}
 

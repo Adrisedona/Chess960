@@ -15,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import io.adrisdn.chessnsix.chess.engine.board.Move;
 import io.adrisdn.chessnsix.chess.engine.player.artificialInteligence.MiniMax;
 import io.adrisdn.chessnsix.gui.board.GameProps;
-import io.adrisdn.chessnsix.gui.gameScreen.GameScreen;
+import io.adrisdn.chessnsix.gui.screens.GameScreen;
 
 public final class ArtificialIntelligence {
 
@@ -52,9 +52,9 @@ public final class ArtificialIntelligence {
         this.progressBar.setRange(0, gameScreen.getChessBoard().currentPlayer().getLegalMoves().size());
         table.add(this.progressBar).width(400).padBottom(20).row();
 
-        final Dialog dialog = new Dialog("Give me some time to think...", GuiUtils.UI_SKIN);
+        final Dialog dialog = new Dialog("Give me some time to think...", GuiUtils.UI_SKIN);//TODO: fix string
 
-        final TextButton textButton = new TextButton("Remove Progress Bar", GuiUtils.UI_SKIN);
+        final TextButton textButton = new TextButton("Remove Progress Bar", GuiUtils.UI_SKIN);//TODO: fix string
         textButton.addListener(new ClickListener() {
             @Override
             public void clicked(final InputEvent event, final float x, final float y) {

@@ -36,7 +36,7 @@ public final class BoardUtils {
 	}
 
 	public static Stream<Integer> getBoardNumStream() {
-		return IntStream.range(0, NUM_TILES).boxed().parallel();
+		return IntStream.range(0, NUM_TILES).boxed();
 	}
 
 	// Method
@@ -121,7 +121,7 @@ public final class BoardUtils {
 	}
 
 	public static Piece getPieceAtPosition(final Board board, final String position) {
-		return board.getAllPieces().parallelStream()
+		return board.getAllPieces().stream()
 				.filter(piece -> piece.getPiecePosition() == BoardUtils.getCoordinateAtPosition(position)).findFirst()
 				.orElseThrow(() -> new IllegalStateException("Invalid Piece"));
 	}

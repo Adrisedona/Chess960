@@ -1,4 +1,4 @@
-package io.adrisdn.chessnsix.gui.gameScreen;
+package io.adrisdn.chessnsix.gui.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -26,7 +26,7 @@ public final class WelcomeScreen implements Screen {
         this.stage = new Stage(new FitViewport(GuiUtils.WORLD_WIDTH, GuiUtils.WORLD_HEIGHT), new SpriteBatch());
 
         Gdx.input.setInputProcessor(this.stage);
-        Gdx.graphics.setTitle("LibGDX Simple Parallel Chess 2.0");
+        Gdx.graphics.setTitle("LibGDX Simple Parallel Chess 2.0");//TODO: fix title
 
         final Table table = new Table(GuiUtils.UI_SKIN);
 
@@ -49,7 +49,7 @@ public final class WelcomeScreen implements Screen {
     }
 
     private TextButton startGameButton(final ChessGame chessGame) {
-        final TextButton textButton = new TextButton("Start Game", GuiUtils.UI_SKIN);
+        final TextButton textButton = new TextButton("Start Game", GuiUtils.UI_SKIN);//TODO: fix string
         textButton.addListener(new ClickListener() {
             @Override
             public void clicked(final InputEvent event, final float x, final float y) {
@@ -60,7 +60,7 @@ public final class WelcomeScreen implements Screen {
     }
 
     private TextButton exitGameButton() {
-        final TextButton textButton = new TextButton("Exit Game", GuiUtils.UI_SKIN);
+        final TextButton textButton = new TextButton("Exit Game", GuiUtils.UI_SKIN);//TODO: fix string
         textButton.addListener(new ClickListener() {
             @Override
             public void clicked(final InputEvent event, final float x, final float y) {
@@ -72,7 +72,7 @@ public final class WelcomeScreen implements Screen {
     }
 
     private TextButton aboutButton(final ChessGame chessGame) {
-        final TextButton textButton = new TextButton("About Game", GuiUtils.UI_SKIN);
+        final TextButton textButton = new TextButton("About Game", GuiUtils.UI_SKIN);//TODO: fix string
         textButton.addListener(new ClickListener() {
             @Override
             public void clicked(final InputEvent event, final float x, final float y) {
@@ -84,16 +84,16 @@ public final class WelcomeScreen implements Screen {
     }
 
     private TextButton loadGameButton(final ChessGame chessGame) {
-        final TextButton textButton = new TextButton("Load Game", GuiUtils.UI_SKIN);
+        final TextButton textButton = new TextButton("Load Game", GuiUtils.UI_SKIN);//TODO: fix string
         textButton.addListener(new ClickListener() {
             @Override
             public void clicked(final InputEvent event, final float x, final float y) {
                 try {
                     chessGame.gotoGameScreen(GameScreen.BOARD_STATE.LOAD_GAME, GameScreen.BOARD_STATE.LOAD_GAME.getBoard(chessGame.getGameScreen()));
                 } catch (final RuntimeException e) {
-                    final Label label = new Label("No game to load", GuiUtils.UI_SKIN);
+                    final Label label = new Label("No game to load", GuiUtils.UI_SKIN);//TODO: fix string
                     label.setColor(Color.BLACK);
-                    new Dialog("Load Game", GuiUtils.UI_SKIN).text(label).button("Ok").show(stage);
+                    new Dialog("Load Game", GuiUtils.UI_SKIN).text(label).button("Ok").show(stage);//TODO: fix string
                 }
             }
         });

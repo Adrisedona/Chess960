@@ -6,13 +6,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import io.adrisdn.chessnsix.gui.GuiUtils;
-import io.adrisdn.chessnsix.gui.gameScreen.GameScreen;
+import io.adrisdn.chessnsix.gui.screens.GameScreen;
 
 
 public final class CancelButton extends TextButton {
 
     protected CancelButton(final GameScreen gameScreen, final Dialog dialog) {
-        super("Cancel", GuiUtils.UI_SKIN);
+        super("Cancel", GuiUtils.UI_SKIN);//TODO: fix string
         this.addListener(new ClickListener() {
             @Override
             public void clicked(final InputEvent event, final float x, final float y) {

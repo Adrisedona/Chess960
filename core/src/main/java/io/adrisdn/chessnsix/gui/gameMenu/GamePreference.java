@@ -15,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import io.adrisdn.chessnsix.chess.engine.FEN.FenUtilities;
 import io.adrisdn.chessnsix.chess.engine.board.Move;
 import io.adrisdn.chessnsix.gui.GuiUtils;
-import io.adrisdn.chessnsix.gui.gameScreen.GameScreen;
+import io.adrisdn.chessnsix.gui.screens.GameScreen;
 
 public final class GamePreference extends TextButton {
 

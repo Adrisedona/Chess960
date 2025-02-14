@@ -3,7 +3,7 @@ package io.adrisdn.chessnsix.gui.board;
 import io.adrisdn.chessnsix.chess.engine.board.Board;
 import io.adrisdn.chessnsix.chess.engine.board.BoardUtils;
 import io.adrisdn.chessnsix.gui.GuiUtils;
-import io.adrisdn.chessnsix.gui.gameScreen.GameScreen;
+import io.adrisdn.chessnsix.gui.screens.GameScreen;
 
 public final class GameProps {
 

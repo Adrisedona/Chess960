@@ -21,8 +21,8 @@ public final class GuiUtils {
     public static final int WIDTH = IS_SMARTPHONE ? 150 : 300;
     //private
     private static final TextureAtlas GAME_TEXTURE_ATLAS = new TextureAtlas(Gdx.files.internal("gameTextureAtlas.atlas"));
-    public static final TextureRegion BACKGROUND = GET_TILE_TEXTURE_REGION("welcome");
-    public static final TextureRegion LOGO = GET_TILE_TEXTURE_REGION("chess_logo");
+    public static final TextureRegion BACKGROUND = GET_TILE_TEXTURE_REGION("welcome");//TODO: Cambiar fondo
+    public static final TextureRegion LOGO = GET_TILE_TEXTURE_REGION("chess_logo");//TODO: cambiar logo
     public static final TextureRegion WHITE_TEXTURE_REGION = GAME_TEXTURE_ATLAS.findRegion("white");
     public static final TextureRegion TRANSPARENT_TEXTURE_REGION = GAME_TEXTURE_ATLAS.findRegion("transparent");
     //public

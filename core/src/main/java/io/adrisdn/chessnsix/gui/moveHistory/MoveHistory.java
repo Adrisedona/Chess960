@@ -153,7 +153,7 @@ public final class MoveHistory extends Table {
         }
 
         private Piece searchSamePiece(final HashMap<Piece, Integer> takenPieces, final Piece takenPiece) {
-            return takenPieces.keySet().parallelStream().filter(piece -> takenPiece.toString().equals(piece.toString())).findFirst().orElse(null);
+            return takenPieces.keySet().stream().filter(piece -> takenPiece.toString().equals(piece.toString())).findFirst().orElse(null);
         }
 
         private List<Piece> sortedPieces(final HashMap<Piece, Integer> takenPiecesMap) {

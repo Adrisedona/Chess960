@@ -492,12 +492,12 @@ public abstract class Move {
         }
 
         public static Move createMove(final Board board, final Piece piece, final int destinationCoordinate) {
-            return piece.calculateLegalMoves(board).parallelStream().filter(move -> move.getCurrentCoordinate() == piece.getPiecePosition() && move.getDestinationCoordinate() == destinationCoordinate).findFirst().orElseGet(MoveFactory::getNullMove);
+            return piece.calculateLegalMoves(board).stream().filter(move -> move.getCurrentCoordinate() == piece.getPiecePosition() && move.getDestinationCoordinate() == destinationCoordinate).findFirst().orElseGet(MoveFactory::getNullMove);
         }
 
         public static Move createMoveFromMoveHistory(final Board board, final int currentCoordinate, final int destinationCoordinate) {
-            final Piece pieceToMove = board.getAllPieces().parallelStream().filter(piece -> piece.getPiecePosition() == currentCoordinate).findAny().orElseThrow(() -> new IllegalStateException("no such piece"));
-            return pieceToMove.calculateLegalMoves(board).parallelStream().filter(move -> move.getCurrentCoordinate() == currentCoordinate && move.getDestinationCoordinate() == destinationCoordinate).findFirst().orElseGet(MoveFactory::getNullMove);
+            final Piece pieceToMove = board.getAllPieces().stream().filter(piece -> piece.getPiecePosition() == currentCoordinate).findAny().orElseThrow(() -> new IllegalStateException("no such piece"));
+            return pieceToMove.calculateLegalMoves(board).stream().filter(move -> move.getCurrentCoordinate() == currentCoordinate && move.getDestinationCoordinate() == destinationCoordinate).findFirst().orElseGet(MoveFactory::getNullMove);
         }
     }
 }

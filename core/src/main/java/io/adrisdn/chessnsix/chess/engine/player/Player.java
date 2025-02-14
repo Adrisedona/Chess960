@@ -79,11 +79,11 @@ public abstract class Player {
     }
 
     public static ImmutableList<Move> calculateAttacksOnTile(final int piecePosition, final ImmutableList<Move> moves) {
-        return ImmutableList.copyOf(moves.parallelStream().filter(move -> piecePosition == move.getDestinationCoordinate()).collect(Collectors.toList()));
+        return ImmutableList.copyOf(moves.stream().filter(move -> piecePosition == move.getDestinationCoordinate()).collect(Collectors.toList()));
     }
 
     private King establishKing() {
-        return ((King)this.getActivePieces().parallelStream().filter(piece -> piece.getPieceType().isKing()).findFirst().orElseThrow(() -> new IllegalStateException("Invalid board")));
+        return ((King)this.getActivePieces().stream().filter(piece -> piece.getPieceType().isKing()).findFirst().orElseThrow(() -> new IllegalStateException("Invalid board")));
     }
 
     public abstract ImmutableList<Piece> getActivePieces();
@@ -133,7 +133,7 @@ public abstract class Player {
     }
 
     protected final boolean noEscapeMoves() {
-        return this.legalMoves.parallelStream().noneMatch(move -> this.makeMove(move).getMoveStatus().isDone());
+        return this.legalMoves.stream().noneMatch(move -> this.makeMove(move).getMoveStatus().isDone());
     }
 
     public final MoveTransition makeMove(final Move move) {

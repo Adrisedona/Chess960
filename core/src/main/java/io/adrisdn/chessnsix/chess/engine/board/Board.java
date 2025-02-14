@@ -52,7 +52,7 @@ public final class Board {
     }
 
     private static ImmutableList<Piece> calculateActivePieces(final Builder builder, final League league) {
-        return ImmutableList.copyOf(builder.boardConfig.values().parallelStream().filter(piece -> piece.getLeague() == league).collect(Collectors.toList()));
+        return ImmutableList.copyOf(builder.boardConfig.values().stream().filter(piece -> piece.getLeague() == league).collect(Collectors.toList()));
     }
 
     public static ImmutableList<Tile> createGameBoard(final Builder builder) {
@@ -170,7 +170,7 @@ public final class Board {
     }
 
     private ImmutableList<Move> calculateLegalMoves(final ImmutableList<Piece> pieces) {
-        return ImmutableList.copyOf(pieces.parallelStream().flatMap(piece -> piece.calculateLegalMoves(this).stream()).collect(Collectors.toList()));
+        return ImmutableList.copyOf(pieces.stream().flatMap(piece -> piece.calculateLegalMoves(this).stream()).collect(Collectors.toList()));
     }
 
     public static final class Builder {
