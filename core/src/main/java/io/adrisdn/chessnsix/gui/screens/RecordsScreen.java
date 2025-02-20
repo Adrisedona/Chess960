@@ -1,13 +1,15 @@
 package io.adrisdn.chessnsix.gui.screens;
 
+
 import com.badlogic.gdx.Screen;
 
 import io.adrisdn.chessnsix.gui.ChessGame;
 
-public class SetupGame implements Screen {
+public class RecordsScreen implements Screen {
 
-	public SetupGame(final ChessGame chessGame) {
-		//TODO Auto-generated constructor stub
+
+	public RecordsScreen(final ChessGame chessGame) {
+
 	}
 
 	@Override

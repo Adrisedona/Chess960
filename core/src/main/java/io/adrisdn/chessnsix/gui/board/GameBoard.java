@@ -20,6 +20,7 @@ import io.adrisdn.chessnsix.gui.screens.GameScreen;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.sql.SQLException;
 
 public final class GameBoard extends Table {
 
@@ -35,6 +36,7 @@ public final class GameBoard extends Table {
 	private GameProps.ArtificialIntelligenceWorking artificialIntelligenceWorking;
 	private GameProps.PlayerType whitePlayerType, blackPlayerType;
 	private GameProps.BoardDirection boardDirection;
+	private GameScreen gameScreen;
 
 	public GameBoard(final GameScreen gameScreen) {
 		// mutable
@@ -48,6 +50,8 @@ public final class GameBoard extends Table {
 
 		this.whitePlayerType = GameProps.PlayerType.HUMAN;
 		this.blackPlayerType = GameProps.PlayerType.HUMAN;
+
+		this.gameScreen = gameScreen;
 
 		// immutable
 		this.artificialIntelligence = new ArtificialIntelligence();
@@ -97,6 +101,13 @@ public final class GameBoard extends Table {
 
 	public void updateGameEnd(final GameProps.GameEnd gameEnd) {
 		this.gameEnd = gameEnd;
+		if (this.gameEnd == GameProps.GameEnd.ENDED) {
+			try {
+				this.gameScreen.getChessGame().getConnectionDatabase().insertGame(gameScreen.getMoveHistory().getMoveLog(), gameScreen.getChessBoard().whitePlayer());
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public void updateHighlightMove(final GameProps.HighlightMove highlightMove) {

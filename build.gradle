@@ -10,6 +10,8 @@ buildscript {
   }
   dependencies {
     classpath "com.android.tools.build:gradle:8.5.2"
+		// https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc
+
   }
 }
 
@@ -76,6 +78,7 @@ project(":core") {
     dependencies {
         implementation("com.google.guava:guava:33.4.0-android")
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
+				implementation group: 'org.xerial', name: 'sqlite-jdbc', version: '3.7.2'
     }
 }
 
