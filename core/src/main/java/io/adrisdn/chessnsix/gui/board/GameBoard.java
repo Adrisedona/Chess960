@@ -100,14 +100,14 @@ public final class GameBoard extends Table {
 	}
 
 	public void updateGameEnd(final GameProps.GameEnd gameEnd) {
-		this.gameEnd = gameEnd;
-		if (this.gameEnd == GameProps.GameEnd.ENDED) {
+		if (gameEnd == GameProps.GameEnd.ENDED) {
 			try {
-				this.gameScreen.getChessGame().getConnectionDatabase().insertGame(gameScreen.getMoveHistory().getMoveLog(), gameScreen.getChessBoard().whitePlayer());
+				this.gameScreen.getChessGame().getConnectionDatabase().insertGame(gameScreen.getMoveHistory().getMoveLog(), gameScreen.getChessBoard().currentPlayer());
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
+		this.gameEnd = gameEnd;
 	}
 
 	public void updateHighlightMove(final GameProps.HighlightMove highlightMove) {
