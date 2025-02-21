@@ -38,8 +38,7 @@ public final class BlackPlayer extends Player {
 	}
 
 	@Override
-	protected KingSideCastleMove getKingSideCastleMove(final ImmutableList<Move> opponentLegals) {// TODO: change for
-																									// chess960 castling
+	protected KingSideCastleMove getKingSideCastleMove(final ImmutableList<Move> opponentLegals) {
 		Rook rook = null;
 		King king = super.getPlayerKing();
 		for (int i = king.getPiecePosition() + 1; i < 8; i++) {
@@ -88,8 +87,7 @@ public final class BlackPlayer extends Player {
 	}
 
 	@Override
-	protected QueenSideCastleMove getQueenSideCastleMove(ImmutableList<Move> opponentLegals) {// TODO: change for
-																								// chess960 castling
+	protected QueenSideCastleMove getQueenSideCastleMove(ImmutableList<Move> opponentLegals) {
 		Rook rook = null;
 		King king = super.getPlayerKing();
 		for (int i = king.getPiecePosition() - 1; i >= 0; i--) {

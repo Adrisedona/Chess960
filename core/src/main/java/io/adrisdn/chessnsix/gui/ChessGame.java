@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.sql.SQLiteGdxException;
 
 import io.adrisdn.chessnsix.chess.database.ConnectionDatabase;
 import io.adrisdn.chessnsix.chess.engine.FEN.FenFisherRandom;
@@ -30,11 +31,7 @@ public final class ChessGame extends Game {
     public void create() {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		FenFisherRandom.InitFisherRandomList();
-		try {
-			connectionDatabase = new ConnectionDatabase(ConnectionDatabase.DATABASE_PATH);
-		} catch (SQLException | ClassNotFoundException e) {
-			e.printStackTrace();
-		}
+		this.connectionDatabase = new ConnectionDatabase();
         this.gameScreen = new GameScreen(this);
         this.aboutScreen = new About(this);
         this.welcomeScreen = new WelcomeScreen(this);
@@ -65,7 +62,7 @@ public final class ChessGame extends Game {
 
     public void gotoGameScreen(final GameScreen.BOARD_STATE board_state, final Board board) {
         this.gameScreen.updateChessBoard(board);
-        if (board_state == GameScreen.BOARD_STATE.NEW_GAME) {
+        if (board_state == GameScreen.BOARD_STATE.NEW_GAME || board_state == GameScreen.BOARD_STATE.NEW_CHESS960_GAME) {
             this.gameScreen.getMoveHistory().getMoveLog().clear();
         }
         this.gameScreen.getGameBoard().updateAiMove(null);
@@ -90,5 +87,10 @@ public final class ChessGame extends Game {
         this.aboutScreen.dispose();
 		this.recordsScreen.dispose();
 		this.setupGameScreen.dispose();
+		try {
+			this.connectionDatabase.close();
+		} catch (SQLException | SQLiteGdxException e) {
+			e.printStackTrace();
+		}
     }
 }

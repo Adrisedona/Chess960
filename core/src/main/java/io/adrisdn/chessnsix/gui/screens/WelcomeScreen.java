@@ -70,7 +70,7 @@ public final class WelcomeScreen implements Screen {
 			@Override
 			public void clicked(final InputEvent event, final float x, final float y) {
 				Gdx.app.exit();
-				System.exit(0);
+				// System.exit(0);
 			}
 		});
 		return textButton;

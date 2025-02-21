@@ -20,7 +20,6 @@ import io.adrisdn.chessnsix.gui.screens.GameScreen;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.sql.SQLException;
 
 public final class GameBoard extends Table {
 
@@ -101,11 +100,9 @@ public final class GameBoard extends Table {
 
 	public void updateGameEnd(final GameProps.GameEnd gameEnd) {
 		if (gameEnd == GameProps.GameEnd.ENDED) {
-			try {
-				this.gameScreen.getChessGame().getConnectionDatabase().insertGame(gameScreen.getMoveHistory().getMoveLog(), gameScreen.getChessBoard().currentPlayer());
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			this.gameScreen.getChessGame().getConnectionDatabase().insertGameAsync(
+					gameScreen.getMoveHistory().getMoveLog(), gameScreen.getChessBoard().currentPlayer());
+
 		}
 		this.gameEnd = gameEnd;
 	}
@@ -179,23 +176,27 @@ public final class GameBoard extends Table {
 
 	public void displayTimeOutMessage(final Board chessBoard, final Stage stage) {
 		if (chessBoard.currentPlayer().isTimeOut()) {
-			final Label label = new Label(chessBoard.currentPlayer() + " player is timed out!", GuiUtils.UI_SKIN);//TODO: fix string
+			final Label label = new Label(chessBoard.currentPlayer() + " player is timed out!", GuiUtils.UI_SKIN);// TODO:
+																													// fix
+																													// string
 			label.setColor(Color.BLACK);
-			new Dialog("Time out", GuiUtils.UI_SKIN).text(label).button("Ok").show(stage);//TODO: fix string
+			new Dialog("Time out", GuiUtils.UI_SKIN).text(label).button("Ok").show(stage);// TODO: fix string
 			this.updateGameEnd(GameProps.GameEnd.ENDED);
 		}
 	}
 
 	public void displayEndGameMessage(final Board chessBoard, final Stage stage) {
-		final String state = chessBoard.currentPlayer().isInCheckmate() ? "Checkmate"//TODO: fix string
-				: chessBoard.currentPlayer().isInStalemate() ? "Stalemate" : null;//TODO: fix string
+		final String state = chessBoard.currentPlayer().isInCheckmate() ? "Checkmate"// TODO: fix string
+				: chessBoard.currentPlayer().isInStalemate() ? "Stalemate" : null;// TODO: fix string
 		if (state == null) {
 			return;
 		}
-		final Label label = new Label(chessBoard.currentPlayer() + " player is in " + state.toLowerCase() + " !",//TODO: fix string
+		final Label label = new Label(chessBoard.currentPlayer() + " player is in " + state.toLowerCase() + " !", // TODO:
+																													// fix
+																													// string
 				GuiUtils.UI_SKIN);
 		label.setColor(Color.BLACK);
-		new Dialog(state, GuiUtils.UI_SKIN).text(label).button("Ok").show(stage);//TODO: fix string
+		new Dialog(state, GuiUtils.UI_SKIN).text(label).button("Ok").show(stage);// TODO: fix string
 		this.updateGameEnd(GameProps.GameEnd.ENDED);
 	}
 

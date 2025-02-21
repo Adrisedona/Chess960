@@ -8,6 +8,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import io.adrisdn.chessnsix.chess.engine.League;
 // import io.adrisdn.chessnsix.chess.engine.board.Move;
@@ -16,11 +17,14 @@ import io.adrisdn.chessnsix.chess.engine.player.Player;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.async.*;
+import com.google.common.collect.ImmutableList;
 import com.badlogic.gdx.sql.*;
 
 public class ConnectionDatabase implements AutoCloseable {
-	protected final Connection connection;
+	protected Connection connection;
 	protected Database databaseHandler;
+
+	private AsyncExecutor executor;
 
 	public static final String DATABASE_PATH = "sqlite/database.db";
 	public static final String DATABASE_NAME = "chess960games";
@@ -35,6 +39,7 @@ public class ConnectionDatabase implements AutoCloseable {
 	private PreparedStatement insertGame = null;
 	private static final String QUERY_INSERT_GAME = "INSERT INTO GAMES (date, number_moves, winner) VALUES (?, ?, ?)";
 	private static final String QUERY_INSERT_GAME_GDX = "INSERT INTO GAMES (date, number_moves, winner) VALUES ('%s', %d, '%s')";
+	private static final String QUERY_SELECT_GAMES = "SELECT id, date, number_moves, winner FROM games";
 
 	private static final String CREATE_MOVES_TABLE = "CREATE TABLE IF NOT EXISTS moves ("
 			+ "move TEXT,"
@@ -48,24 +53,35 @@ public class ConnectionDatabase implements AutoCloseable {
 	private PreparedStatement insertMoves = null;
 	private static final String QUERY_INSERT_MOVE = "INSERT INTO moves (move, id_game) VALUES (?, ?)";
 	private static final String QUERY_INSERT_MOVE_GDX = "INSERT INTO moves (move, id_game) VALUES ('%s', %d)";
+	private static final String QUERY_SELECT_MOVES_GAME_GDX = "SELECT move FROM moves WHERE id_game = %d";
 
-	public ConnectionDatabase(String databasePath, String databaseFileName)
-			throws SQLException, ClassNotFoundException {
-		Class.forName("org.sqlite.JDBC");
-		connection = DriverManager.getConnection(String.format("jdbc:sqlite:%s/%s", databasePath, databaseFileName));
-		createDatabase();
+	public ConnectionDatabase(String databasePath, String databaseFileName) {
+		try {
+			Class.forName("org.sqlite.JDBC");
+			connection = DriverManager
+					.getConnection(String.format("jdbc:sqlite:%s/%s", databasePath, databaseFileName));
+			createDatabase();
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
-	public ConnectionDatabase(String databaseFullFileName) throws SQLException, ClassNotFoundException {
-		Class.forName("org.sqlite.JDBC");
-		connection = DriverManager.getConnection(String.format("jdbc:sqlite:%s", databaseFullFileName));
-		createDatabase();
+	public ConnectionDatabase(String databaseFullFileName) {
+		try {
+			Class.forName("org.sqlite.JDBC");
+			connection = DriverManager.getConnection(String.format("jdbc:sqlite:%s", databaseFullFileName));
+			createDatabase();
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
-	public ConnectionDatabase() throws ClassNotFoundException, SQLException {
+	public ConnectionDatabase() {
 		this(DATABASE_PATH);
 		Gdx.app.log("Database", "Database opening");
 		createDatabaseGdx();
+		executor = new AsyncExecutor(1);
+
 	}
 
 	public void createDatabase() throws SQLException {
@@ -127,6 +143,7 @@ public class ConnectionDatabase implements AutoCloseable {
 
 	protected void insertGameGdx(final MoveLog moveLog, final Player currentPlayer) {
 		String result = "";
+		int idGame = 0;
 		if (currentPlayer.isInCheckmate() || currentPlayer.isTimeOut()) {
 			result = currentPlayer.getLeague() == League.WHITE ? "0 - 1" : "1 - 0";
 		} else {
@@ -134,23 +151,71 @@ public class ConnectionDatabase implements AutoCloseable {
 		}
 
 		try {
-			databaseHandler.execSQL(String.format(QUERY_INSERT_GAME, new Date(System.currentTimeMillis()), moveLog.size(), result));
-
+			databaseHandler.execSQL(
+					String.format(QUERY_INSERT_GAME_GDX, new Date(System.currentTimeMillis()), moveLog.size(), result));
+			DatabaseCursor cursor = databaseHandler.rawQuery("SELECT id FROM games ORDER BY id DESC LIMIT 1");
+			if (cursor.next()) {
+				idGame = cursor.getInt(1);
+			}
+			for (int i = 0; i < moveLog.size(); i++) {
+				databaseHandler.execSQL(String.format(QUERY_INSERT_MOVE_GDX, moveLog.get(i), idGame));
+			}
 		} catch (SQLiteGdxException e) {
 			e.printStackTrace();
 		}
 	}
 
+	public void insertGameAsync(final MoveLog moveLog, final Player currentPlayer) {
+		executor.submit(new AsyncTask<Void>() {
+			@Override
+			public Void call() throws Exception {
+				insertGameGdx(moveLog, currentPlayer);
+				return null;
+			}
+		});
+	}
+
+	public ImmutableList<Game> getGames() {
+		ArrayList<Game> games = new ArrayList<>();
+		try {
+			DatabaseCursor cursorGames = databaseHandler.rawQuery(QUERY_SELECT_GAMES);
+			while (cursorGames.next()) {
+				int id = cursorGames.getInt(1);
+				String date = cursorGames.getString(2);
+				int numberMoves = cursorGames.getInt(3);
+				String winner = cursorGames.getString(4);
+				ArrayList<String> moves = new ArrayList<>();
+				DatabaseCursor cursorMoves = databaseHandler.rawQuery(String.format(QUERY_SELECT_MOVES_GAME_GDX, id));
+				while (cursorMoves.next()) {
+					moves.add(cursorMoves.getString(1));
+				}
+				games.add(new Game(id, date, numberMoves, winner, ImmutableList.copyOf(moves)));
+			}
+		} catch (SQLiteGdxException e) {
+			e.printStackTrace();
+		}
+		return ImmutableList.copyOf(games);
+	}
+
+	public AsyncResult<ImmutableList<Game>> getGamesAsync() {
+		return executor.submit(new AsyncTask<ImmutableList<Game>>() {
+			@Override
+			public ImmutableList<Game> call() throws Exception {
+				return getGames();
+			}
+		});
+	}
+
 	@Override
 	public void close() throws SQLException, SQLiteGdxException {
-		this.connection.close();
 		if (databaseHandler != null) {
 			this.databaseHandler.closeDatabase();
 		}
+		this.executor.dispose();
+		Gdx.app.log("Database", "Closed succesfully");
+		if (connection != null) {
+			this.connection.close();
+		}
 	}
 
-	private class ConnectionDatabaseAsync implements AsyncTask<Pair> {
-
-
-	}
 }
