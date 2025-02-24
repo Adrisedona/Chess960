@@ -77,7 +77,7 @@ public class ConnectionDatabase implements AutoCloseable {
 	}
 
 	public ConnectionDatabase() {
-		this(DATABASE_PATH);
+		// this(DATABASE_PATH);
 		Gdx.app.log("Database", "Database opening");
 		createDatabaseGdx();
 		executor = new AsyncExecutor(1);

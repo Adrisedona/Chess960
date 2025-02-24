@@ -42,7 +42,6 @@ public final class PawnPromotionInterface {
         });
 
         pawnPromotion.getBoard().currentPlayer().getOpponent().getActivePieces().forEach(builder::setPiece);
-
         builder.setPiece(pawnPromotion.getPromotedPiece().movedPiece(pawnPromotion));
         builder.setTransitionMove(pawnPromotion);
         return builder.build();

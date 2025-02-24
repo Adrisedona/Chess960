@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+// import com.badlogic.gdx.utils.async.AsyncResult;
+import com.google.common.collect.ImmutableList;
 
 import io.adrisdn.chessnsix.chess.engine.board.Board;
 import io.adrisdn.chessnsix.chess.engine.board.BoardUtils;
@@ -14,6 +16,7 @@ import io.adrisdn.chessnsix.chess.engine.board.Move;
 import io.adrisdn.chessnsix.chess.engine.board.MoveTransition;
 import io.adrisdn.chessnsix.chess.engine.pieces.Piece;
 import io.adrisdn.chessnsix.gui.GuiUtils;
+import io.adrisdn.chessnsix.gui.board.MoveDisambiguationInterface.DialogResultListener;
 import io.adrisdn.chessnsix.gui.screens.GameScreen;
 
 public final class TileActor extends Image {
@@ -41,36 +44,24 @@ public final class TileActor extends Image {
 
                     } else {
                         if (gameScreen.getGameBoard().getHumanPiece().getLeague() == gameScreen.getChessBoard().currentPlayer().getLeague()) {
-                            final Move move = Move.MoveFactory.createMove(gameScreen.getChessBoard(), gameScreen.getGameBoard().getHumanPiece(), tileID);
-                            final MoveTransition transition = gameScreen.getChessBoard().currentPlayer().makeMove(move);
-                            if (transition.getMoveStatus().isDone()) {
-                                gameScreen.getGameBoard().updateHumanPiece(null);
-                                gameScreen.updateChessBoard(transition.getLatestBoard());
-                                gameScreen.getGameBoard().updateAiMove(null);
-                                gameScreen.getGameBoard().updateHumanMove(move);
-                                if (move.isPromotionMove()) {
-                                    //display pawn promotion interface
-                                    new PawnPromotionInterface().startLibGDXPromotion(gameScreen, (Move.PawnPromotion) move);
-                                } else {
-                                    gameScreen.getGameBoard().drawBoard(gameScreen, gameScreen.getChessBoard(), gameScreen.getDisplayOnlyBoard());
-                                    gameScreen.getMoveHistory().getMoveLog().addMove(move);
-                                    gameScreen.getMoveHistory().updateMoveHistory();
-                                    if (gameScreen.getGameBoard().isAIPlayer(gameScreen.getChessBoard().currentPlayer())) {
-                                        gameScreen.getGameBoard().fireGameSetupPropertyChangeSupport();
-                                    } else {
-                                        gameScreen.getGameBoard().displayEndGameMessage(gameScreen.getChessBoard(), gameScreen.getStage());
-                                    }
-                                }
-                            } else {
-                                gameScreen.getGameBoard().updateHumanPiece(getPiece(gameScreen.getChessBoard(), gameScreen.getGameBoard().getHumanPiece(), tileID));
-                                gameScreen.getGameBoard().drawBoard(gameScreen, gameScreen.getChessBoard(), gameScreen.getDisplayOnlyBoard());
-								if (GuiUtils.IS_SMARTPHONE) {
-									Gdx.input.vibrate(500);
-								}
-                                if (getPiece(gameScreen.getChessBoard(), gameScreen.getGameBoard().getHumanPiece(), tileID) != null && gameScreen.getGameBoard().isHighlightMove()) {
-                                    gameScreen.getDisplayOnlyBoard().highlightLegalMove(gameScreen.getGameBoard(), gameScreen.getChessBoard());
-                                }
-                            }
+							final Move move;
+                            final ImmutableList<Move> moves = Move.MoveFactory.createMove(gameScreen.getChessBoard(), gameScreen.getGameBoard().getHumanPiece(), tileID);
+							if (moves.size() == 1) {
+								move = moves.get(0);
+								processMove(gameScreen, tileID, move);
+							} else {
+								MoveDisambiguationInterface disambiguationInterface = new MoveDisambiguationInterface(moves, gameScreen);
+								disambiguationInterface.setListener(new DialogResultListener() {
+
+									@Override
+									public void onDialogResult(Move result) {
+										processMove(gameScreen, tileID, result);
+									}
+
+								});
+								disambiguationInterface.showDisambiguateMoveDialog();
+							}
+
                         } else {
                             gameScreen.getGameBoard().drawBoard(gameScreen, gameScreen.getChessBoard(), gameScreen.getDisplayOnlyBoard());
                             gameScreen.getGameBoard().updateHumanPiece(null);
@@ -79,6 +70,38 @@ public final class TileActor extends Image {
                 } catch (final NullPointerException ignored) {
                 }
             }
+
+			private void processMove(final GameScreen gameScreen, final int tileID, final Move move) {
+				final MoveTransition transition = gameScreen.getChessBoard().currentPlayer().makeMove(move);
+				if (transition.getMoveStatus().isDone()) {
+				    gameScreen.getGameBoard().updateHumanPiece(null);
+				    gameScreen.updateChessBoard(transition.getLatestBoard());
+				    gameScreen.getGameBoard().updateAiMove(null);
+				    gameScreen.getGameBoard().updateHumanMove(move);
+				    if (move.isPromotionMove()) {
+				        //display pawn promotion interface
+				        new PawnPromotionInterface().startLibGDXPromotion(gameScreen, (Move.PawnPromotion) move);
+				    } else {
+				        gameScreen.getGameBoard().drawBoard(gameScreen, gameScreen.getChessBoard(), gameScreen.getDisplayOnlyBoard());
+				        gameScreen.getMoveHistory().getMoveLog().addMove(move);
+				        gameScreen.getMoveHistory().updateMoveHistory();
+				        if (gameScreen.getGameBoard().isAIPlayer(gameScreen.getChessBoard().currentPlayer())) {
+				            gameScreen.getGameBoard().fireGameSetupPropertyChangeSupport();
+				        } else {
+				            gameScreen.getGameBoard().displayEndGameMessage(gameScreen.getChessBoard(), gameScreen.getStage());
+				        }
+				    }
+				} else {
+				    gameScreen.getGameBoard().updateHumanPiece(getPiece(gameScreen.getChessBoard(), gameScreen.getGameBoard().getHumanPiece(), tileID));
+				    gameScreen.getGameBoard().drawBoard(gameScreen, gameScreen.getChessBoard(), gameScreen.getDisplayOnlyBoard());
+					if (GuiUtils.IS_SMARTPHONE) {
+						Gdx.input.vibrate(500);
+					}
+				    if (getPiece(gameScreen.getChessBoard(), gameScreen.getGameBoard().getHumanPiece(), tileID) != null && gameScreen.getGameBoard().isHighlightMove()) {
+				        gameScreen.getDisplayOnlyBoard().highlightLegalMove(gameScreen.getGameBoard(), gameScreen.getChessBoard());
+				    }
+				}
+			}
         });
     }
 

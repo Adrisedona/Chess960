@@ -68,6 +68,17 @@ public final class BlackPlayer extends Player {
 				return null;
 			}
 		}
+		for (int i = 5; i < 7; i++) {
+			if (super.getBoard().getTile(i).isTileOccupied()) {
+				Piece piece = super.getBoard().getTile(i).getPiece();
+				if (piece == king || piece == rook) {
+					continue;
+				} else {
+					return null;
+				}
+			}
+		}
+
 		return new KingSideCastleMove(super.getBoard(), king, 6,
 				rook, rook.getPiecePosition(), 5);
 
@@ -117,21 +128,32 @@ public final class BlackPlayer extends Player {
 				return null;
 			}
 		}
+		for (int i = 3; i >= 2; i--) {
+			if (super.getBoard().getTile(i).isTileOccupied()) {
+				Piece piece = super.getBoard().getTile(i).getPiece();
+				if (piece == king || piece == rook) {
+					continue;
+				} else {
+					return null;
+				}
+			}
+		}
 
 		return new QueenSideCastleMove(super.getBoard(), king, 2, rook,
-						rook.getPiecePosition(), 3);
+				rook.getPiecePosition(), 3);
 
 		// if (!super.getBoard().getTile(1).isTileOccupied() &&
-		// 		!super.getBoard().getTile(2).isTileOccupied() &&
-		// 		!super.getBoard().getTile(3).isTileOccupied()) {
-		// 	final Tile rookTile = super.getBoard().getTile(0);
-		// 	if (rookTile.isTileOccupied() && rookTile.getPiece().isFirstMove() &&
-		// 			calculateAttacksOnTile(2, opponentLegals).isEmpty() &&
-		// 			calculateAttacksOnTile(3, opponentLegals).isEmpty() &&
-		// 			rookTile.getPiece() instanceof Rook) {
-		// 		return new QueenSideCastleMove(super.getBoard(), super.getPlayerKing(), 2, (Rook) rookTile.getPiece(),
-		// 				rookTile.getTileCoordinate(), 3);
-		// 	}
+		// !super.getBoard().getTile(2).isTileOccupied() &&
+		// !super.getBoard().getTile(3).isTileOccupied()) {
+		// final Tile rookTile = super.getBoard().getTile(0);
+		// if (rookTile.isTileOccupied() && rookTile.getPiece().isFirstMove() &&
+		// calculateAttacksOnTile(2, opponentLegals).isEmpty() &&
+		// calculateAttacksOnTile(3, opponentLegals).isEmpty() &&
+		// rookTile.getPiece() instanceof Rook) {
+		// return new QueenSideCastleMove(super.getBoard(), super.getPlayerKing(), 2,
+		// (Rook) rookTile.getPiece(),
+		// rookTile.getTileCoordinate(), 3);
+		// }
 		// }
 		// return null;
 	}

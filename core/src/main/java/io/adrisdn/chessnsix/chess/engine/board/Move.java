@@ -1,5 +1,9 @@
 package io.adrisdn.chessnsix.chess.engine.board;
 
+import java.util.ArrayList;
+
+import com.google.common.collect.ImmutableList;
+
 import io.adrisdn.chessnsix.chess.engine.pieces.Pawn;
 import io.adrisdn.chessnsix.chess.engine.pieces.Piece;
 import io.adrisdn.chessnsix.chess.engine.pieces.Rook;
@@ -491,8 +495,22 @@ public abstract class Move {
             return NULL_MOVE;
         }
 
-        public static Move createMove(final Board board, final Piece piece, final int destinationCoordinate) {//TODO: check more than one legal move
-            return piece.calculateLegalMoves(board).stream().filter(move -> move.getCurrentCoordinate() == piece.getPiecePosition() && move.getDestinationCoordinate() == destinationCoordinate).findFirst().orElseGet(MoveFactory::getNullMove);
+        public static ImmutableList<Move> createMove(final Board board, final Piece piece, final int destinationCoordinate) {//TODO: check more than one legal move
+			ArrayList<Move> possibleMoves = new ArrayList<>();
+			for (Move move : piece.calculateLegalMoves(board)) {
+				if (move.getCurrentCoordinate() == piece.getPiecePosition() && move.getDestinationCoordinate() == destinationCoordinate) {
+					if (move.getClass() == Move.PawnPromotion.class) {
+						possibleMoves.add(move);
+						break;
+					}
+					possibleMoves.add(move);
+				}
+			}
+			if (possibleMoves.isEmpty()) {
+				possibleMoves.add(NULL_MOVE);
+			}
+			return ImmutableList.copyOf(possibleMoves);
+            // return piece.calculateLegalMoves(board).stream().filter(move -> move.getCurrentCoordinate() == piece.getPiecePosition() && move.getDestinationCoordinate() == destinationCoordinate).findFirst().orElseGet(MoveFactory::getNullMove);
         }
 
         public static Move createMoveFromMoveHistory(final Board board, final int currentCoordinate, final int destinationCoordinate) {

@@ -16,27 +16,29 @@ import io.adrisdn.chessnsix.chess.engine.pieces.Piece;
 import io.adrisdn.chessnsix.chess.engine.pieces.Rook;
 
 public final class WhitePlayer extends Player {
-    public WhitePlayer(final Board board, final ImmutableList<Move> whiteStandardLegalMoves, final ImmutableList<Move> blackStandardLegalMoves, final int minute, final int second, final int millisecond) {
-        super(board, whiteStandardLegalMoves, blackStandardLegalMoves, minute, second, millisecond);
-    }
+	public WhitePlayer(final Board board, final ImmutableList<Move> whiteStandardLegalMoves,
+			final ImmutableList<Move> blackStandardLegalMoves, final int minute, final int second,
+			final int millisecond) {
+		super(board, whiteStandardLegalMoves, blackStandardLegalMoves, minute, second, millisecond);
+	}
 
-    @Override
-    public ImmutableList<Piece> getActivePieces() {
-        return super.getBoard().getWhitePieces();
-    }
+	@Override
+	public ImmutableList<Piece> getActivePieces() {
+		return super.getBoard().getWhitePieces();
+	}
 
-    @Override
-    public League getLeague() {
-        return League.WHITE;
-    }
+	@Override
+	public League getLeague() {
+		return League.WHITE;
+	}
 
-    @Override
-    public Player getOpponent() {
-        return super.getBoard().blackPlayer();
-    }
+	@Override
+	public Player getOpponent() {
+		return super.getBoard().blackPlayer();
+	}
 
-    @Override
-    protected KingSideCastleMove getKingSideCastleMove(final ImmutableList<Move> opponentLegals) {
+	@Override
+	protected KingSideCastleMove getKingSideCastleMove(final ImmutableList<Move> opponentLegals) {
 		Rook rook = null;
 		King king = super.getPlayerKing();
 		for (int i = king.getPiecePosition() + 1; i < 64; i++) {
@@ -66,24 +68,37 @@ public final class WhitePlayer extends Player {
 				return null;
 			}
 		}
+		for (int i = 61; i < 63; i++) {
+			if (super.getBoard().getTile(i).isTileOccupied()) {
+				Piece piece = super.getBoard().getTile(i).getPiece();
+				if (piece == king || piece == rook) {
+					continue;
+				} else {
+					return null;
+				}
+			}
+		}
+
 		return new KingSideCastleMove(super.getBoard(), king, 62, rook, rook.getPiecePosition(), 61);
 
-        // if (!super.getBoard().getTile(61).isTileOccupied() && !super.getBoard().getTile(62).isTileOccupied()) {
-        //     final Tile rookTile = super.getBoard().getTile(63);
-        //     if (rookTile.isTileOccupied() && rookTile.getPiece().isFirstMove()) {
-        //         if (calculateAttacksOnTile(61, opponentLegals).isEmpty() &&
-        //                 calculateAttacksOnTile(62, opponentLegals).isEmpty() &&
-        //                 rookTile.getPiece() instanceof Rook) {
-        //             return new KingSideCastleMove(super.getBoard(), super.getPlayerKing(), 62, (Rook) rookTile.getPiece(), rookTile.getTileCoordinate(), 61);
-        //         }
+		// if (!super.getBoard().getTile(61).isTileOccupied() &&
+		// !super.getBoard().getTile(62).isTileOccupied()) {
+		// final Tile rookTile = super.getBoard().getTile(63);
+		// if (rookTile.isTileOccupied() && rookTile.getPiece().isFirstMove()) {
+		// if (calculateAttacksOnTile(61, opponentLegals).isEmpty() &&
+		// calculateAttacksOnTile(62, opponentLegals).isEmpty() &&
+		// rookTile.getPiece() instanceof Rook) {
+		// return new KingSideCastleMove(super.getBoard(), super.getPlayerKing(), 62,
+		// (Rook) rookTile.getPiece(), rookTile.getTileCoordinate(), 61);
+		// }
 
-        //     }
-        // }
-        // return null;
-    }
+		// }
+		// }
+		// return null;
+	}
 
-    @Override
-    protected QueenSideCastleMove getQueenSideCastleMove(ImmutableList<Move> opponentLegals) {
+	@Override
+	protected QueenSideCastleMove getQueenSideCastleMove(ImmutableList<Move> opponentLegals) {
 		Rook rook = null;
 		King king = super.getPlayerKing();
 		for (int i = king.getPiecePosition() - 1; i >= 56; i--) {
@@ -114,32 +129,45 @@ public final class WhitePlayer extends Player {
 			}
 		}
 
+		for (int i = 59; i >= 58; i--) {
+			if (super.getBoard().getTile(i).isTileOccupied()) {
+				Piece piece = super.getBoard().getTile(i).getPiece();
+				if (piece == king || piece == rook) {
+					continue;
+				} else {
+					return null;
+				}
+			}
+		}
+
 		return new QueenSideCastleMove(super.getBoard(), king, 58, rook,
-						rook.getPiecePosition(), 59);
+				rook.getPiecePosition(), 59);
 
-        // if (!super.getBoard().getTile(59).isTileOccupied() &&
-        //         !super.getBoard().getTile(58).isTileOccupied() &&
-        //         !super.getBoard().getTile(57).isTileOccupied()) {
-        //     final Tile rookTile = super.getBoard().getTile(56);
-        //     if (rookTile.isTileOccupied() && rookTile.getPiece().isFirstMove() &&
-        //             calculateAttacksOnTile(58, opponentLegals).isEmpty() &&
-        //             calculateAttacksOnTile(59, opponentLegals).isEmpty() &&
-        //             rookTile.getPiece() instanceof Rook) {
-        //         return new QueenSideCastleMove(super.getBoard(), super.getPlayerKing(), 58, (Rook) rookTile.getPiece(), rookTile.getTileCoordinate(), 59);
-        //     }
-        // }
-        // return null;
-    }
+		// if (!super.getBoard().getTile(59).isTileOccupied() &&
+		// !super.getBoard().getTile(58).isTileOccupied() &&
+		// !super.getBoard().getTile(57).isTileOccupied()) {
+		// final Tile rookTile = super.getBoard().getTile(56);
+		// if (rookTile.isTileOccupied() && rookTile.getPiece().isFirstMove() &&
+		// calculateAttacksOnTile(58, opponentLegals).isEmpty() &&
+		// calculateAttacksOnTile(59, opponentLegals).isEmpty() &&
+		// rookTile.getPiece() instanceof Rook) {
+		// return new QueenSideCastleMove(super.getBoard(), super.getPlayerKing(), 58,
+		// (Rook) rookTile.getPiece(), rookTile.getTileCoordinate(), 59);
+		// }
+		// }
+		// return null;
+	}
 
-    @Override
-    public String toString() {
-        return "White";
-    }
+	@Override
+	public String toString() {
+		return "White";
+	}
 
-    @Override
-    public ImmutableList<Move> calculateKingCastles(final ImmutableList<Move> opponentLegals) {
-        return !this.isCastled() && super.getPlayerKing().isFirstMove() && !this.isInCheck() ? ImmutableList.copyOf(Arrays.asList(new Move[]{
-                this.getKingSideCastleMove(opponentLegals), this.getQueenSideCastleMove(opponentLegals)
-        }).stream().filter(Objects::nonNull).collect(Collectors.toList())) : ImmutableList.of();
-    }
+	@Override
+	public ImmutableList<Move> calculateKingCastles(final ImmutableList<Move> opponentLegals) {
+		return !this.isCastled() && super.getPlayerKing().isFirstMove() && !this.isInCheck()
+				? ImmutableList.copyOf(Arrays.asList(new Move[] {
+						this.getKingSideCastleMove(opponentLegals), this.getQueenSideCastleMove(opponentLegals)
+				}).stream().filter(Objects::nonNull).collect(Collectors.toList())) : ImmutableList.of();
+	}
 }
