@@ -33,7 +33,7 @@ public final class WelcomeScreen implements Screen {
 
 		final int WIDTH = 200;
 
-		table.add("Welcome to LibGDX Simple Parallel Chess 2.0").padBottom(20).row();
+		table.add("Welcome to LibGDX Simple Parallel Chess 2.0").padBottom(20).row();//TODO: fix string
 		table.add(new Image(GuiUtils.LOGO)).padBottom(20).row();
 		table.add(this.startGameButton(chessGame)).width(WIDTH).padBottom(20).row();
 		table.add(this.loadGameButton(chessGame)).width(WIDTH).padBottom(20).row();
