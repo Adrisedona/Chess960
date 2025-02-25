@@ -2,14 +2,14 @@ package io.adrisdn.chessnsix.gui.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
+// import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+// import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
+// import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -36,7 +36,7 @@ public final class WelcomeScreen implements Screen {
 		table.add("Welcome to LibGDX Simple Parallel Chess 2.0").padBottom(20).row();//TODO: fix string
 		table.add(new Image(GuiUtils.LOGO)).padBottom(20).row();
 		table.add(this.startGameButton(chessGame)).width(WIDTH).padBottom(20).row();
-		table.add(this.loadGameButton(chessGame)).width(WIDTH).padBottom(20).row();
+		table.add(this.recordsButton(chessGame)).width(WIDTH).padBottom(20).row();
 		table.add(this.aboutButton(chessGame)).width(WIDTH).padBottom(20).row();
 		table.add(this.exitGameButton()).width(WIDTH).padBottom(20);
 
@@ -89,21 +89,34 @@ public final class WelcomeScreen implements Screen {
 	}
 
 	//TODO: lanzarlo desde setupGame parametrizado (esta funcionalidad eliminarla)
-	private TextButton loadGameButton(final ChessGame chessGame) {
-		final TextButton textButton = new TextButton("Load Game", GuiUtils.UI_SKIN);// TODO: fix string
+	// private TextButton loadGameButton(final ChessGame chessGame) {
+	// 	final TextButton textButton = new TextButton("Load Game", GuiUtils.UI_SKIN);// TODO: fix string
+	// 	textButton.addListener(new ClickListener() {
+	// 		@Override
+	// 		public void clicked(final InputEvent event, final float x, final float y) {
+	// 			try {
+	// 				chessGame.gotoGameScreen(GameScreen.BOARD_STATE.LOAD_GAME,
+	// 						GameScreen.BOARD_STATE.LOAD_GAME.getBoard(chessGame.getGameScreen(),
+	// 								BoardUtils.DEFAULT_TIMER_MINUTE, BoardUtils.DEFAULT_TIMER_SECOND,
+	// 								BoardUtils.DEFAULT_TIMER_MILLISECOND));
+	// 			} catch (final RuntimeException e) {
+	// 				final Label label = new Label("No game to load", GuiUtils.UI_SKIN);// TODO: fix string
+	// 				label.setColor(Color.BLACK);
+	// 				new Dialog("Load Game", GuiUtils.UI_SKIN).text(label).button("Ok").show(stage);// TODO: fix string
+	// 			}
+	// 		}
+	// 	});
+	// 	return textButton;
+	// }
+
+	private TextButton recordsButton(final ChessGame chessGame) {
+		final TextButton textButton = new TextButton("Records", GuiUtils.UI_SKIN);//TODO: fix string
 		textButton.addListener(new ClickListener() {
 			@Override
-			public void clicked(final InputEvent event, final float x, final float y) {
-				try {
-					chessGame.gotoGameScreen(GameScreen.BOARD_STATE.LOAD_GAME,
-							GameScreen.BOARD_STATE.LOAD_GAME.getBoard(chessGame.getGameScreen(),
-									BoardUtils.DEFAULT_TIMER_MINUTE, BoardUtils.DEFAULT_TIMER_SECOND,
-									BoardUtils.DEFAULT_TIMER_MILLISECOND));
-				} catch (final RuntimeException e) {
-					final Label label = new Label("No game to load", GuiUtils.UI_SKIN);// TODO: fix string
-					label.setColor(Color.BLACK);
-					new Dialog("Load Game", GuiUtils.UI_SKIN).text(label).button("Ok").show(stage);// TODO: fix string
-				}
+			public void clicked(InputEvent event, float x, float y) {
+				Gdx.input.setInputProcessor(chessGame.getLoadingScreen().getStage());
+				chessGame.getLoadingScreen().setGames();
+				chessGame.setScreen(chessGame.getLoadingScreen());
 			}
 		});
 		return textButton;

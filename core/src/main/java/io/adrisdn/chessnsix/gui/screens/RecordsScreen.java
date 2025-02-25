@@ -1,52 +1,129 @@
 package io.adrisdn.chessnsix.gui.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.google.common.collect.ImmutableList;
 
+import io.adrisdn.chessnsix.chess.database.Game;
 import io.adrisdn.chessnsix.gui.ChessGame;
+import io.adrisdn.chessnsix.gui.GuiUtils;
 
 public class RecordsScreen implements Screen {
 
-	public RecordsScreen(final ChessGame chessGame) {
+	private final ChessGame chessGame;
+	private ImmutableList<Game> games;
 
+	private final Stage stage;
+	private Table table;
+	private Table tableGames;
+
+	public RecordsScreen(final ChessGame chessGame, final ImmutableList<Game> games) {
+		this.chessGame = chessGame;
+		this.games = games;
+
+		this.stage = new Stage(new FitViewport(GuiUtils.WORLD_WIDTH, GuiUtils.WORLD_HEIGHT), new SpriteBatch());
 	}
 
-	@Override
-	public void show() {
-		// TODO Auto-generated method stub
+
+
+	public void initScreen() {//TODO: centrar la tabla
+		stage.clear();
+		table = new Table(GuiUtils.UI_SKIN);
+		table.top().left();
+		table.setFillParent(true);
+		tableGames = new Table(GuiUtils.UI_SKIN);
+		tableGames.setFillParent(true);
+		tableGames.top().left();
+		tableGames.add("Date").pad(GuiUtils.PAD);//TODO: fix string
+		tableGames.add("Number of moves").pad(GuiUtils.PAD);//TODO: fix string
+		tableGames.add("Result").pad(GuiUtils.PAD);//TODO: fix string
+		tableGames.row();
+		for (Game game : games) {
+			tableGames.add(game.getDate()).pad(GuiUtils.PAD);
+			tableGames.add(game.getNumberMoves() + "").pad(GuiUtils.PAD);
+			tableGames.add(game.getResult()).pad(GuiUtils.PAD);
+			tableGames.row();
+		}
+		final ScrollPane scrollPane = new ScrollPane(tableGames);
+		scrollPane.setScrollingDisabled(true, false);
+		scrollPane.setFillParent(true);
+		table.add(scrollPane).pad(GuiUtils.PAD).width(GuiUtils.WORLD_WIDTH - 200).height(GuiUtils.WORLD_HEIGHT).center();
+		this.stage.addActor(table);
 	}
+
+
 
 	@Override
 	public void render(float delta) {
-		// TODO Auto-generated method stub
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		this.stage.act(delta);
+		this.stage.getBatch().begin();
+		this.stage.getBatch().draw(GuiUtils.BACKGROUND, 0, 0);
 
+		this.stage.getBatch().end();
+		this.stage.draw();
 	}
 
 	@Override
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
-
+		this.stage.getViewport().update(width, height, true);
 	}
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
+
 	}
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
+
 
 	}
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
+
 	}
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
-		;
+		this.stage.dispose();
+		this.stage.getBatch().dispose();
 	}
+
+	@Override
+	public void show() {
+
+	}
+
+
+
+	public ChessGame getChessGame() {
+		return chessGame;
+	}
+
+
+
+	public ImmutableList<Game> getGames() {
+		return games;
+	}
+
+
+
+	public void setGames(ImmutableList<Game> games) {
+		this.games = games;
+	}
+
+
+	public Stage getStage() {
+		return stage;
+	}
+
 
 }

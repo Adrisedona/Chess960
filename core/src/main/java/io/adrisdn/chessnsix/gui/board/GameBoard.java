@@ -101,7 +101,7 @@ public final class GameBoard extends Table {
 	public void updateGameEnd(final GameProps.GameEnd gameEnd) {
 		if (gameEnd == GameProps.GameEnd.ENDED) {
 			this.gameScreen.getChessGame().getConnectionDatabase().insertGameAsync(
-					gameScreen.getMoveHistory().getMoveLog(), gameScreen.getChessBoard().currentPlayer());
+					gameScreen.getMoveHistory().getMoveLog(), gameScreen.getChessBoard().currentPlayer(), gameScreen.getChessBoard());
 
 		}
 		this.gameEnd = gameEnd;

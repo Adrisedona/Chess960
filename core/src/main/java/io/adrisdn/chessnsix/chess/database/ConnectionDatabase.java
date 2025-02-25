@@ -11,6 +11,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import io.adrisdn.chessnsix.chess.engine.League;
+import io.adrisdn.chessnsix.chess.engine.FEN.FenUtilities;
+import io.adrisdn.chessnsix.chess.engine.board.Board;
 // import io.adrisdn.chessnsix.chess.engine.board.Move;
 import io.adrisdn.chessnsix.chess.engine.board.MoveLog;
 import io.adrisdn.chessnsix.chess.engine.player.Player;
@@ -33,13 +35,14 @@ public class ConnectionDatabase implements AutoCloseable {
 			+ "id INTEGER PRIMARY KEY,"
 			+ "date TEXT,"
 			+ "number_moves INTEGER,"
-			+ "winner TEXT"
+			+ "winner TEXT,"
+			+ "final_position_fen TEXT"
 			+ ");";
 
 	private PreparedStatement insertGame = null;
-	private static final String QUERY_INSERT_GAME = "INSERT INTO GAMES (date, number_moves, winner) VALUES (?, ?, ?)";
-	private static final String QUERY_INSERT_GAME_GDX = "INSERT INTO GAMES (date, number_moves, winner) VALUES ('%s', %d, '%s')";
-	private static final String QUERY_SELECT_GAMES = "SELECT id, date, number_moves, winner FROM games";
+	private static final String QUERY_INSERT_GAME = "INSERT INTO GAMES (date, number_moves, winner, final_position_fen) VALUES (?, ?, ?, ?)";
+	private static final String QUERY_INSERT_GAME_GDX = "INSERT INTO GAMES (date, number_moves, winner, final_position_fen) VALUES ('%s', %d, '%s', '%s')";
+	private static final String QUERY_SELECT_GAMES = "SELECT id, date, number_moves, winner, final_position_fen FROM games";
 
 	private static final String CREATE_MOVES_TABLE = "CREATE TABLE IF NOT EXISTS moves ("
 			+ "move TEXT,"
@@ -141,7 +144,7 @@ public class ConnectionDatabase implements AutoCloseable {
 		connection.createStatement().executeQuery("DELETE FROM games");
 	}
 
-	protected void insertGameGdx(final MoveLog moveLog, final Player currentPlayer) {
+	protected void insertGameGdx(final MoveLog moveLog, final Player currentPlayer, final Board board) {
 		String result = "";
 		int idGame = 0;
 		if (currentPlayer.isInCheckmate() || currentPlayer.isTimeOut()) {
@@ -152,10 +155,10 @@ public class ConnectionDatabase implements AutoCloseable {
 
 		try {
 			databaseHandler.execSQL(
-					String.format(QUERY_INSERT_GAME_GDX, new Date(System.currentTimeMillis()), moveLog.size(), result));
+					String.format(QUERY_INSERT_GAME_GDX, new Date(System.currentTimeMillis()), moveLog.size(), result, FenUtilities.createFENFromGame(board)));
 			DatabaseCursor cursor = databaseHandler.rawQuery("SELECT id FROM games ORDER BY id DESC LIMIT 1");
 			if (cursor.next()) {
-				idGame = cursor.getInt(1);
+				idGame = cursor.getInt(0);
 			}
 			for (int i = 0; i < moveLog.size(); i++) {
 				databaseHandler.execSQL(String.format(QUERY_INSERT_MOVE_GDX, moveLog.get(i), idGame));
@@ -165,11 +168,11 @@ public class ConnectionDatabase implements AutoCloseable {
 		}
 	}
 
-	public void insertGameAsync(final MoveLog moveLog, final Player currentPlayer) {
+	public void insertGameAsync(final MoveLog moveLog, final Player currentPlayer, final Board board) {
 		executor.submit(new AsyncTask<Void>() {
 			@Override
 			public Void call() throws Exception {
-				insertGameGdx(moveLog, currentPlayer);
+				insertGameGdx(moveLog, currentPlayer, board);
 				return null;
 			}
 		});
@@ -180,16 +183,17 @@ public class ConnectionDatabase implements AutoCloseable {
 		try {
 			DatabaseCursor cursorGames = databaseHandler.rawQuery(QUERY_SELECT_GAMES);
 			while (cursorGames.next()) {
-				int id = cursorGames.getInt(1);
-				String date = cursorGames.getString(2);
-				int numberMoves = cursorGames.getInt(3);
-				String winner = cursorGames.getString(4);
+				int id = cursorGames.getInt(0);
+				String date = cursorGames.getString(1);
+				int numberMoves = cursorGames.getInt(2);
+				String winner = cursorGames.getString(3);
+				String finalPositionFen = cursorGames.getString(4);
 				ArrayList<String> moves = new ArrayList<>();
 				DatabaseCursor cursorMoves = databaseHandler.rawQuery(String.format(QUERY_SELECT_MOVES_GAME_GDX, id));
 				while (cursorMoves.next()) {
-					moves.add(cursorMoves.getString(1));
+					moves.add(cursorMoves.getString(0));
 				}
-				games.add(new Game(id, date, numberMoves, winner, ImmutableList.copyOf(moves)));
+				games.add(new Game(id, date, numberMoves, winner,finalPositionFen ,ImmutableList.copyOf(moves)));
 			}
 		} catch (SQLiteGdxException e) {
 			e.printStackTrace();

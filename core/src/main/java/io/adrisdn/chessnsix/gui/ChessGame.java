@@ -13,6 +13,7 @@ import io.adrisdn.chessnsix.chess.engine.board.Board;
 import io.adrisdn.chessnsix.gui.board.GameProps.GameEnd;
 import io.adrisdn.chessnsix.gui.screens.About;
 import io.adrisdn.chessnsix.gui.screens.GameScreen;
+import io.adrisdn.chessnsix.gui.screens.LoadingScreen;
 import io.adrisdn.chessnsix.gui.screens.RecordsScreen;
 import io.adrisdn.chessnsix.gui.screens.SetupGame;
 import io.adrisdn.chessnsix.gui.screens.WelcomeScreen;
@@ -24,6 +25,7 @@ public final class ChessGame extends Game {
     private About aboutScreen;
 	private SetupGame setupGameScreen;
 	private RecordsScreen recordsScreen;
+	private LoadingScreen loadingScreen;
 
 	private ConnectionDatabase connectionDatabase;
 
@@ -34,9 +36,10 @@ public final class ChessGame extends Game {
 		this.connectionDatabase = new ConnectionDatabase();
         this.gameScreen = new GameScreen(this);
         this.aboutScreen = new About(this);
-        this.welcomeScreen = new WelcomeScreen(this);
 		this.setupGameScreen = new SetupGame(this);
-		this.recordsScreen = new RecordsScreen(this);
+		this.loadingScreen = new LoadingScreen(this);
+		this.recordsScreen = new RecordsScreen(this, null);
+        this.welcomeScreen = new WelcomeScreen(this);
         this.setScreen(this.welcomeScreen);
     }
 
@@ -58,6 +61,11 @@ public final class ChessGame extends Game {
 
 	public RecordsScreen getRecordsScreen() {
 		return recordsScreen;
+	}
+
+
+	public LoadingScreen getLoadingScreen() {
+		return loadingScreen;
 	}
 
     public void gotoGameScreen(final GameScreen.BOARD_STATE board_state, final Board board) {

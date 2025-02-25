@@ -12,9 +12,7 @@ import io.adrisdn.chessnsix.gui.screens.GameScreen;
 
 
 public class MoveDisambiguationInterface {
-
-
-
+	
 	private final GameScreen gameScreen;
 	private final ImmutableList<Move> possibleMoves;
 	private final Dialog possibleMovesDialog;

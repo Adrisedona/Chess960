@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.async.AsyncResult;
@@ -19,14 +18,11 @@ public class LoadingScreen implements Screen {
 
 	private final Stage stage;
 	private final ChessGame chessGame;
-	private final AsyncResult<ImmutableList<Game>> games;
+	private AsyncResult<ImmutableList<Game>> games;
 
 	public LoadingScreen(final ChessGame chessGame) {
 		this.chessGame = chessGame;
 		this.stage = new Stage(new FitViewport(GuiUtils.WORLD_WIDTH, GuiUtils.WORLD_HEIGHT), new SpriteBatch());
-		this.games = this.chessGame.getConnectionDatabase().getGamesAsync();
-
-		Gdx.input.setInputProcessor(this.stage);
 
 		final Table table = new Table(GuiUtils.UI_SKIN);
 
@@ -35,15 +31,9 @@ public class LoadingScreen implements Screen {
 		table.setFillParent(true);
 
 		this.stage.addActor(table);
-		this.stage.addActor(new Actor() {
-			@Override
-			public void act(float delta) {
-				if (games.isDone()) {
-					chessGame.setScreen(chessGame.getRecordsScreen());
-				}
-			}
-		});
 	}
+
+
 
 	@Override
 	public void show() {
@@ -56,6 +46,13 @@ public class LoadingScreen implements Screen {
 		this.stage.act(delta);
 		this.stage.getBatch().begin();
 		this.stage.getBatch().draw(GuiUtils.BACKGROUND, 0, 0);
+
+		if (games.isDone()) {
+			chessGame.getRecordsScreen().setGames(games.get());
+			chessGame.getRecordsScreen().initScreen();
+			Gdx.input.setInputProcessor(chessGame.getRecordsScreen().getStage());
+			chessGame.setScreen(chessGame.getRecordsScreen());
+		}
 
 		this.stage.getBatch().end();
 		this.stage.draw();
@@ -86,5 +83,24 @@ public class LoadingScreen implements Screen {
 		this.stage.dispose();
 		this.stage.getBatch().dispose();
 	}
+
+
+
+	public Stage getStage() {
+		return stage;
+	}
+
+
+
+	public ChessGame getChessGame() {
+		return chessGame;
+	}
+
+
+
+	public void setGames() {
+		this.games = this.chessGame.getConnectionDatabase().getGamesAsync();
+	}
+
 
 }
