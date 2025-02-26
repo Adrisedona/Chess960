@@ -47,15 +47,16 @@ public class ConnectionDatabase implements AutoCloseable {
 	private static final String CREATE_MOVES_TABLE = "CREATE TABLE IF NOT EXISTS moves ("
 			+ "move TEXT,"
 			+ "id_game INTEGER,"
+			+ "number_move INTEGER,"
 			+ "FOREIGN KEY (id_game) REFERENCES games(id),"
-			+ "PRIMARY KEY (move, id_game)"
+			+ "PRIMARY KEY (move, id_game, number_move)"
 			+ ");";
 
 	private static final String CREATE_DATABASE = CREATE_GAMES_TABLE + CREATE_MOVES_TABLE;
 
 	private PreparedStatement insertMoves = null;
-	private static final String QUERY_INSERT_MOVE = "INSERT INTO moves (move, id_game) VALUES (?, ?)";
-	private static final String QUERY_INSERT_MOVE_GDX = "INSERT INTO moves (move, id_game) VALUES ('%s', %d)";
+	private static final String QUERY_INSERT_MOVE = "INSERT INTO moves (move, id_game, number_move) VALUES (?, ?, ?)";
+	private static final String QUERY_INSERT_MOVE_GDX = "INSERT INTO moves (move, id_game, number_move) VALUES ('%s', %d, %d)";
 	private static final String QUERY_SELECT_MOVES_GAME_GDX = "SELECT move FROM moves WHERE id_game = %d";
 
 	public ConnectionDatabase(String databasePath, String databaseFileName) {
@@ -161,7 +162,7 @@ public class ConnectionDatabase implements AutoCloseable {
 				idGame = cursor.getInt(0);
 			}
 			for (int i = 0; i < moveLog.size(); i++) {
-				databaseHandler.execSQL(String.format(QUERY_INSERT_MOVE_GDX, moveLog.get(i), idGame));
+				databaseHandler.execSQL(String.format(QUERY_INSERT_MOVE_GDX, moveLog.get(i), idGame, i + 1));
 			}
 		} catch (SQLiteGdxException e) {
 			e.printStackTrace();
