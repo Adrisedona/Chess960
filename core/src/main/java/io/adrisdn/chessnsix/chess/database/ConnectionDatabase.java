@@ -156,7 +156,8 @@ public class ConnectionDatabase implements AutoCloseable {
 
 		try {
 			databaseHandler.execSQL(
-					String.format(QUERY_INSERT_GAME_GDX, new Date(System.currentTimeMillis()), moveLog.size(), result, FenUtilities.createFENFromGame(board)));
+					String.format(QUERY_INSERT_GAME_GDX, new Date(System.currentTimeMillis()), moveLog.size(), result,
+							FenUtilities.createFENFromGame(board)));
 			DatabaseCursor cursor = databaseHandler.rawQuery("SELECT id FROM games ORDER BY id DESC LIMIT 1");
 			if (cursor.next()) {
 				idGame = cursor.getInt(0);
@@ -189,15 +190,20 @@ public class ConnectionDatabase implements AutoCloseable {
 				int numberMoves = cursorGames.getInt(2);
 				String winner = cursorGames.getString(3);
 				String finalPositionFen = cursorGames.getString(4);
-				ArrayList<String> moves = new ArrayList<>();
-				DatabaseCursor cursorMoves = databaseHandler.rawQuery(String.format(QUERY_SELECT_MOVES_GAME_GDX, id));
+				games.add(new Game(id, date, numberMoves, winner, finalPositionFen, null));
+			}
+			ArrayList<String> moves = new ArrayList<>();
+			for (Game game : games) {
+				moves.clear();
+				DatabaseCursor cursorMoves = databaseHandler.rawQuery(String.format(QUERY_SELECT_MOVES_GAME_GDX,game.getId()));
 				while (cursorMoves.next()) {
 					moves.add(cursorMoves.getString(0));
 				}
-				games.add(new Game(id, date, numberMoves, winner,finalPositionFen ,ImmutableList.copyOf(moves)));
+				game.setMoves(ImmutableList.copyOf(moves));
 			}
 		} catch (SQLiteGdxException e) {
 			e.printStackTrace();
+			Gdx.app.log("Database", "Couldn't access game");
 		}
 		return ImmutableList.copyOf(games);
 	}

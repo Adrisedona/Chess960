@@ -9,7 +9,7 @@ public class Game {
 	private final String result;
 	private final String finalPositionFen;
 
-	private final ImmutableList<String> moves;
+	private ImmutableList<String> moves;
 
 	public Game(final int id, final String date, final int numberMoves, final String result, final String finalPositionFen ,final ImmutableList<String> moves) {
 		this.id = id;
@@ -44,5 +44,8 @@ public class Game {
 		return moves;
 	}
 
+	public void setMoves(ImmutableList<String> moves) {
+		this.moves = moves;
+	}
 
 }

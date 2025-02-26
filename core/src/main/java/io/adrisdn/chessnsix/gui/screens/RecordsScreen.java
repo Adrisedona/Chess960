@@ -4,9 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.google.common.collect.ImmutableList;
 
@@ -54,7 +57,20 @@ public class RecordsScreen implements Screen {
 		scrollPane.setScrollingDisabled(true, false);
 		scrollPane.setFillParent(true);
 		table.add(scrollPane).pad(GuiUtils.PAD).width(GuiUtils.WORLD_WIDTH - 200).height(GuiUtils.WORLD_HEIGHT).center();
+		table.add(getBackButton()).pad(-70);
 		this.stage.addActor(table);
+	}
+
+	private TextButton getBackButton() {
+		TextButton button = new TextButton("Back to menu", GuiUtils.UI_SKIN);//TODO: fix string
+		button.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				Gdx.input.setInputProcessor(chessGame.getWelcomeScreen().getStage());
+				chessGame.setScreen(chessGame.getWelcomeScreen());
+			}
+		});
+		return button;
 	}
 
 
