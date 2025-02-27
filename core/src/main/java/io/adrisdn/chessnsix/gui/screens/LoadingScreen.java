@@ -12,7 +12,8 @@ import com.google.common.collect.ImmutableList;
 
 import io.adrisdn.chessnsix.chess.database.Game;
 import io.adrisdn.chessnsix.gui.ChessGame;
-import io.adrisdn.chessnsix.gui.managers.GuiUtils;;
+import io.adrisdn.chessnsix.gui.managers.GuiUtils;
+import io.adrisdn.chessnsix.gui.managers.LanguageManager;;
 
 public class LoadingScreen implements Screen {
 
@@ -26,7 +27,7 @@ public class LoadingScreen implements Screen {
 
 		final Table table = new Table(GuiUtils.UI_SKIN);
 
-		table.add("Loading").row();//TODO: fix string
+		table.add(LanguageManager.get("loading")).row();
 
 		table.setFillParent(true);
 

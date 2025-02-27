@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 // import io.adrisdn.chessnsix.chess.engine.board.BoardUtils;
 import io.adrisdn.chessnsix.gui.ChessGame;
 import io.adrisdn.chessnsix.gui.managers.GuiUtils;
+import io.adrisdn.chessnsix.gui.managers.LanguageManager;
 
 public final class WelcomeScreen implements Screen {
 
@@ -24,13 +25,13 @@ public final class WelcomeScreen implements Screen {
 		this.stage = new Stage(new FitViewport(GuiUtils.WORLD_WIDTH, GuiUtils.WORLD_HEIGHT), new SpriteBatch());
 
 		Gdx.input.setInputProcessor(this.stage);
-		Gdx.graphics.setTitle("LibGDX Simple Parallel Chess 2.0");// TODO: fix title
+		Gdx.graphics.setTitle(LanguageManager.get("app_name"));
 
 		final Table table = new Table(GuiUtils.UI_SKIN);
 
 		final int WIDTH = 300;
 
-		table.add("Welcome to LibGDX Simple Parallel Chess 2.0").padBottom(GuiUtils.PAD).row();//TODO: fix string
+		table.add(LanguageManager.get("app_name")).padBottom(GuiUtils.PAD).row();
 		table.add(new Image(GuiUtils.LOGO)).padBottom(GuiUtils.PAD).row();
 		table.add(this.startGameButton(chessGame)).width(WIDTH).padBottom(GuiUtils.PAD).row();
 		table.add(this.recordsButton(chessGame)).width(WIDTH).padBottom(GuiUtils.PAD).row();
@@ -47,7 +48,7 @@ public final class WelcomeScreen implements Screen {
 	}
 
 	private TextButton startGameButton(final ChessGame chessGame) {
-		final TextButton textButton = new TextButton("Start Game", GuiUtils.UI_SKIN);// TODO: fix string
+		final TextButton textButton = new TextButton(LanguageManager.get("start_game"), GuiUtils.UI_SKIN);
 		textButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(final InputEvent event, final float x, final float y) {
@@ -59,12 +60,11 @@ public final class WelcomeScreen implements Screen {
 				chessGame.setScreen(chessGame.getSetupGameScreen());
 			}
 		});
-		Gdx.app.log("StartGameButton", "Boton creado");
 		return textButton;
 	}
 
 	private TextButton exitGameButton() {
-		final TextButton textButton = new TextButton("Exit Game", GuiUtils.UI_SKIN);// TODO: fix string
+		final TextButton textButton = new TextButton(LanguageManager.get("exit_game"), GuiUtils.UI_SKIN);
 		textButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(final InputEvent event, final float x, final float y) {
@@ -76,7 +76,7 @@ public final class WelcomeScreen implements Screen {
 	}
 
 	private TextButton aboutButton(final ChessGame chessGame) {
-		final TextButton textButton = new TextButton("About Game", GuiUtils.UI_SKIN);// TODO: fix string
+		final TextButton textButton = new TextButton(LanguageManager.get("tutorial_title"), GuiUtils.UI_SKIN);
 		textButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(final InputEvent event, final float x, final float y) {
@@ -88,7 +88,7 @@ public final class WelcomeScreen implements Screen {
 	}
 
 	// private TextButton loadGameButton(final ChessGame chessGame) {
-	// 	final TextButton textButton = new TextButton("Load Game", GuiUtils.UI_SKIN);// TODO: fix string
+	// 	final TextButton textButton = new TextButton("Load Game", GuiUtils.UI_SKIN);
 	// 	textButton.addListener(new ClickListener() {
 	// 		@Override
 	// 		public void clicked(final InputEvent event, final float x, final float y) {
@@ -98,9 +98,9 @@ public final class WelcomeScreen implements Screen {
 	// 								BoardUtils.DEFAULT_TIMER_MINUTE, BoardUtils.DEFAULT_TIMER_SECOND,
 	// 								BoardUtils.DEFAULT_TIMER_MILLISECOND));
 	// 			} catch (final RuntimeException e) {
-	// 				final Label label = new Label("No game to load", GuiUtils.UI_SKIN);// TODO: fix string
+	// 				final Label label = new Label("No game to load", GuiUtils.UI_SKIN);
 	// 				label.setColor(Color.BLACK);
-	// 				new Dialog("Load Game", GuiUtils.UI_SKIN).text(label).button("Ok").show(stage);// TODO: fix string
+	// 				new Dialog("Load Game", GuiUtils.UI_SKIN).text(label).button("Ok").show(stage);
 	// 			}
 	// 		}
 	// 	});
@@ -108,7 +108,7 @@ public final class WelcomeScreen implements Screen {
 	// }
 
 	private TextButton recordsButton(final ChessGame chessGame) {
-		final TextButton textButton = new TextButton("Records", GuiUtils.UI_SKIN);//TODO: fix string
+		final TextButton textButton = new TextButton(LanguageManager.get("records"), GuiUtils.UI_SKIN);
 		textButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {

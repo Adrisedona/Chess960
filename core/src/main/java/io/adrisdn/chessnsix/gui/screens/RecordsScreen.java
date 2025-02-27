@@ -16,6 +16,7 @@ import com.google.common.collect.ImmutableList;
 import io.adrisdn.chessnsix.chess.database.Game;
 import io.adrisdn.chessnsix.gui.ChessGame;
 import io.adrisdn.chessnsix.gui.managers.GuiUtils;
+import io.adrisdn.chessnsix.gui.managers.LanguageManager;
 
 public class RecordsScreen implements Screen {
 
@@ -43,9 +44,9 @@ public class RecordsScreen implements Screen {
 		tableGames = new Table(GuiUtils.UI_SKIN);
 		tableGames.setFillParent(true);
 		tableGames.top().left();
-		tableGames.add("Date").pad(GuiUtils.PAD);//TODO: fix string
-		tableGames.add("Number of moves").pad(GuiUtils.PAD);//TODO: fix string
-		tableGames.add("Result").pad(GuiUtils.PAD);//TODO: fix string
+		tableGames.add(LanguageManager.get("date")).pad(GuiUtils.PAD);
+		tableGames.add(LanguageManager.get("n_moves")).pad(GuiUtils.PAD);
+		tableGames.add(LanguageManager.get("result")).pad(GuiUtils.PAD);
 		tableGames.row();
 		for (Game game : games) {
 			tableGames.add(game.getDate()).pad(GuiUtils.PAD);
@@ -62,7 +63,7 @@ public class RecordsScreen implements Screen {
 	}
 
 	private TextButton backButton() {
-		TextButton button = new TextButton("Back to menu", GuiUtils.UI_SKIN);//TODO: fix string
+		TextButton button = new TextButton(LanguageManager.get("back_menu"), GuiUtils.UI_SKIN);
 		button.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {

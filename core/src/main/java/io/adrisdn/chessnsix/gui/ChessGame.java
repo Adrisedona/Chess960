@@ -11,6 +11,7 @@ import io.adrisdn.chessnsix.chess.database.ConnectionDatabase;
 import io.adrisdn.chessnsix.chess.engine.FEN.FenFisherRandom;
 import io.adrisdn.chessnsix.chess.engine.board.Board;
 import io.adrisdn.chessnsix.gui.board.GameProps.GameEnd;
+import io.adrisdn.chessnsix.gui.managers.LanguageManager;
 import io.adrisdn.chessnsix.gui.screens.About;
 import io.adrisdn.chessnsix.gui.screens.GameScreen;
 import io.adrisdn.chessnsix.gui.screens.LoadingScreen;
@@ -33,6 +34,7 @@ public final class ChessGame extends Game {
     public void create() {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		FenFisherRandom.InitFisherRandomList();
+		LanguageManager.loadLanguage();
 		this.connectionDatabase = new ConnectionDatabase();
         this.gameScreen = new GameScreen(this);
         this.aboutScreen = new About(this);

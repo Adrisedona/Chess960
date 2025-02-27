@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -14,6 +15,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import io.adrisdn.chessnsix.gui.ChessGame;
 import io.adrisdn.chessnsix.gui.managers.GuiUtils;
+import io.adrisdn.chessnsix.gui.managers.LanguageManager;
 
 public final class About implements Screen {
 
@@ -23,9 +25,11 @@ public final class About implements Screen {
         this.stage = new Stage(new FitViewport(GuiUtils.WORLD_WIDTH, GuiUtils.WORLD_HEIGHT), new SpriteBatch());
         Gdx.input.setInputProcessor(this.stage);
         final Table table = new Table(GuiUtils.UI_SKIN);
-        table.add("About Game").padBottom(20).row();//TODO: fix string
+		final Label label = new Label(LanguageManager.get("tutorial"), GuiUtils.UI_SKIN);
+		label.setWrap(true);
+        table.add(LanguageManager.get("tutorial_title")).padBottom(20).row();
         table.add(new Image(GuiUtils.LOGO)).padBottom(20).row();
-        table.add(this.aboutText()).padBottom(20).row();//TODO: pillar del archivo de recursos en su lugar
+        table.add(label).padBottom(20).width(GuiUtils.WORLD_WIDTH - (2 * GuiUtils.PAD)).row();
         table.add(this.backButton(chessGame)).padBottom(20);
         table.setFillParent(true);
         this.stage.addActor(table);
@@ -36,7 +40,7 @@ public final class About implements Screen {
     }
 
     private TextButton backButton(final ChessGame chessGame) {
-        final TextButton textButton = new TextButton("Back to Menu", GuiUtils.UI_SKIN);//TODO: fix string
+        final TextButton textButton = new TextButton(LanguageManager.get("back_menu"), GuiUtils.UI_SKIN);
         textButton.addListener(new ClickListener() {
             @Override
             public void clicked(final InputEvent event, final float x, final float y) {
@@ -47,12 +51,12 @@ public final class About implements Screen {
         return textButton;
     }
 
-    private String aboutText() {
-        return "This lightweight application is about a simple chess game that implemented MiniMax AI concept\n\n" +
-                "AlphaBeta-pruning, Pawn Structure Analysis and Move Ordering which maximize the search time of MiniMax.\n\n" +
-                "In this game, you can choose to play against yourself or your friend or an AI, range from Level 1 to Level 10\n\n" +
-                "1. Start a new game with different timer, board color, flip board.\n\n2. Save a game\n\n3. Load a saved game\n\n4. Export game in FEN format.\n\n5. Import game in FEN format.\n\n6. Undo moves";//TODO: fix string
-    }
+    // private String aboutText() {
+    //     return "This lightweight application is about a simple chess game that implemented MiniMax AI concept\n\n" +
+    //             "AlphaBeta-pruning, Pawn Structure Analysis and Move Ordering which maximize the search time of MiniMax.\n\n" +
+    //             "In this game, you can choose to play against yourself or your friend or an AI, range from Level 1 to Level 10\n\n" +
+    //             "1. Start a new game with different timer, board color, flip board.\n\n2. Save a game\n\n3. Load a saved game\n\n4. Export game in FEN format.\n\n5. Import game in FEN format.\n\n6. Undo moves";
+    // }
 
     @Override
     public void render(final float delta) {

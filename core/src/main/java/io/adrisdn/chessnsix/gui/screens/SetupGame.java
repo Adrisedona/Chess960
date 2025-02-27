@@ -24,6 +24,7 @@ import io.adrisdn.chessnsix.gui.ChessGame;
 import io.adrisdn.chessnsix.gui.board.GameProps;
 import io.adrisdn.chessnsix.gui.gameMenu.AIButton;
 import io.adrisdn.chessnsix.gui.managers.GuiUtils;
+import io.adrisdn.chessnsix.gui.managers.LanguageManager;
 
 public class SetupGame implements Screen {
 
@@ -46,6 +47,7 @@ public class SetupGame implements Screen {
 		this.boardColorButton = new BoardColorButton();
 		this.stage = new Stage(new FitViewport(GuiUtils.WORLD_WIDTH, GuiUtils.WORLD_HEIGHT), new SpriteBatch());
 		this.table = new Table(GuiUtils.UI_SKIN);
+		this.minutes = BoardUtils.DEFAULT_TIMER_MINUTE;
 
 		this.table.add(this.timerButton()).pad(GuiUtils.PAD).width(GuiUtils.WIDTH);
 		this.table.add(this.aiButton).pad(GuiUtils.PAD).width(GuiUtils.WIDTH).row();
@@ -106,7 +108,7 @@ public class SetupGame implements Screen {
 	}
 
 	private TextButton timerButton() {
-		TextButton button = new TextButton("Setup Timer", GuiUtils.UI_SKIN);// TODO: fix string
+		TextButton button = new TextButton(LanguageManager.get("setup_timer"), GuiUtils.UI_SKIN);
 		button.addListener(new ClickListener() {
 			SetupTimer setupTimer = new SetupTimer(chessGame.getGameScreen());
 			@Override
@@ -119,7 +121,7 @@ public class SetupGame implements Screen {
 
 
 	private TextButton startGameButton() {
-		TextButton button = new TextButton("Start Game", GuiUtils.UI_SKIN);// TODO: fix string
+		TextButton button = new TextButton(LanguageManager.get("start_game"), GuiUtils.UI_SKIN);
 		button.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -130,7 +132,7 @@ public class SetupGame implements Screen {
 	}
 
 	private TextButton backButton() {
-		TextButton button = new TextButton("Back to menu", GuiUtils.UI_SKIN);//TODO: fix string
+		TextButton button = new TextButton(LanguageManager.get("back_menu"), GuiUtils.UI_SKIN);
 		button.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -155,7 +157,7 @@ public class SetupGame implements Screen {
 
 				@Override
 				public String toString() {
-					return "5 minutes";// TODO: fix string
+					return LanguageManager.get("five_minutes");
 				}
 			},
 			TEN {
@@ -166,7 +168,7 @@ public class SetupGame implements Screen {
 
 				@Override
 				public String toString() {
-					return "10 minutes";// TODO: fix string
+					return LanguageManager.get("ten_minutes");
 				}
 			},
 			FIFTEEN {
@@ -177,7 +179,7 @@ public class SetupGame implements Screen {
 
 				@Override
 				public String toString() {
-					return "15 minutes";// TODO: fix string
+					return LanguageManager.get("fifteen_minutes");
 				}
 			},
 			THIRTY {
@@ -188,7 +190,7 @@ public class SetupGame implements Screen {
 
 				@Override
 				public String toString() {
-					return "30 minutes";// TODO: fix string
+					return LanguageManager.get("thirty_minutes");
 				}
 			},
 			FORTY_FIVE {
@@ -199,7 +201,7 @@ public class SetupGame implements Screen {
 
 				@Override
 				public String toString() {
-					return "45 minutes";// TODO: fix string
+					return LanguageManager.get("forty_five_minutes");
 				}
 			},
 			SIXTY {
@@ -210,7 +212,7 @@ public class SetupGame implements Screen {
 
 				@Override
 				public String toString() {
-					return "60 minutes";// TODO: fix string
+					return LanguageManager.get("one_hour");
 				}
 			},
 			NO_TIMER {
@@ -221,7 +223,7 @@ public class SetupGame implements Screen {
 
 				@Override
 				public String toString() {
-					return "No Timer";// TODO: fix string
+					return LanguageManager.get("no_timer");
 				}
 			};
 
@@ -229,13 +231,13 @@ public class SetupGame implements Screen {
 		}
 
 		private SetupTimer(final GameScreen gameScreen) {
-			super("Setup Timer", GuiUtils.UI_SKIN);// TODO: fix string
+			super(LanguageManager.get("setup_timer"), GuiUtils.UI_SKIN);
 			this.timer = new SelectBox<>(GuiUtils.UI_SKIN);
 			this.timer.setItems(TimerMinute.FIVE, TimerMinute.TEN, TimerMinute.FIFTEEN, TimerMinute.THIRTY,
 					TimerMinute.FORTY_FIVE, TimerMinute.SIXTY, TimerMinute.NO_TIMER);
 			this.getContentTable().padTop(10);
 			this.getContentTable().add(this.timer).padBottom(20).row();
-			this.getContentTable().add(new SetupButton(gameScreen, this, "OK"));//TODO: fix string
+			this.getContentTable().add(new SetupButton(gameScreen, this, LanguageManager.get("ok")));
 			this.minute = BoardUtils.DEFAULT_TIMER_MINUTE;
 			this.addListener(new ChangeListener() {
 				@Override
@@ -266,10 +268,10 @@ public class SetupGame implements Screen {
 
 	private final class BoardColorButton extends TextButton {
         private BoardColorButton() {
-            super("Board Color", GuiUtils.UI_SKIN);
-            final Label label = new Label("Choose a Board Color", GuiUtils.UI_SKIN);
+            super(LanguageManager.get("board_color"), GuiUtils.UI_SKIN);
+            final Label label = new Label(LanguageManager.get("board_color_text"), GuiUtils.UI_SKIN);
             label.setColor(Color.BLACK);
-            final Dialog dialog = new Dialog("Board Color", GuiUtils.UI_SKIN).text(label);
+            final Dialog dialog = new Dialog(LanguageManager.get("board_color"), GuiUtils.UI_SKIN).text(label);
             dialog.getButtonTable().add(boardStyle(dialog));
             dialog.getContentTable().row();
 
@@ -302,7 +304,7 @@ public class SetupGame implements Screen {
 
 	private void startGame() {
 		// gameScreen.updateChessBoard(Board.createStandardBoard(minute, BoardUtils.DEFAULT_TIMER_SECOND,
-		// 		BoardUtils.DEFAULT_TIMER_MILLISECOND));// TODO: nuevo juego con minutos va aqui
+		// 		BoardUtils.DEFAULT_TIMER_MILLISECOND));
 		gameScreen.updateChessBoard(GameScreen.BOARD_STATE.NEW_CHESS960_GAME.getBoard(gameScreen, minutes, BoardUtils.DEFAULT_TIMER_SECOND, BoardUtils.DEFAULT_TIMER_MILLISECOND));
 		gameScreen.getMoveHistory().getMoveLog().clear();
 		gameScreen.getGameBoard().updateHumanPiece(null);

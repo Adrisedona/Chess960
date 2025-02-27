@@ -2,13 +2,19 @@ package io.adrisdn.chessnsix.gui.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import io.adrisdn.chessnsix.chess.engine.FEN.FenFisherRandom;
@@ -18,10 +24,9 @@ import io.adrisdn.chessnsix.chess.engine.board.BoardUtils;
 import io.adrisdn.chessnsix.gui.ChessGame;
 import io.adrisdn.chessnsix.gui.board.GameBoard;
 // import io.adrisdn.chessnsix.gui.gameMenu.AIButton;
-import io.adrisdn.chessnsix.gui.gameMenu.GameMenu;
 import io.adrisdn.chessnsix.gui.gameMenu.GameOption;
-import io.adrisdn.chessnsix.gui.gameMenu.GamePreference;
 import io.adrisdn.chessnsix.gui.managers.GuiUtils;
+import io.adrisdn.chessnsix.gui.managers.LanguageManager;
 import io.adrisdn.chessnsix.gui.moveHistory.MoveHistory;
 import io.adrisdn.chessnsix.gui.timer.TimerPanel;
 
@@ -35,8 +40,6 @@ public final class GameScreen implements Screen {
 	private final io.adrisdn.chessnsix.gui.moveHistory.MoveHistory moveHistory;
 	private final io.adrisdn.chessnsix.gui.timer.TimerPanel gameTimerPanel;
 
-	private final io.adrisdn.chessnsix.gui.gameMenu.GameMenu gameMenu;
-	private final io.adrisdn.chessnsix.gui.gameMenu.GamePreference gamePreference;
 	private ChessGame chessGame;
 
 
@@ -110,10 +113,7 @@ public final class GameScreen implements Screen {
 		this.displayOnlyBoard = new GameBoard.DisplayOnlyBoard();
 		this.gameTimerPanel = new TimerPanel();
 
-		this.gameMenu = new GameMenu(chessGame, this);
-		this.gamePreference = new GamePreference(this);
-
-		Gdx.graphics.setTitle("LibGDX Simple Parallel Chess 2.0");// TODO: cambiar titulo a recurso
+		Gdx.graphics.setTitle(LanguageManager.get("app_name"));
 
 		final VerticalGroup verticalGroup = new VerticalGroup();
 
@@ -137,15 +137,106 @@ public final class GameScreen implements Screen {
 		return stack;
 	}
 
-	private Table initGameMenu() {//TODO. fix buttons during game
+	private Table initGameMenu() {
 		final Table table = new Table();
 		final int BUTTON_WIDTH = 250;
-		table.add(this.gameMenu).width(BUTTON_WIDTH);
-		table.add(this.gamePreference).width(BUTTON_WIDTH);
+		table.add(this.newGameButton()).width(BUTTON_WIDTH);
+		table.add(new FlipBoardButton(this)).width(BUTTON_WIDTH);
 		table.add(new GameOption(this)).width(BUTTON_WIDTH);
-		table.add().width(BUTTON_WIDTH);
+		table.add(this.exitGameButton()).width(BUTTON_WIDTH);
 		return table;
 	}
+
+	private TextButton newGameButton() {
+		TextButton button = new TextButton(LanguageManager.get("new_game_title"), GuiUtils.UI_SKIN);
+		button.addListener(new ClickListener() {
+			Dialog dialog = newGameDialog();
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				GameScreen.this.getGameTimerPanel().continueTimer(false);
+				dialog.show(GameScreen.this.stage);
+			}
+		});
+		return button;
+	}
+
+	private Dialog newGameDialog() {
+		Label label = new Label(LanguageManager.get("new_game_text"), GuiUtils.UI_SKIN);
+		label.setColor(Color.BLACK);
+		Dialog dialog = new Dialog(LanguageManager.get("new_game_title"), GuiUtils.UI_SKIN) {
+			@Override
+			protected void result(Object object) {
+				boolean result = (boolean)object;
+				this.remove();
+				if (result) {
+					Gdx.input.setInputProcessor(chessGame.getSetupGameScreen().getStage());
+					chessGame.setScreen(chessGame.getSetupGameScreen());
+				} else {
+					GameScreen.this.getGameTimerPanel().continueTimer(true);
+				}
+			}
+		}.text(label)
+			.button(LanguageManager.get("ok"), true)
+			.button(LanguageManager.get("cancel"), false);
+		return dialog;
+	}
+
+	private TextButton exitGameButton() {
+		TextButton button = new TextButton(LanguageManager.get("exit_game_title"), GuiUtils.UI_SKIN);
+		button.addListener(new ClickListener() {
+			Dialog dialog = exitGameDialog();
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				GameScreen.this.getGameTimerPanel().continueTimer(false);
+				dialog.show(GameScreen.this.stage);
+			}
+		});
+		return button;
+	}
+
+	private Dialog exitGameDialog() {
+		Label label = new Label(LanguageManager.get("exit_game_text"), GuiUtils.UI_SKIN);
+		label.setColor(Color.BLACK);
+		Dialog dialog = new Dialog(LanguageManager.get("exit_game_title"), GuiUtils.UI_SKIN) {
+			@Override
+			protected void result(Object object) {
+				boolean result = (boolean)object;
+				this.remove();
+				if (result) {
+					Gdx.input.setInputProcessor(chessGame.getWelcomeScreen().getStage());
+					chessGame.setScreen(chessGame.getWelcomeScreen());
+				} else {
+					GameScreen.this.getGameTimerPanel().continueTimer(true);
+				}
+			}
+		}.text(label)
+			.button(LanguageManager.get("ok"), true)
+			.button(LanguageManager.get("cancel"), false);
+		return dialog;
+	}
+
+	private static final class FlipBoardButton extends TextButton {
+        private FlipBoardButton(final GameScreen gameScreen) {
+            super(LanguageManager.get("flip_board"), GuiUtils.UI_SKIN);
+            this.addListener(new ClickListener() {
+                @Override
+                public void clicked(final InputEvent event, final float x, final float y) {
+                    gameScreen.getGameTimerPanel().continueTimer(false);
+
+                    gameScreen.getGameBoard().updateBoardDirection();
+                    gameScreen.getGameBoard().drawBoard(gameScreen, gameScreen.getChessBoard(), gameScreen.getDisplayOnlyBoard());
+
+                    gameScreen.getGameTimerPanel().changeTimerPanelDirection();
+                    gameScreen.getGameTimerPanel().update(gameScreen);
+
+                    gameScreen.getMoveHistory().changeMoveHistoryDirection();
+                    gameScreen.getMoveHistory().updateMoveHistory();
+
+                    gameScreen.getGameTimerPanel().continueTimer(true);
+                }
+            });
+        }
+    }
 
 	@Override
 	public void resize(final int width, final int height) {
@@ -156,8 +247,6 @@ public final class GameScreen implements Screen {
 	public void render(final float delta) {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		this.stage.act(delta);
-		this.gameMenu.detectKeyPressed(this);
-		this.gamePreference.detectUndoMoveKeyPressed(this);
 		if (this.getGameBoard().getArtificialIntelligenceWorking()) {
 			this.getGameBoard().getArtificialIntelligence().getProgressBar()
 					.setValue(this.getGameBoard().getArtificialIntelligence().getMoveCount());

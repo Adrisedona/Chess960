@@ -12,6 +12,7 @@ import io.adrisdn.chessnsix.chess.engine.board.Board;
 import io.adrisdn.chessnsix.chess.engine.board.Move;
 import io.adrisdn.chessnsix.chess.engine.pieces.Piece;
 import io.adrisdn.chessnsix.gui.managers.GuiUtils;
+import io.adrisdn.chessnsix.gui.managers.LanguageManager;
 import io.adrisdn.chessnsix.gui.screens.GameScreen;
 
 import java.util.List;
@@ -20,8 +21,8 @@ public final class PawnPromotionInterface {
 
     public void startLibGDXPromotion(final GameScreen gameScreen, final Move.PawnPromotion pawnPromotion) {
         gameScreen.updateChessBoard(this.promoteLibGDXPawn(gameScreen.getChessBoard(), pawnPromotion));
-        final Dialog promoteDialog = new Dialog("Pawn Promotion", GuiUtils.UI_SKIN);//TODO: fix string
-        final Label text = new Label("You only have 1 chance to promote your pawn\nChoose wisely", GuiUtils.UI_SKIN);//TODO: fix string
+        final Dialog promoteDialog = new Dialog(LanguageManager.get("pawn_promotion_title"), GuiUtils.UI_SKIN);
+        final Label text = new Label(LanguageManager.get("pawn_promotion_text"), GuiUtils.UI_SKIN);
         text.setColor(Color.BLACK);
         promoteDialog.text(text);
         promoteDialog.getContentTable().row();

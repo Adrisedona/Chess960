@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import io.adrisdn.chessnsix.chess.engine.board.BoardUtils;
 import io.adrisdn.chessnsix.chess.engine.player.Player;
 import io.adrisdn.chessnsix.gui.managers.GuiUtils;
+import io.adrisdn.chessnsix.gui.managers.LanguageManager;
 import io.adrisdn.chessnsix.gui.screens.GameScreen;
 
 public final class TimerPanel extends Table {
@@ -66,11 +67,11 @@ public final class TimerPanel extends Table {
 
     public TimerPanel() {
         this.setVisible(true);
-        this.whitePlayerTimerTable = new PlayerTimerTable(Color.WHITE, Color.BLACK, "White Player");//TODO: fix string
+        this.whitePlayerTimerTable = new PlayerTimerTable(Color.WHITE, Color.BLACK, LanguageManager.get("white_player"));
         this.continueTimer = true;
         this.pauseTimerOption = false;
         this.noTimer = false;
-        this.blackPlayerTimerTable = new PlayerTimerTable(Color.BLACK, Color.WHITE, "Black Player");//TODO: fix string
+        this.blackPlayerTimerTable = new PlayerTimerTable(Color.BLACK, Color.WHITE, LanguageManager.get("black_player"));
         this.timer_panel_direction = TIMER_PANEL_DIRECTION.NORMAL;
         this.add(this.blackPlayerTimerTable).size(SIZE).row();
         this.add(this.whitePlayerTimerTable).size(SIZE);
@@ -120,7 +121,7 @@ public final class TimerPanel extends Table {
 
         private PlayerTimerTable(final Color panelColor, final Color labelColor, final CharSequence text) {
             super(GuiUtils.UI_SKIN);
-            final Label label = new Label(text + " Timer", GuiUtils.UI_SKIN);//TODO: fix string
+            final Label label = new Label(text, GuiUtils.UI_SKIN);
             label.setColor(labelColor);
             this.add(label).row();
             this.timerLabel = new Label(this.getTimeFormat(BoardUtils.DEFAULT_TIMER_MINUTE, BoardUtils.DEFAULT_TIMER_SECOND, BoardUtils.DEFAULT_TIMER_MILLISECOND), GuiUtils.UI_SKIN);
@@ -155,7 +156,7 @@ public final class TimerPanel extends Table {
             if (!player.isNoTimer()) {
                 this.timerLabel.setText(this.getTimeFormat(player.getMinute(), player.getSecond(), player.getMillisecond()));
             } else {
-                this.timerLabel.setText("No Timer");//TODO: fix string
+                this.timerLabel.setText(LanguageManager.get("no_timer"));
             }
         }
     }

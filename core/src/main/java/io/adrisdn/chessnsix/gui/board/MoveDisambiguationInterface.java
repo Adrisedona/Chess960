@@ -1,5 +1,6 @@
 package io.adrisdn.chessnsix.gui.board;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
@@ -27,6 +28,8 @@ public class MoveDisambiguationInterface {
 		if (possibleMoves.size() < 2) {
 			throw new IllegalArgumentException("You shouldn't use this for just one possible move");
 		}
+		final Label label = new Label(LanguageManager.get("choose_move_text"), GuiUtils.UI_SKIN);
+		label.setColor(Color.BLACK);
 		this.possibleMoves = possibleMoves;
 		this.gameScreen = gameScreen;
 		// this.executor = new AsyncExecutor(1);
@@ -42,7 +45,7 @@ public class MoveDisambiguationInterface {
 		for (Move move : this.possibleMoves) {
 			possibleMovesDialog.button(move.toString(), move);
 		}
-		possibleMovesDialog.text(new Label(LanguageManager.get("choose_move_text"), GuiUtils.UI_SKIN));
+		possibleMovesDialog.text(label);
 	}
 
 	public void showDisambiguateMoveDialog() {

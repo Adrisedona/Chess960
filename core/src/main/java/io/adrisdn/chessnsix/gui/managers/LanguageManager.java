@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.I18NBundle;
 public class LanguageManager {
 
 	private static final Preferences PREFERENCES = Gdx.app.getPreferences("chess960prefs");
-	
+
 	private static I18NBundle bundle;
 
 	private static String currentLang = "es";
@@ -20,7 +20,7 @@ public class LanguageManager {
 	}
 
 
-	public static void loadLanguaje() {
+	public static void loadLanguage() {
 		String langCode = PREFERENCES.getString("lang", "es");
 		Locale locale = Locale.forLanguageTag(langCode);
 
@@ -36,7 +36,7 @@ public class LanguageManager {
 		if (bundle == null) {
 			throw new IllegalStateException("Language not loaded");
 		}
-		return bundle.get(key);
+		return bundle.get(key).replace("\\s", " ");
 
 	}
 
@@ -44,7 +44,7 @@ public class LanguageManager {
 		if (!currentLang.equals(langCode)) {
 			PREFERENCES.putString("lang", langCode);
 			PREFERENCES.flush();
-			loadLanguaje();
+			loadLanguage();
 		}
 	}
 
