@@ -1,4 +1,4 @@
-package io.adrisdn.chessnsix.gui;
+package io.adrisdn.chessnsix.gui.managers;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;

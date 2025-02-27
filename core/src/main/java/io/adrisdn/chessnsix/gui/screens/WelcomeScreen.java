@@ -14,7 +14,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 // import io.adrisdn.chessnsix.chess.engine.board.BoardUtils;
 import io.adrisdn.chessnsix.gui.ChessGame;
-import io.adrisdn.chessnsix.gui.GuiUtils;
+import io.adrisdn.chessnsix.gui.managers.GuiUtils;
 
 public final class WelcomeScreen implements Screen {
 
@@ -46,7 +46,6 @@ public final class WelcomeScreen implements Screen {
 		return this.stage;
 	}
 
-	//TODO: lanzarlo desde setupGame parametrizado
 	private TextButton startGameButton(final ChessGame chessGame) {
 		final TextButton textButton = new TextButton("Start Game", GuiUtils.UI_SKIN);// TODO: fix string
 		textButton.addListener(new ClickListener() {
@@ -88,7 +87,6 @@ public final class WelcomeScreen implements Screen {
 		return textButton;
 	}
 
-	//TODO: lanzarlo desde setupGame parametrizado (esta funcionalidad eliminarla)
 	// private TextButton loadGameButton(final ChessGame chessGame) {
 	// 	final TextButton textButton = new TextButton("Load Game", GuiUtils.UI_SKIN);// TODO: fix string
 	// 	textButton.addListener(new ClickListener() {

@@ -9,9 +9,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 
-import io.adrisdn.chessnsix.gui.GuiUtils;
 import io.adrisdn.chessnsix.gui.board.GameProps;
+import io.adrisdn.chessnsix.gui.managers.GuiUtils;
 import io.adrisdn.chessnsix.gui.screens.GameScreen;
+
 
 public final class AIButton extends TextButton {
 

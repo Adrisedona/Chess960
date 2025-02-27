@@ -12,7 +12,7 @@ import com.google.common.collect.ImmutableList;
 
 import io.adrisdn.chessnsix.chess.database.Game;
 import io.adrisdn.chessnsix.gui.ChessGame;
-import io.adrisdn.chessnsix.gui.GuiUtils;
+import io.adrisdn.chessnsix.gui.managers.GuiUtils;;
 
 public class LoadingScreen implements Screen {
 

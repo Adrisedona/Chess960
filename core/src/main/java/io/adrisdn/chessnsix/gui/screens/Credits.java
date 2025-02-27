@@ -15,11 +15,12 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import io.adrisdn.chessnsix.gui.ChessGame;
 import io.adrisdn.chessnsix.gui.managers.GuiUtils;
 
-public final class About implements Screen {
 
-    private final Stage stage;
 
-    public About(final ChessGame chessGame) {
+public class Credits implements Screen {
+	private final Stage stage;
+
+    public Credits(final ChessGame chessGame) {
         this.stage = new Stage(new FitViewport(GuiUtils.WORLD_WIDTH, GuiUtils.WORLD_HEIGHT), new SpriteBatch());
         Gdx.input.setInputProcessor(this.stage);
         final Table table = new Table(GuiUtils.UI_SKIN);

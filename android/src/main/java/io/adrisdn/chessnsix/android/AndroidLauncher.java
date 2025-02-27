@@ -11,7 +11,7 @@ import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 
 import io.adrisdn.chessnsix.chess.engine.FEN.FenUtilities;
 import io.adrisdn.chessnsix.gui.ChessGame;
-import io.adrisdn.chessnsix.gui.GuiUtils;
+import io.adrisdn.chessnsix.gui.managers.GuiUtils;
 
 /** Launches the Android application. */
 public final class AndroidLauncher extends AndroidApplication {

@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 
 import io.adrisdn.chessnsix.chess.engine.board.BoardUtils;
 import io.adrisdn.chessnsix.chess.engine.player.Player;
-import io.adrisdn.chessnsix.gui.GuiUtils;
+import io.adrisdn.chessnsix.gui.managers.GuiUtils;
 import io.adrisdn.chessnsix.gui.screens.GameScreen;
 
 public final class TimerPanel extends Table {

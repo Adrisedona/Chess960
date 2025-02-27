@@ -495,7 +495,7 @@ public abstract class Move {
             return NULL_MOVE;
         }
 
-        public static ImmutableList<Move> createMove(final Board board, final Piece piece, final int destinationCoordinate) {//TODO: check more than one legal move
+        public static ImmutableList<Move> createMove(final Board board, final Piece piece, final int destinationCoordinate) {
 			ArrayList<Move> possibleMoves = new ArrayList<>();
 			for (Move move : piece.calculateLegalMoves(board)) {
 				if (move.getCurrentCoordinate() == piece.getPiecePosition() && move.getDestinationCoordinate() == destinationCoordinate) {

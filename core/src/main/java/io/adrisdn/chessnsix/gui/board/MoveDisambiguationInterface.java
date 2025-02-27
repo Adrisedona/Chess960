@@ -6,13 +6,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.google.common.collect.ImmutableList;
 
 import io.adrisdn.chessnsix.chess.engine.board.Move;
-
-import io.adrisdn.chessnsix.gui.GuiUtils;
+import io.adrisdn.chessnsix.gui.managers.GuiUtils;
+import io.adrisdn.chessnsix.gui.managers.LanguageManager;
 import io.adrisdn.chessnsix.gui.screens.GameScreen;
 
 
 public class MoveDisambiguationInterface {
-	
+
 	private final GameScreen gameScreen;
 	private final ImmutableList<Move> possibleMoves;
 	private final Dialog possibleMovesDialog;
@@ -30,7 +30,7 @@ public class MoveDisambiguationInterface {
 		this.possibleMoves = possibleMoves;
 		this.gameScreen = gameScreen;
 		// this.executor = new AsyncExecutor(1);
-		possibleMovesDialog = new Dialog("title", GuiUtils.UI_SKIN) {//TODO: fix string
+		possibleMovesDialog = new Dialog(LanguageManager.get("choose_move_title"), GuiUtils.UI_SKIN) {
 			@Override
 			protected void result(Object object) {
 				chosenMove = (Move)object;
@@ -42,7 +42,7 @@ public class MoveDisambiguationInterface {
 		for (Move move : this.possibleMoves) {
 			possibleMovesDialog.button(move.toString(), move);
 		}
-		possibleMovesDialog.text(new Label("text for picking move", GuiUtils.UI_SKIN));//TODO: fix string
+		possibleMovesDialog.text(new Label(LanguageManager.get("choose_move_text"), GuiUtils.UI_SKIN));
 	}
 
 	public void showDisambiguateMoveDialog() {

@@ -14,6 +14,7 @@ import io.adrisdn.chessnsix.chess.engine.board.Move.QueenSideCastleMove;
 import io.adrisdn.chessnsix.chess.engine.pieces.King;
 import io.adrisdn.chessnsix.chess.engine.pieces.Piece;
 import io.adrisdn.chessnsix.chess.engine.pieces.Rook;
+import io.adrisdn.chessnsix.gui.managers.LanguageManager;
 
 public final class WhitePlayer extends Player {
 	public WhitePlayer(final Board board, final ImmutableList<Move> whiteStandardLegalMoves,
@@ -160,7 +161,7 @@ public final class WhitePlayer extends Player {
 
 	@Override
 	public String toString() {
-		return "White";
+		return LanguageManager.get("white_player");
 	}
 
 	@Override

@@ -16,7 +16,7 @@ import io.adrisdn.chessnsix.chess.engine.League;
 import io.adrisdn.chessnsix.chess.engine.board.Move;
 import io.adrisdn.chessnsix.chess.engine.board.MoveLog;
 import io.adrisdn.chessnsix.chess.engine.pieces.Piece;
-import io.adrisdn.chessnsix.gui.GuiUtils;
+import io.adrisdn.chessnsix.gui.managers.GuiUtils;
 
 public final class MoveHistory extends Table {
 

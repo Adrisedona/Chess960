@@ -21,9 +21,9 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import io.adrisdn.chessnsix.chess.engine.board.BoardUtils;
 import io.adrisdn.chessnsix.gui.ChessGame;
-import io.adrisdn.chessnsix.gui.GuiUtils;
 import io.adrisdn.chessnsix.gui.board.GameProps;
 import io.adrisdn.chessnsix.gui.gameMenu.AIButton;
+import io.adrisdn.chessnsix.gui.managers.GuiUtils;
 
 public class SetupGame implements Screen {
 

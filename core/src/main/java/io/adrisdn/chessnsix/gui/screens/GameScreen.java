@@ -16,12 +16,12 @@ import io.adrisdn.chessnsix.chess.engine.FEN.FenUtilities;
 import io.adrisdn.chessnsix.chess.engine.board.Board;
 import io.adrisdn.chessnsix.chess.engine.board.BoardUtils;
 import io.adrisdn.chessnsix.gui.ChessGame;
-import io.adrisdn.chessnsix.gui.GuiUtils;
 import io.adrisdn.chessnsix.gui.board.GameBoard;
 // import io.adrisdn.chessnsix.gui.gameMenu.AIButton;
 import io.adrisdn.chessnsix.gui.gameMenu.GameMenu;
 import io.adrisdn.chessnsix.gui.gameMenu.GameOption;
 import io.adrisdn.chessnsix.gui.gameMenu.GamePreference;
+import io.adrisdn.chessnsix.gui.managers.GuiUtils;
 import io.adrisdn.chessnsix.gui.moveHistory.MoveHistory;
 import io.adrisdn.chessnsix.gui.timer.TimerPanel;
 

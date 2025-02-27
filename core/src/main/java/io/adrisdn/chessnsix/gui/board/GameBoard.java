@@ -15,7 +15,8 @@ import io.adrisdn.chessnsix.chess.engine.board.Move;
 import io.adrisdn.chessnsix.chess.engine.pieces.Piece;
 import io.adrisdn.chessnsix.chess.engine.player.Player;
 import io.adrisdn.chessnsix.gui.ArtificialIntelligence;
-import io.adrisdn.chessnsix.gui.GuiUtils;
+import io.adrisdn.chessnsix.gui.managers.GuiUtils;
+import io.adrisdn.chessnsix.gui.managers.LanguageManager;
 import io.adrisdn.chessnsix.gui.screens.GameScreen;
 
 import java.beans.PropertyChangeListener;
@@ -176,27 +177,23 @@ public final class GameBoard extends Table {
 
 	public void displayTimeOutMessage(final Board chessBoard, final Stage stage) {
 		if (chessBoard.currentPlayer().isTimeOut()) {
-			final Label label = new Label(chessBoard.currentPlayer() + " player is timed out!", GuiUtils.UI_SKIN);// TODO:
-																													// fix
-																													// string
+			final Label label = new Label(chessBoard.currentPlayer() + LanguageManager.get("timed_out_msg"), GuiUtils.UI_SKIN);
 			label.setColor(Color.BLACK);
-			new Dialog("Time out", GuiUtils.UI_SKIN).text(label).button("Ok").show(stage);// TODO: fix string
+			new Dialog(LanguageManager.get("timed_out_title"), GuiUtils.UI_SKIN).text(label).button(LanguageManager.get("ok")).show(stage);
 			this.updateGameEnd(GameProps.GameEnd.ENDED);
 		}
 	}
 
 	public void displayEndGameMessage(final Board chessBoard, final Stage stage) {
-		final String state = chessBoard.currentPlayer().isInCheckmate() ? "Checkmate"// TODO: fix string
-				: chessBoard.currentPlayer().isInStalemate() ? "Stalemate" : null;// TODO: fix string
+		final String state = chessBoard.currentPlayer().isInCheckmate() ? LanguageManager.get("checkmate")
+				: chessBoard.currentPlayer().isInStalemate() ? LanguageManager.get("stalemate") : null;
 		if (state == null) {
 			return;
 		}
-		final Label label = new Label(chessBoard.currentPlayer() + " player is in " + state.toLowerCase() + " !", // TODO:
-																													// fix
-																													// string
+		final Label label = new Label(chessBoard.currentPlayer() + LanguageManager.get("player_in") + state.toLowerCase() + " !",
 				GuiUtils.UI_SKIN);
 		label.setColor(Color.BLACK);
-		new Dialog(state, GuiUtils.UI_SKIN).text(label).button("Ok").show(stage);// TODO: fix string
+		new Dialog(state, GuiUtils.UI_SKIN).text(label).button(LanguageManager.get("ok")).show(stage);
 		this.updateGameEnd(GameProps.GameEnd.ENDED);
 	}
 
@@ -208,7 +205,7 @@ public final class GameBoard extends Table {
 
 	public static final class DisplayOnlyBoard extends Table {
 
-		private GuiUtils.TILE_COLOR tileColor;
+		private io.adrisdn.chessnsix.gui.managers.GuiUtils.TILE_COLOR tileColor;
 
 		public DisplayOnlyBoard() {
 			this.setFillParent(true);
@@ -243,7 +240,7 @@ public final class GameBoard extends Table {
 					: TILE_COLOR.HIGHLIGHT_LEGAL_MOVE_DARK_TILE();
 		}
 
-		public GuiUtils.TILE_COLOR getTileColor() {
+		public io.adrisdn.chessnsix.gui.managers.GuiUtils.TILE_COLOR getTileColor() {
 			return this.tileColor;
 		}
 
