@@ -73,7 +73,7 @@ public final class DesktopLauncher {
 					.show(this.chessGame.getGameScreen().getStage());
 			return;
 
-		} else if (this.chessGame.getScreen().equals(this.chessGame.getAboutScreen()) || this.chessGame.getScreen().equals(this.chessGame.getWelcomeScreen()) || this.chessGame.getScreen().equals(this.chessGame.getRecordsScreen())) {
+		} else if (this.chessGame.getScreen().equals(this.chessGame.getAboutScreen()) || this.chessGame.getScreen().equals(this.chessGame.getWelcomeScreen()) || this.chessGame.getScreen().equals(this.chessGame.getRecordsScreen()) || this.chessGame.getScreen().equals(this.chessGame.getSetupGameScreen())) {
 			label = new Label("Request confirmation to exit game", GuiUtils.UI_SKIN);
 			label.setColor(Color.BLACK);
 			new Dialog(dialogTitle, GuiUtils.UI_SKIN) {
@@ -85,9 +85,9 @@ public final class DesktopLauncher {
 			}.button("Yes", true)
 					.button("No", false)
 					.text(label)
-					.show((this.chessGame.getScreen().equals(this.chessGame.getAboutScreen()) ? this.chessGame.getAboutScreen().getStage() : this.chessGame.getScreen().equals(this.chessGame.getRecordsScreen()) ? this.chessGame.getRecordsScreen().getStage() : this.chessGame.getWelcomeScreen().getStage()));
+					.show((this.chessGame.getScreen().equals(this.chessGame.getAboutScreen()) ? this.chessGame.getAboutScreen().getStage() : this.chessGame.getScreen().equals(this.chessGame.getRecordsScreen()) ? this.chessGame.getRecordsScreen().getStage() : this.chessGame.getScreen().equals(this.chessGame.getSetupGameScreen()) ? this.chessGame.getSetupGameScreen().getStage() :this.chessGame.getWelcomeScreen().getStage()));
 			return;
 		}
-		throw new IllegalStateException("Should not reach here as there are ONLY 3 GAME SCREENS");
+		throw new IllegalStateException("Should not reach here, the new screen needs to be implemented here");
 	}
 }

@@ -2,20 +2,17 @@ package io.adrisdn.chessnsix.gui.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-// import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-// import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-// import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
-import io.adrisdn.chessnsix.chess.engine.board.BoardUtils;
+// import io.adrisdn.chessnsix.chess.engine.board.BoardUtils;
 import io.adrisdn.chessnsix.gui.ChessGame;
 import io.adrisdn.chessnsix.gui.GuiUtils;
 
@@ -31,14 +28,14 @@ public final class WelcomeScreen implements Screen {
 
 		final Table table = new Table(GuiUtils.UI_SKIN);
 
-		final int WIDTH = 200;
+		final int WIDTH = 300;
 
-		table.add("Welcome to LibGDX Simple Parallel Chess 2.0").padBottom(20).row();//TODO: fix string
-		table.add(new Image(GuiUtils.LOGO)).padBottom(20).row();
-		table.add(this.startGameButton(chessGame)).width(WIDTH).padBottom(20).row();
-		table.add(this.recordsButton(chessGame)).width(WIDTH).padBottom(20).row();
-		table.add(this.aboutButton(chessGame)).width(WIDTH).padBottom(20).row();
-		table.add(this.exitGameButton()).width(WIDTH).padBottom(20);
+		table.add("Welcome to LibGDX Simple Parallel Chess 2.0").padBottom(GuiUtils.PAD).row();//TODO: fix string
+		table.add(new Image(GuiUtils.LOGO)).padBottom(GuiUtils.PAD).row();
+		table.add(this.startGameButton(chessGame)).width(WIDTH).padBottom(GuiUtils.PAD).row();
+		table.add(this.recordsButton(chessGame)).width(WIDTH).padBottom(GuiUtils.PAD).row();
+		table.add(this.aboutButton(chessGame)).width(WIDTH).padBottom(GuiUtils.PAD).row();
+		table.add(this.exitGameButton()).width(WIDTH).padBottom(GuiUtils.PAD);
 
 		table.setFillParent(true);
 
@@ -55,12 +52,15 @@ public final class WelcomeScreen implements Screen {
 		textButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(final InputEvent event, final float x, final float y) {
-				chessGame.gotoGameScreen(GameScreen.BOARD_STATE.NEW_GAME,
-						GameScreen.BOARD_STATE.NEW_GAME.getBoard(chessGame.getGameScreen(),
-								BoardUtils.DEFAULT_TIMER_MINUTE, BoardUtils.DEFAULT_TIMER_SECOND,
-								BoardUtils.DEFAULT_TIMER_MILLISECOND));
+				// chessGame.gotoGameScreen(GameScreen.BOARD_STATE.NEW_GAME,
+				// 		GameScreen.BOARD_STATE.NEW_GAME.getBoard(chessGame.getGameScreen(),
+				// 				BoardUtils.DEFAULT_TIMER_MINUTE, BoardUtils.DEFAULT_TIMER_SECOND,
+				// 				BoardUtils.DEFAULT_TIMER_MILLISECOND));
+				Gdx.input.setInputProcessor(chessGame.getSetupGameScreen().getStage());
+				chessGame.setScreen(chessGame.getSetupGameScreen());
 			}
 		});
+		Gdx.app.log("StartGameButton", "Boton creado");
 		return textButton;
 	}
 

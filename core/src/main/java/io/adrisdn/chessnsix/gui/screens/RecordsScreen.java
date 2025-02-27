@@ -57,11 +57,11 @@ public class RecordsScreen implements Screen {
 		scrollPane.setScrollingDisabled(true, false);
 		scrollPane.setFillParent(true);
 		table.add(scrollPane).pad(GuiUtils.PAD).width(GuiUtils.WORLD_WIDTH - 200).height(GuiUtils.WORLD_HEIGHT).center();
-		table.add(getBackButton()).pad(-70);
+		table.add(backButton()).padLeft(-70).padTop(GuiUtils.PAD).top().row();
 		this.stage.addActor(table);
 	}
 
-	private TextButton getBackButton() {
+	private TextButton backButton() {
 		TextButton button = new TextButton("Back to menu", GuiUtils.UI_SKIN);//TODO: fix string
 		button.addListener(new ClickListener() {
 			@Override

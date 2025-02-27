@@ -18,7 +18,7 @@ import io.adrisdn.chessnsix.chess.engine.board.BoardUtils;
 import io.adrisdn.chessnsix.gui.ChessGame;
 import io.adrisdn.chessnsix.gui.GuiUtils;
 import io.adrisdn.chessnsix.gui.board.GameBoard;
-import io.adrisdn.chessnsix.gui.gameMenu.AIButton;
+// import io.adrisdn.chessnsix.gui.gameMenu.AIButton;
 import io.adrisdn.chessnsix.gui.gameMenu.GameMenu;
 import io.adrisdn.chessnsix.gui.gameMenu.GameOption;
 import io.adrisdn.chessnsix.gui.gameMenu.GamePreference;
@@ -137,13 +137,13 @@ public final class GameScreen implements Screen {
 		return stack;
 	}
 
-	private Table initGameMenu() {
+	private Table initGameMenu() {//TODO. fix buttons during game
 		final Table table = new Table();
 		final int BUTTON_WIDTH = 250;
 		table.add(this.gameMenu).width(BUTTON_WIDTH);
 		table.add(this.gamePreference).width(BUTTON_WIDTH);
 		table.add(new GameOption(this)).width(BUTTON_WIDTH);
-		table.add(new AIButton(this)).width(BUTTON_WIDTH);
+		table.add().width(BUTTON_WIDTH);
 		return table;
 	}
 

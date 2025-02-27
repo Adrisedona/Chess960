@@ -15,14 +15,13 @@ import io.adrisdn.chessnsix.gui.screens.GameScreen;
 
 public final class AIButton extends TextButton {
 
-    public AIButton(final io.adrisdn.chessnsix.gui.screens.GameScreen gameScreen) {
+    public AIButton(final io.adrisdn.chessnsix.gui.ChessGame chessGame) {
         super("Setup AI", GuiUtils.UI_SKIN);//TODO: fix string
-        final AIDialog aiDialog = new AIDialog(gameScreen);
+        final AIDialog aiDialog = new AIDialog(chessGame.getGameScreen());
         this.addListener(new ClickListener() {
             @Override
             public void clicked(final InputEvent event, final float x, final float y) {
-                gameScreen.getGameTimerPanel().continueTimer(false);
-                aiDialog.show(gameScreen.getStage());
+                aiDialog.show(chessGame.getSetupGameScreen().getStage());
             }
         });
     }
@@ -64,8 +63,8 @@ public final class AIButton extends TextButton {
                         if (!gameScreen.getGameBoard().isAIPlayer(gameScreen.getChessBoard().currentPlayer())) {
                             gameScreen.getGameBoard().getArtificialIntelligence().setStopAI(true);
                         }
-                        gameScreen.getGameBoard().fireGameSetupPropertyChangeSupport();
-                        gameScreen.getGameTimerPanel().continueTimer(true);
+                        // gameScreen.getGameBoard().fireGameSetupPropertyChangeSupport();
+                        // gameScreen.getGameTimerPanel().continueTimer(true);
                     }
                 });
             }
