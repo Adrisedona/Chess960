@@ -9,9 +9,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
-import io.adrisdn.chessnsix.chess.engine.FEN.FenUtilities;
 import io.adrisdn.chessnsix.gui.ChessGame;
 import io.adrisdn.chessnsix.gui.managers.GuiUtils;
+import io.adrisdn.chessnsix.gui.managers.LanguageManager;
 
 /** Launches the desktop (LWJGL3) application. */
 public final class DesktopLauncher {
@@ -45,10 +45,10 @@ public final class DesktopLauncher {
 
 	private void showExitDialog() {
 		final Label label;
-		final String dialogTitle = "Exit Game Confirmation";
+		final String dialogTitle = LanguageManager.get("exit_game_confirmation_title");
 		if (this.chessGame.getScreen().equals(this.chessGame.getGameScreen())) {
 			DesktopLauncher.this.chessGame.getGameScreen().getGameTimerPanel().continueTimer(false);
-			label = new Label("Request confirmation to exit game and save current one", GuiUtils.UI_SKIN);
+			label = new Label(LanguageManager.get("exit_game_confirmation_text"), GuiUtils.UI_SKIN);
 			label.setColor(Color.BLACK);
 			new Dialog(dialogTitle, GuiUtils.UI_SKIN) {
 				@Override
@@ -58,23 +58,16 @@ public final class DesktopLauncher {
 						DesktopLauncher.this.chessGame.getGameScreen().getGameTimerPanel().continueTimer(true);
 						return;
 					}
-					if ((Boolean) object) {
-						GuiUtils.MOVE_LOG_PREF.putString(GuiUtils.MOVE_LOG_STATE, FenUtilities.getGameData(
-								DesktopLauncher.this.chessGame.getGameScreen().getMoveHistory().getMoveLog(),
-								DesktopLauncher.this.chessGame.getGameScreen().getChessBoard()));
-						GuiUtils.MOVE_LOG_PREF.flush();
-					}
 					Gdx.app.exit();
 				}
-			}.button("Yes", true)
-					.button("No", false)
-					.button("Cancel")
+			}.button(LanguageManager.get("ok"), true)
+					.button(LanguageManager.get("cancel"))
 					.text(label)
 					.show(this.chessGame.getGameScreen().getStage());
 			return;
 
-		} else if (this.chessGame.getScreen().equals(this.chessGame.getAboutScreen()) || this.chessGame.getScreen().equals(this.chessGame.getWelcomeScreen()) || this.chessGame.getScreen().equals(this.chessGame.getRecordsScreen()) || this.chessGame.getScreen().equals(this.chessGame.getSetupGameScreen())) {
-			label = new Label("Request confirmation to exit game", GuiUtils.UI_SKIN);
+		} else if (this.chessGame.getScreen().equals(this.chessGame.getAboutScreen()) || this.chessGame.getScreen().equals(this.chessGame.getWelcomeScreen()) || this.chessGame.getScreen().equals(this.chessGame.getRecordsScreen()) || this.chessGame.getScreen().equals(this.chessGame.getSetupGameScreen()) || this.chessGame.getScreen().equals(chessGame.getCreditsScreen())) {
+			label = new Label(LanguageManager.get("exit_game_confirmation_text"), GuiUtils.UI_SKIN);
 			label.setColor(Color.BLACK);
 			new Dialog(dialogTitle, GuiUtils.UI_SKIN) {
 				@Override
@@ -82,10 +75,10 @@ public final class DesktopLauncher {
 					this.remove();
 					if ((Boolean) object) { Gdx.app.exit(); }
 				}
-			}.button("Yes", true)
-					.button("No", false)
+			}.button(LanguageManager.get("ok"), true)
+					.button(LanguageManager.get("cancel"), false)
 					.text(label)
-					.show((this.chessGame.getScreen().equals(this.chessGame.getAboutScreen()) ? this.chessGame.getAboutScreen().getStage() : this.chessGame.getScreen().equals(this.chessGame.getRecordsScreen()) ? this.chessGame.getRecordsScreen().getStage() : this.chessGame.getScreen().equals(this.chessGame.getSetupGameScreen()) ? this.chessGame.getSetupGameScreen().getStage() :this.chessGame.getWelcomeScreen().getStage()));
+					.show((this.chessGame.getScreen().equals(this.chessGame.getAboutScreen()) ? this.chessGame.getAboutScreen().getStage() : this.chessGame.getScreen().equals(this.chessGame.getRecordsScreen()) ? this.chessGame.getRecordsScreen().getStage() : this.chessGame.getScreen().equals(this.chessGame.getSetupGameScreen()) ? this.chessGame.getSetupGameScreen().getStage() : this.chessGame.getScreen().equals(chessGame.getCreditsScreen()) ? chessGame.getCreditsScreen().getStage() : this.chessGame.getWelcomeScreen().getStage()));
 			return;
 		}
 		throw new IllegalStateException("Should not reach here, the new screen needs to be implemented here");

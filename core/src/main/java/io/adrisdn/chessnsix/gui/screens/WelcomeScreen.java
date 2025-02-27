@@ -36,6 +36,7 @@ public final class WelcomeScreen implements Screen {
 		table.add(this.startGameButton(chessGame)).width(WIDTH).padBottom(GuiUtils.PAD).row();
 		table.add(this.recordsButton(chessGame)).width(WIDTH).padBottom(GuiUtils.PAD).row();
 		table.add(this.aboutButton(chessGame)).width(WIDTH).padBottom(GuiUtils.PAD).row();
+		table.add(this.creditsButton(chessGame)).width(WIDTH).padBottom(GuiUtils.PAD).row();
 		table.add(this.exitGameButton()).width(WIDTH).padBottom(GuiUtils.PAD);
 
 		table.setFillParent(true);
@@ -82,6 +83,18 @@ public final class WelcomeScreen implements Screen {
 			public void clicked(final InputEvent event, final float x, final float y) {
 				Gdx.input.setInputProcessor(chessGame.getAboutScreen().getStage());
 				chessGame.setScreen(chessGame.getAboutScreen());
+			}
+		});
+		return textButton;
+	}
+
+	private TextButton creditsButton(final ChessGame chessGame) {
+		final TextButton textButton = new TextButton(LanguageManager.get("credits_title"), GuiUtils.UI_SKIN);
+		textButton.addListener(new ClickListener() {
+			@Override
+			public void clicked(final InputEvent event, final float x, final float y) {
+				Gdx.input.setInputProcessor(chessGame.getCreditsScreen().getStage());
+				chessGame.setScreen(chessGame.getCreditsScreen());
 			}
 		});
 		return textButton;

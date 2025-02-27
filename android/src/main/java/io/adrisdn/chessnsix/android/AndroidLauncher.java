@@ -35,8 +35,8 @@ public final class AndroidLauncher extends AndroidApplication {
 		if (this.chessGame.getScreen().equals(this.chessGame.getGameScreen())) {
 			this.chessGame.getGameScreen().getGameTimerPanel().continueTimer(false);
 			new AlertDialog.Builder(this)
-					.setTitle("Exit Game")
-					.setMessage("Request confirmation to exit game and save the current one")
+					.setTitle("Exit Game")//TODO: modificar en android studio
+					.setMessage("Request confirmation to exit game and save the current one")//TODO: modificar en android studio
 					.setPositiveButton("yes", (dialog, which) -> {
 						GuiUtils.MOVE_LOG_PREF.putString(GuiUtils.MOVE_LOG_STATE, FenUtilities.getGameData(chessGame.getGameScreen().getMoveHistory().getMoveLog(), chessGame.getGameScreen().getChessBoard()));
 						GuiUtils.MOVE_LOG_PREF.flush();
@@ -50,10 +50,10 @@ public final class AndroidLauncher extends AndroidApplication {
 			}).setNeutralButton("cancel", (dialog, which) -> chessGame.getGameScreen().getGameTimerPanel().continueTimer(true))
 					.show();
 			return;
-		} else if (this.chessGame.getScreen().equals(this.chessGame.getAboutScreen()) || this.chessGame.getScreen().equals(this.chessGame.getWelcomeScreen())) {
+		} else {
 			new AlertDialog.Builder(this)
-					.setTitle("Exit Game")
-					.setMessage("Request confirmation to exit game")
+					.setTitle("Exit Game")//TODO: modificar en android studio
+					.setMessage("Request confirmation to exit game")//TODO: modificar en android studio
 					.setPositiveButton("yes", (dialog, which) -> {
 						this.finishAffinity();
 						System.exit(0);
@@ -61,7 +61,7 @@ public final class AndroidLauncher extends AndroidApplication {
 					}).setNegativeButton("no", null).show();
 			return;
 		}
-		throw new IllegalStateException("Should not reach here as there are ONLY 3 GAME SCREENS");
+		throw new IllegalStateException("Should not reach here");
 	}
 
 

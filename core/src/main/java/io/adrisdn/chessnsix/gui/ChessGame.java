@@ -9,10 +9,9 @@ import com.badlogic.gdx.sql.SQLiteGdxException;
 
 import io.adrisdn.chessnsix.chess.database.ConnectionDatabase;
 import io.adrisdn.chessnsix.chess.engine.FEN.FenFisherRandom;
-import io.adrisdn.chessnsix.chess.engine.board.Board;
-import io.adrisdn.chessnsix.gui.board.GameProps.GameEnd;
 import io.adrisdn.chessnsix.gui.managers.LanguageManager;
 import io.adrisdn.chessnsix.gui.screens.About;
+import io.adrisdn.chessnsix.gui.screens.Credits;
 import io.adrisdn.chessnsix.gui.screens.GameScreen;
 import io.adrisdn.chessnsix.gui.screens.LoadingScreen;
 import io.adrisdn.chessnsix.gui.screens.RecordsScreen;
@@ -27,6 +26,7 @@ public final class ChessGame extends Game {
 	private SetupGame setupGameScreen;
 	private RecordsScreen recordsScreen;
 	private LoadingScreen loadingScreen;
+	private Credits creditsScreen;
 
 	private ConnectionDatabase connectionDatabase;
 
@@ -41,6 +41,7 @@ public final class ChessGame extends Game {
 		this.setupGameScreen = new SetupGame(this);
 		this.loadingScreen = new LoadingScreen(this);
 		this.recordsScreen = new RecordsScreen(this, null);
+		this.creditsScreen = new Credits(this);
         this.welcomeScreen = new WelcomeScreen(this);
         this.setScreen(this.welcomeScreen);
     }
@@ -70,21 +71,9 @@ public final class ChessGame extends Game {
 		return loadingScreen;
 	}
 
-    public void gotoGameScreen(final GameScreen.BOARD_STATE board_state, final Board board) {
-        this.gameScreen.updateChessBoard(board);
-        if (board_state == GameScreen.BOARD_STATE.NEW_GAME || board_state == GameScreen.BOARD_STATE.NEW_CHESS960_GAME) {
-            this.gameScreen.getMoveHistory().getMoveLog().clear();
-        }
-        this.gameScreen.getGameBoard().updateAiMove(null);
-        this.gameScreen.getGameBoard().updateHumanMove(null);
-        this.gameScreen.getMoveHistory().updateMoveHistory();
-        this.gameScreen.getGameBoard().drawBoard(this.gameScreen, gameScreen.getChessBoard(), this.gameScreen.getDisplayOnlyBoard());
-        this.gameScreen.getGameBoard().updateGameEnd(GameEnd.ONGOING);
-        this.gameScreen.getGameTimerPanel().resetTimer(this.gameScreen.getChessBoard().whitePlayer(), this.gameScreen.getChessBoard().blackPlayer());
-        this.gameScreen.getGameTimerPanel().continueTimer(true);
-        Gdx.input.setInputProcessor(this.gameScreen.getStage());
-        this.setScreen(this.gameScreen);
-    }
+	public Credits getCreditsScreen() {
+		return creditsScreen;
+	}
 
 	public ConnectionDatabase getConnectionDatabase() {
 		return connectionDatabase;
