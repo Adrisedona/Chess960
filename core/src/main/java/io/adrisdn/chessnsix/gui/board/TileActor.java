@@ -91,6 +91,7 @@ public final class TileActor extends Image {
 				            gameScreen.getGameBoard().displayEndGameMessage(gameScreen.getChessBoard(), gameScreen.getStage());
 				        }
 				    }
+					//TODO: play sound here
 				} else {
 				    gameScreen.getGameBoard().updateHumanPiece(getPiece(gameScreen.getChessBoard(), gameScreen.getGameBoard().getHumanPiece(), tileID));
 				    gameScreen.getGameBoard().drawBoard(gameScreen, gameScreen.getChessBoard(), gameScreen.getDisplayOnlyBoard());

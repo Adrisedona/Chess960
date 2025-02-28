@@ -190,7 +190,7 @@ public final class GameBoard extends Table {
 		if (state == null) {
 			return;
 		}
-		final Label label = new Label(chessBoard.currentPlayer() + LanguageManager.get("player_in") + state.toLowerCase() + " !",
+		final Label label = new Label(chessBoard.currentPlayer() + LanguageManager.get("player_in") + state.toLowerCase() + "!",
 				GuiUtils.UI_SKIN);
 		label.setColor(Color.BLACK);
 		new Dialog(state, GuiUtils.UI_SKIN).text(label).button(LanguageManager.get("ok")).show(stage);

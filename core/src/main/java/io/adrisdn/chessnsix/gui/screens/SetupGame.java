@@ -318,6 +318,8 @@ public class SetupGame implements Screen {
 		gameScreen.getGameTimerPanel().continueTimer(true);
 		gameScreen.getGameBoard().fireGameSetupPropertyChangeSupport();
 		Gdx.input.setInputProcessor(gameScreen.getStage());
+		chessGame.getMenuMusic().stop();
+		chessGame.getGameMusic().play();
 		chessGame.setScreen(gameScreen);
 	}
 }

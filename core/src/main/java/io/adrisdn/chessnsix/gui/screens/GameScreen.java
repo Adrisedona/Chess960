@@ -40,8 +40,7 @@ public final class GameScreen implements Screen {
 	private final io.adrisdn.chessnsix.gui.moveHistory.MoveHistory moveHistory;
 	private final io.adrisdn.chessnsix.gui.timer.TimerPanel gameTimerPanel;
 
-	private ChessGame chessGame;
-
+	private final ChessGame chessGame;
 
 
 	public enum BOARD_STATE {
@@ -101,6 +100,7 @@ public final class GameScreen implements Screen {
 	public Stage getStage() {
 		return this.stage;
 	}
+
 
 	public GameScreen(final ChessGame chessGame) {
 		// init
@@ -166,9 +166,10 @@ public final class GameScreen implements Screen {
 		Dialog dialog = new Dialog(LanguageManager.get("new_game_title"), GuiUtils.UI_SKIN) {
 			@Override
 			protected void result(Object object) {
-				boolean result = (boolean)object;
 				this.remove();
-				if (result) {
+				if ((boolean)object) {
+					chessGame.getGameMusic().stop();
+					chessGame.getMenuMusic().play();
 					Gdx.input.setInputProcessor(chessGame.getSetupGameScreen().getStage());
 					chessGame.setScreen(chessGame.getSetupGameScreen());
 				} else {
@@ -200,9 +201,10 @@ public final class GameScreen implements Screen {
 		Dialog dialog = new Dialog(LanguageManager.get("exit_game_title"), GuiUtils.UI_SKIN) {
 			@Override
 			protected void result(Object object) {
-				boolean result = (boolean)object;
 				this.remove();
-				if (result) {
+				if ((boolean)object) {
+					chessGame.getGameMusic().stop();
+					chessGame.getMenuMusic().play();
 					Gdx.input.setInputProcessor(chessGame.getWelcomeScreen().getStage());
 					chessGame.setScreen(chessGame.getWelcomeScreen());
 				} else {
