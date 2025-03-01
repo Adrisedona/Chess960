@@ -66,7 +66,7 @@ public final class DesktopLauncher {
 					.show(this.chessGame.getGameScreen().getStage());
 			return;
 
-		} else if (this.chessGame.getScreen().equals(this.chessGame.getAboutScreen()) || this.chessGame.getScreen().equals(this.chessGame.getWelcomeScreen()) || this.chessGame.getScreen().equals(this.chessGame.getRecordsScreen()) || this.chessGame.getScreen().equals(this.chessGame.getSetupGameScreen()) || this.chessGame.getScreen().equals(chessGame.getCreditsScreen())) {
+		} else if (this.chessGame.getScreen().equals(this.chessGame.getAboutScreen()) || this.chessGame.getScreen().equals(this.chessGame.getWelcomeScreen()) || this.chessGame.getScreen().equals(this.chessGame.getRecordsScreen()) || this.chessGame.getScreen().equals(this.chessGame.getSetupGameScreen()) || this.chessGame.getScreen().equals(chessGame.getCreditsScreen()) || this.chessGame.getScreen().equals(chessGame.getSettingsScreen()) ) {
 			label = new Label(LanguageManager.get("exit_game_confirmation_text"), GuiUtils.UI_SKIN);
 			label.setColor(Color.BLACK);
 			new Dialog(dialogTitle, GuiUtils.UI_SKIN) {
@@ -78,7 +78,7 @@ public final class DesktopLauncher {
 			}.button(LanguageManager.get("ok"), true)
 					.button(LanguageManager.get("cancel"), false)
 					.text(label)
-					.show((this.chessGame.getScreen().equals(this.chessGame.getAboutScreen()) ? this.chessGame.getAboutScreen().getStage() : this.chessGame.getScreen().equals(this.chessGame.getRecordsScreen()) ? this.chessGame.getRecordsScreen().getStage() : this.chessGame.getScreen().equals(this.chessGame.getSetupGameScreen()) ? this.chessGame.getSetupGameScreen().getStage() : this.chessGame.getScreen().equals(chessGame.getCreditsScreen()) ? chessGame.getCreditsScreen().getStage() : this.chessGame.getWelcomeScreen().getStage()));
+					.show((this.chessGame.getScreen().equals(this.chessGame.getAboutScreen()) ? this.chessGame.getAboutScreen().getStage() : this.chessGame.getScreen().equals(this.chessGame.getRecordsScreen()) ? this.chessGame.getRecordsScreen().getStage() : this.chessGame.getScreen().equals(this.chessGame.getSetupGameScreen()) ? this.chessGame.getSetupGameScreen().getStage() : this.chessGame.getScreen().equals(chessGame.getCreditsScreen()) ? chessGame.getCreditsScreen().getStage() : this.chessGame.getScreen().equals(chessGame.getSettingsScreen()) ? this.chessGame.getSettingsScreen().getStage() : this.chessGame.getWelcomeScreen().getStage()));
 			return;
 		}
 		throw new IllegalStateException("Should not reach here, the new screen needs to be implemented here");

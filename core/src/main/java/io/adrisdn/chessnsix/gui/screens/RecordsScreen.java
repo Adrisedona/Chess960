@@ -58,7 +58,7 @@ public class RecordsScreen implements Screen {
 		scrollPane.setScrollingDisabled(true, false);
 		scrollPane.setFillParent(true);
 		table.add(scrollPane).pad(GuiUtils.PAD).width(GuiUtils.WORLD_WIDTH - 200).height(GuiUtils.WORLD_HEIGHT).center();
-		table.add(backButton()).padLeft(-70).padTop(GuiUtils.PAD).top().row();
+		table.add(backButton()).width(GuiUtils.WIDTH).padLeft(-150).padTop(GuiUtils.PAD).top().row();
 		this.stage.addActor(table);
 	}
 

@@ -17,6 +17,7 @@ import io.adrisdn.chessnsix.gui.screens.Credits;
 import io.adrisdn.chessnsix.gui.screens.GameScreen;
 import io.adrisdn.chessnsix.gui.screens.LoadingScreen;
 import io.adrisdn.chessnsix.gui.screens.RecordsScreen;
+import io.adrisdn.chessnsix.gui.screens.Settings;
 import io.adrisdn.chessnsix.gui.screens.SetupGame;
 import io.adrisdn.chessnsix.gui.screens.WelcomeScreen;
 
@@ -29,6 +30,7 @@ public final class ChessGame extends Game {
 	private RecordsScreen recordsScreen;
 	private LoadingScreen loadingScreen;
 	private Credits creditsScreen;
+	private Settings settingsScreen;
 
 	private ConnectionDatabase connectionDatabase;
 
@@ -86,6 +88,10 @@ public final class ChessGame extends Game {
 
 	public Credits getCreditsScreen() {
 		return creditsScreen;
+	}
+
+	public Settings getSettingsScreen() {
+		return settingsScreen;
 	}
 
 	public ConnectionDatabase getConnectionDatabase() {

@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -32,9 +31,9 @@ public final class WelcomeScreen implements Screen {
 		final int WIDTH = 300;
 
 		table.add(LanguageManager.get("app_name")).padBottom(GuiUtils.PAD).row();
-		table.add(new Image(GuiUtils.LOGO)).padBottom(GuiUtils.PAD).row();
 		table.add(this.startGameButton(chessGame)).width(WIDTH).padBottom(GuiUtils.PAD).row();
 		table.add(this.recordsButton(chessGame)).width(WIDTH).padBottom(GuiUtils.PAD).row();
+		table.add(this.settingsButton(chessGame)).width(WIDTH).padBottom(GuiUtils.PAD).row();
 		table.add(this.aboutButton(chessGame)).width(WIDTH).padBottom(GuiUtils.PAD).row();
 		table.add(this.creditsButton(chessGame)).width(WIDTH).padBottom(GuiUtils.PAD).row();
 		table.add(this.exitGameButton()).width(WIDTH).padBottom(GuiUtils.PAD);
@@ -128,6 +127,18 @@ public final class WelcomeScreen implements Screen {
 				Gdx.input.setInputProcessor(chessGame.getLoadingScreen().getStage());
 				chessGame.getLoadingScreen().setGames();
 				chessGame.setScreen(chessGame.getLoadingScreen());
+			}
+		});
+		return textButton;
+	}
+
+	private TextButton settingsButton(final ChessGame chessGame) {
+		final TextButton textButton = new TextButton(LanguageManager.get("settings"), GuiUtils.UI_SKIN);
+		textButton.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				Gdx.input.setInputProcessor(chessGame.getSettingsScreen().getStage());
+				chessGame.setScreen(chessGame.getScreen());
 			}
 		});
 		return textButton;
