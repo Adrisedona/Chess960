@@ -249,10 +249,6 @@ public final class GameScreen implements Screen {
 	public void render(final float delta) {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		this.stage.act(delta);
-		if (this.getGameBoard().getArtificialIntelligenceWorking()) {
-			this.getGameBoard().getArtificialIntelligence().getProgressBar()
-					.setValue(this.getGameBoard().getArtificialIntelligence().getMoveCount());
-		}
 		if (!this.gameTimerPanel.isNoTimer() && this.gameTimerPanel.isTimerContinue()
 				&& !this.gameTimerPanel.isPauseTimerOption()) {
 			this.gameTimerPanel.update(this);

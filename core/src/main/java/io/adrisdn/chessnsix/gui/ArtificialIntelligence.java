@@ -3,33 +3,22 @@ package io.adrisdn.chessnsix.gui;
 import java.util.concurrent.Executors;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
-import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import io.adrisdn.chessnsix.chess.engine.board.Move;
 import io.adrisdn.chessnsix.chess.engine.player.artificialInteligence.MiniMax;
 import io.adrisdn.chessnsix.gui.board.GameProps;
 import io.adrisdn.chessnsix.gui.managers.GuiUtils;
-import io.adrisdn.chessnsix.gui.managers.LanguageManager;
 import io.adrisdn.chessnsix.gui.screens.GameScreen;
 
 public final class ArtificialIntelligence {
 
     private final SelectBox<Integer> level;
-    private final ProgressBar progressBar;
     private MiniMax miniMax;
 
     public ArtificialIntelligence() {
         this.level = new SelectBox<>(GuiUtils.UI_SKIN);
         this.level.setItems(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-        this.progressBar = new ProgressBar(0, 1, 1, false, GuiUtils.UI_SKIN);
-        this.progressBar.setColor(new Color(50 / 255f, 205 / 255f, 50 / 255f, 1));
         this.miniMax = new MiniMax(0);
     }
 
@@ -41,48 +30,15 @@ public final class ArtificialIntelligence {
         return this.level;
     }
 
-    public ProgressBar getProgressBar() {
-        return this.progressBar;
-    }
 
     public int getMoveCount() {
         return this.miniMax.getMoveCount();
     }
 
-    private Dialog showProgressBar(final GameScreen gameScreen) {
-        final Table table = new Table();
-        this.progressBar.setRange(0, gameScreen.getChessBoard().currentPlayer().getLegalMoves().size());
-        table.add(this.progressBar).width(400).padBottom(20).row();
-
-        final Dialog dialog = new Dialog(LanguageManager.get("ai_think"), GuiUtils.UI_SKIN);
-
-        final TextButton textButton = new TextButton(LanguageManager.get("remove_bar"), GuiUtils.UI_SKIN);
-        textButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(final InputEvent event, final float x, final float y) {
-                dialog.remove();
-            }
-        });
-
-        table.add(textButton);
-
-        dialog.add(table);
-        dialog.show(gameScreen.getStage());
-
-        return dialog;
-    }
 
     public void startAI(final GameScreen gameScreen) {
         if (this.level.getSelected() < 0 || this.level.getSelected() > 10) {
             throw new IllegalStateException("AI range from 1 to 10 ONLY");
-        }
-        final Dialog dialog;
-        if (gameScreen.getGameBoard().isAIPlayer(gameScreen.getChessBoard().currentPlayer()) &&
-                gameScreen.getGameBoard().isAIPlayer(gameScreen.getChessBoard().currentPlayer().getOpponent()) &&
-                this.level.getSelected() < 3) {
-            dialog = null;
-        } else {
-            dialog = this.showProgressBar(gameScreen);
         }
         Executors.newSingleThreadExecutor().execute(() -> {
             this.miniMax = new MiniMax(this.level.getSelected());
@@ -92,16 +48,12 @@ public final class ArtificialIntelligence {
             if (!bestMove.equals(Move.MoveFactory.getNullMove())) {
                 gameScreen.updateChessBoard(gameScreen.getChessBoard().currentPlayer().makeMove(bestMove).getLatestBoard());
             }
-            this.progressBar.setValue(this.miniMax.getMoveCount());
             if (!this.miniMax.getTerminateProcess()) {
                 Gdx.app.postRunnable(() -> {
                     gameScreen.getMoveHistory().getMoveLog().addMove(bestMove);
                     gameScreen.getMoveHistory().updateMoveHistory();
                     gameScreen.getGameBoard().drawBoard(gameScreen, gameScreen.getChessBoard(), gameScreen.getDisplayOnlyBoard());
                     gameScreen.getGameBoard().fireGameSetupPropertyChangeSupport();
-                    if (dialog != null) {
-                        dialog.remove();
-                    }
                 });
             }
             this.setStopAI(false);

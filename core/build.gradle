@@ -9,4 +9,5 @@ dependencies {
 
   }
 	implementation files('libs/gdx-sqlite.jar')
+	implementation('com.github.raeleus.TenPatch:tenpatch:5.2.3')
 }

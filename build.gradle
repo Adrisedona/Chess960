@@ -7,6 +7,7 @@ buildscript {
     google()
     maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
     maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
+		// maven { url 'https://jitpack.io' }
   }
   dependencies {
     classpath "com.android.tools.build:gradle:8.5.2"
@@ -80,6 +81,7 @@ project(":core") {
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
 				implementation group: 'org.xerial', name: 'sqlite-jdbc', version: '3.7.2'
 				implementation fileTree(dir: 'libs', include: '*.jar')
+				implementation 'com.github.raeleus.TenPatch:tenpatch:5.2.3'
     }
 }
 
