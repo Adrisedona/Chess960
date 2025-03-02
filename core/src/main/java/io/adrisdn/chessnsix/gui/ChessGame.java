@@ -46,6 +46,7 @@ public final class ChessGame extends Game {
 	private Sound castleSound;
 	private Sound promotionSound;
 	private Sound checkSound;
+	private Sound checkMateSound;
 
 	@Override
 	public void create() {
@@ -62,6 +63,12 @@ public final class ChessGame extends Game {
 		this.creditsScreen = new Credits(this);
 		this.welcomeScreen = new WelcomeScreen(this);
 		this.settingsScreen = new Settings(this);
+		this.captureSound = AudioManager.getSound(AudioManager.CAPTURE_SOUND);
+		this.castleSound = AudioManager.getSound(AudioManager.CASTLE_SOUND);
+		this.moveSound = AudioManager.getSound(AudioManager.MOVE_SOUND);
+		this.promotionSound = AudioManager.getSound(AudioManager.PROMOTION_SOUND);
+		this.checkSound = AudioManager.getSound(AudioManager.CHECK_SOUND);
+		this.checkMateSound = AudioManager.getSound(AudioManager.CHECKMATE_SOUND);
 		this.gameMusic = AudioManager.getMusic("game_music");
 		this.gameMusic.setLooping(true);
 		this.gameMusic.setVolume(AudioManager.getMusicVolume());
@@ -134,6 +141,10 @@ public final class ChessGame extends Game {
 
 	public Sound getCheckSound() {
 		return checkSound;
+	}
+
+	public Sound getCheckMateSound() {
+		return checkMateSound;
 	}
 
 	@Override

@@ -18,6 +18,14 @@ public class AudioManager {//TODO: cargar sonidos
 	private static final String SOUND_KEY = "sound_volume";
 	private static final String VIBRATION_KEY = "vibration";
 
+	public static final String MOVE_SOUND = "move";
+	public static final String PROMOTION_SOUND = "promotion";
+	public static final String CAPTURE_SOUND = "capture";
+	public static final String CASTLE_SOUND = "castle";
+	public static final String CHECK_SOUND = "check";
+	public static final String CHECKMATE_SOUND = "checkmate";
+
+
 	private static AssetManager manager = null;
 	private static HashMap<String, String> res = null;
 
@@ -61,10 +69,24 @@ public class AudioManager {//TODO: cargar sonidos
 		res.put("game_music", "audio/music/game_music.wav");
 		res.put("menu_music", "audio/music/menu_music.wav");
 
+		res.put(MOVE_SOUND, "audio/sounds/move.wav");
+		res.put(PROMOTION_SOUND, "audio/sounds/promotion.wav");
+		res.put(CAPTURE_SOUND, "audio/sounds/capture.wav");
+		res.put(CASTLE_SOUND, "audio/sounds/castle.wav");
+		res.put(CHECK_SOUND, "audio/sounds/check.wav");
+		res.put(CHECKMATE_SOUND, "audio/sounds/checkmate.wav");
+
 		musicVolume = PREFERENCES.getFloat("music_volume", 1.0f);
 
 		manager.load(res.get("game_music"), Music.class);
 		manager.load(res.get("menu_music"), Music.class);
+
+		manager.load(res.get(MOVE_SOUND), Sound.class);
+		manager.load(res.get(PROMOTION_SOUND), Sound.class);
+		manager.load(res.get(CAPTURE_SOUND), Sound.class);
+		manager.load(res.get(CASTLE_SOUND), Sound.class);
+		manager.load(res.get(CHECK_SOUND), Sound.class);
+		manager.load(res.get(CHECKMATE_SOUND), Sound.class);
 
 		manager.finishLoading();
 	}
