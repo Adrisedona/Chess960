@@ -61,7 +61,7 @@ public final class AndroidLauncher extends AndroidApplication {
 					}).setNegativeButton("no", null).show();
 			return;
 		}
-		throw new IllegalStateException("Should not reach here");
+		//throw new IllegalStateException("Should not reach here");
 	}
 
 

@@ -19,7 +19,7 @@ public final class GuiUtils {
     //dialog
     public static final boolean IS_SMARTPHONE = Gdx.app.getType() == Application.ApplicationType.Android || Gdx.app.getType() == Application.ApplicationType.iOS;
     public static final int PAD = 20;
-    public static final int WIDTH = IS_SMARTPHONE ? 150 : 300;
+    public static final int WIDTH = IS_SMARTPHONE ? 200 : 300;
     //private
     private static final TextureAtlas GAME_TEXTURE_ATLAS = new TextureAtlas(Gdx.files.internal("gameTextureAtlas.atlas"));
     // public static final TextureRegion BACKGROUND = GET_TILE_TEXTURE_REGION("welcome");

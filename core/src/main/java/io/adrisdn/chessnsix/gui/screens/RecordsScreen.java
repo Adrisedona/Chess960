@@ -56,7 +56,7 @@ public class RecordsScreen extends AbstractScreen {
 		scrollPane.setScrollingDisabled(true, false);
 		scrollPane.setFillParent(true);
 		table.add(scrollPane).pad(GuiUtils.PAD).width(GuiUtils.WORLD_WIDTH - 200).height(GuiUtils.WORLD_HEIGHT).center();
-		table.add(backButton()).width(GuiUtils.WIDTH).padLeft(-150).padTop(GuiUtils.PAD).top().row();
+		table.add(backButton()).width(300).padLeft(-250).padTop(GuiUtils.PAD).top().row();
 		this.stage.addActor(table);
 	}
 

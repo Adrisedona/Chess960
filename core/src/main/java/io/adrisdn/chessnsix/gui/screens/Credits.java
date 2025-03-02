@@ -24,9 +24,10 @@ public class Credits extends AbstractScreen {
         final Table table = new Table(GuiUtils.UI_SKIN);
         final Label label = new Label(LanguageManager.get("credits"), GuiUtils.UI_SKIN);
 		label.setWrap(true);
+		final int WIDTH = 300;
         table.add(LanguageManager.get("credits_title")).padBottom(20).row();
         table.add(label).padBottom(20).width(GuiUtils.WORLD_WIDTH - (2 * GuiUtils.PAD)).row();
-		table.add(this.backButton(chessGame));
+		table.add(this.backButton(chessGame)).width(WIDTH).padBottom(GuiUtils.PAD);
         table.setFillParent(true);
         this.stage.addActor(table);
     }

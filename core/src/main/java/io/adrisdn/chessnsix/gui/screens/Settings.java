@@ -82,7 +82,7 @@ public class Settings extends AbstractScreen {
 		});
 		table.add(lang).width(GuiUtils.WIDTH).pad(GuiUtils.PAD).align(Align.left).row();
 
-		table.add(this.backButton(chessGame)).width(GuiUtils.WIDTH).pad(GuiUtils.PAD).row();
+		table.add(this.backButton(chessGame)).width(300).pad(GuiUtils.PAD).row();
 
 		table.setFillParent(true);
 
