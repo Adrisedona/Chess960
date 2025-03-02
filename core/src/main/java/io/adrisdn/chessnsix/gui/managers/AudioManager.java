@@ -10,7 +10,7 @@ import com.badlogic.gdx.audio.Sound;
 
 import io.adrisdn.chessnsix.gui.ChessGame;
 
-public class AudioManager {//TODO: cargar sonidos
+public class AudioManager {
 
 	private static final Preferences PREFERENCES = Gdx.app.getPreferences("chess960prefs");
 
