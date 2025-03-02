@@ -4,6 +4,7 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -21,13 +22,14 @@ public final class GuiUtils {
     public static final int WIDTH = IS_SMARTPHONE ? 150 : 300;
     //private
     private static final TextureAtlas GAME_TEXTURE_ATLAS = new TextureAtlas(Gdx.files.internal("gameTextureAtlas.atlas"));
-    public static final TextureRegion BACKGROUND = GET_TILE_TEXTURE_REGION("welcome");//TODO: Cambiar fondo
-    public static final TextureRegion LOGO = GET_TILE_TEXTURE_REGION("chess_logo");//TODO: cambiar logo
+    // public static final TextureRegion BACKGROUND = GET_TILE_TEXTURE_REGION("welcome");
+    public static final Texture BACKGROUND = new Texture(Gdx.files.internal("wood_light_brown_shades_hd_wooden.jpg"));
+    public static final Texture LOGO = new Texture("chess_logo.png");
     public static final TextureRegion WHITE_TEXTURE_REGION = GAME_TEXTURE_ATLAS.findRegion("white");
     public static final TextureRegion TRANSPARENT_TEXTURE_REGION = GAME_TEXTURE_ATLAS.findRegion("transparent");
     //public
-    public static final int WORLD_WIDTH = 1200, WORLD_HEIGHT = 700;
-    public static final int GAME_BOARD_SR_SIZE = 600, TILE_SIZE = 75;
+    public static final int WORLD_WIDTH = 1200, WORLD_HEIGHT = 675;
+    public static final int GAME_BOARD_SR_SIZE = 630, TILE_SIZE = 75;
     public static final String MOVE_LOG_STATE = "MOVE_LOG_STATE";
     public static final Preferences MOVE_LOG_PREF = Gdx.app.getPreferences("MoveLogPreferences");
     public static final Skin UI_SKIN = new Skin(Gdx.files.internal("UISKIN2/uiskin2.json"));
@@ -63,6 +65,8 @@ public final class GuiUtils {
     }
 
     public static void dispose() {
+		BACKGROUND.dispose();
+		LOGO.dispose();
         GAME_TEXTURE_ATLAS.dispose();
         UI_SKIN.dispose();
     }

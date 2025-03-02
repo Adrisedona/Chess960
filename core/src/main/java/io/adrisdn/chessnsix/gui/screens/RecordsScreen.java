@@ -1,7 +1,6 @@
 package io.adrisdn.chessnsix.gui.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -18,12 +17,11 @@ import io.adrisdn.chessnsix.gui.ChessGame;
 import io.adrisdn.chessnsix.gui.managers.GuiUtils;
 import io.adrisdn.chessnsix.gui.managers.LanguageManager;
 
-public class RecordsScreen implements Screen {
+public class RecordsScreen extends AbstractScreen {
 
 	private final ChessGame chessGame;
 	private ImmutableList<Game> games;
 
-	private final Stage stage;
 	private Table table;
 	private Table tableGames;
 
@@ -36,7 +34,7 @@ public class RecordsScreen implements Screen {
 
 
 
-	public void initScreen() {//TODO: centrar la tabla
+	public void initScreen() {
 		stage.clear();
 		table = new Table(GuiUtils.UI_SKIN);
 		table.top().left();
@@ -67,7 +65,6 @@ public class RecordsScreen implements Screen {
 		button.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				Gdx.input.setInputProcessor(chessGame.getWelcomeScreen().getStage());
 				chessGame.setScreen(chessGame.getWelcomeScreen());
 			}
 		});
@@ -87,38 +84,6 @@ public class RecordsScreen implements Screen {
 		this.stage.draw();
 	}
 
-	@Override
-	public void resize(int width, int height) {
-		this.stage.getViewport().update(width, height, true);
-	}
-
-	@Override
-	public void pause() {
-
-	}
-
-	@Override
-	public void resume() {
-
-
-	}
-
-	@Override
-	public void hide() {
-
-	}
-
-	@Override
-	public void dispose() {
-		this.stage.dispose();
-		this.stage.getBatch().dispose();
-	}
-
-	@Override
-	public void show() {
-
-	}
-
 
 
 	public ChessGame getChessGame() {
@@ -130,7 +95,6 @@ public class RecordsScreen implements Screen {
 	public ImmutableList<Game> getGames() {
 		return games;
 	}
-
 
 
 	public void setGames(ImmutableList<Game> games) {

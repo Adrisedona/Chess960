@@ -1,7 +1,6 @@
 package io.adrisdn.chessnsix.gui.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -15,9 +14,8 @@ import io.adrisdn.chessnsix.gui.ChessGame;
 import io.adrisdn.chessnsix.gui.managers.GuiUtils;
 import io.adrisdn.chessnsix.gui.managers.LanguageManager;;
 
-public class LoadingScreen implements Screen {
+public class LoadingScreen extends AbstractScreen {
 
-	private final Stage stage;
 	private final ChessGame chessGame;
 	private AsyncResult<ImmutableList<Game>> games;
 
@@ -35,12 +33,6 @@ public class LoadingScreen implements Screen {
 	}
 
 
-
-	@Override
-	public void show() {
-
-	}
-
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -51,7 +43,6 @@ public class LoadingScreen implements Screen {
 		if (games.isDone()) {
 			chessGame.getRecordsScreen().setGames(games.get());
 			chessGame.getRecordsScreen().initScreen();
-			Gdx.input.setInputProcessor(chessGame.getRecordsScreen().getStage());
 			chessGame.setScreen(chessGame.getRecordsScreen());
 		}
 
@@ -59,31 +50,6 @@ public class LoadingScreen implements Screen {
 		this.stage.draw();
 	}
 
-	@Override
-	public void resize(int width, int height) {
-		this.stage.getViewport().update(width, height, true);
-	}
-
-	@Override
-	public void pause() {
-
-	}
-
-	@Override
-	public void resume() {
-
-	}
-
-	@Override
-	public void hide() {
-
-	}
-
-	@Override
-	public void dispose() {
-		this.stage.dispose();
-		this.stage.getBatch().dispose();
-	}
 
 
 

@@ -1,7 +1,6 @@
 package io.adrisdn.chessnsix.gui.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -30,9 +29,8 @@ import io.adrisdn.chessnsix.gui.managers.LanguageManager;
 import io.adrisdn.chessnsix.gui.moveHistory.MoveHistory;
 import io.adrisdn.chessnsix.gui.timer.TimerPanel;
 
-public final class GameScreen implements Screen {
+public final class GameScreen extends AbstractScreen {
 
-	private final Stage stage;
 	private Board chessBoard;
 
 	private final io.adrisdn.chessnsix.gui.board.GameBoard gameBoard;
@@ -140,10 +138,10 @@ public final class GameScreen implements Screen {
 	private Table initGameMenu() {
 		final Table table = new Table();
 		final int BUTTON_WIDTH = 250;
-		table.add(this.newGameButton()).width(BUTTON_WIDTH);
-		table.add(new FlipBoardButton(this)).width(BUTTON_WIDTH);
-		table.add(new GameOption(this)).width(BUTTON_WIDTH);
-		table.add(this.exitGameButton()).width(BUTTON_WIDTH);
+		table.add(this.newGameButton()).width(BUTTON_WIDTH + 10);
+		table.add(new FlipBoardButton(this)).width(BUTTON_WIDTH + 10);
+		table.add(new GameOption(this)).width(BUTTON_WIDTH + 10);
+		table.add(this.exitGameButton()).width(BUTTON_WIDTH + 10);
 		return table;
 	}
 
@@ -170,7 +168,6 @@ public final class GameScreen implements Screen {
 				if ((boolean)object) {
 					chessGame.getGameMusic().stop();
 					chessGame.getMenuMusic().play();
-					Gdx.input.setInputProcessor(chessGame.getSetupGameScreen().getStage());
 					chessGame.setScreen(chessGame.getSetupGameScreen());
 				} else {
 					GameScreen.this.getGameTimerPanel().continueTimer(true);
@@ -205,7 +202,6 @@ public final class GameScreen implements Screen {
 				if ((boolean)object) {
 					chessGame.getGameMusic().stop();
 					chessGame.getMenuMusic().play();
-					Gdx.input.setInputProcessor(chessGame.getWelcomeScreen().getStage());
 					chessGame.setScreen(chessGame.getWelcomeScreen());
 				} else {
 					GameScreen.this.getGameTimerPanel().continueTimer(true);
@@ -241,11 +237,6 @@ public final class GameScreen implements Screen {
     }
 
 	@Override
-	public void resize(final int width, final int height) {
-		this.stage.getViewport().update(width, height, true);
-	}
-
-	@Override
 	public void render(final float delta) {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		this.stage.act(delta);
@@ -267,22 +258,6 @@ public final class GameScreen implements Screen {
 	public void dispose() {
 		this.stage.dispose();
 		this.stage.getBatch().dispose();
-		GuiUtils.dispose();
 	}
 
-	@Deprecated
-	public void show() {
-	}
-
-	@Deprecated
-	public void pause() {
-	}
-
-	@Deprecated
-	public void resume() {
-	}
-
-	@Deprecated
-	public void hide() {
-	}
 }

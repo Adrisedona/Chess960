@@ -148,6 +148,9 @@ public final class TimerPanel extends Table {
         }
 
         private void updateTimer(final Player player) {
+			if (player.isNoTimer()) {
+				return;
+			}
             player.countDown();
             this.timerLabel.setText(this.getTimeFormat(player.getMinute(), player.getSecond(), player.getMillisecond()));
         }

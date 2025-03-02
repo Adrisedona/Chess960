@@ -1,7 +1,6 @@
 package io.adrisdn.chessnsix.gui.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -26,9 +25,7 @@ import io.adrisdn.chessnsix.gui.gameMenu.AIButton;
 import io.adrisdn.chessnsix.gui.managers.GuiUtils;
 import io.adrisdn.chessnsix.gui.managers.LanguageManager;
 
-public class SetupGame implements Screen {
-
-	private final Stage stage;
+public class SetupGame extends AbstractScreen {
 
 	private Table table;
 
@@ -77,32 +74,6 @@ public class SetupGame implements Screen {
 		this.stage.draw();
 	}
 
-	@Override
-	public void resize(int width, int height) {
-		this.stage.getViewport().update(width, height, true);
-	}
-
-	@Override
-	public void pause() {
-
-	}
-
-	@Override
-	public void resume() {
-
-	}
-
-	@Override
-	public void hide() {
-
-	}
-
-	@Override
-	public void dispose() {
-		this.stage.dispose();
-		this.stage.getBatch().dispose();
-	}
-
 	public Stage getStage() {
 		return stage;
 	}
@@ -136,7 +107,6 @@ public class SetupGame implements Screen {
 		button.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				Gdx.input.setInputProcessor(chessGame.getWelcomeScreen().getStage());
 				chessGame.setScreen(chessGame.getWelcomeScreen());
 			}
 		});
@@ -317,7 +287,6 @@ public class SetupGame implements Screen {
 				gameScreen.getChessBoard().blackPlayer());
 		gameScreen.getGameTimerPanel().continueTimer(true);
 		gameScreen.getGameBoard().fireGameSetupPropertyChangeSupport();
-		Gdx.input.setInputProcessor(gameScreen.getStage());
 		chessGame.getMenuMusic().stop();
 		chessGame.getGameMusic().play();
 		chessGame.setScreen(gameScreen);

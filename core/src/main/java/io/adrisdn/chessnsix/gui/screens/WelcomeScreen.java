@@ -1,7 +1,6 @@
 package io.adrisdn.chessnsix.gui.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -16,14 +15,11 @@ import io.adrisdn.chessnsix.gui.ChessGame;
 import io.adrisdn.chessnsix.gui.managers.GuiUtils;
 import io.adrisdn.chessnsix.gui.managers.LanguageManager;
 
-public final class WelcomeScreen implements Screen {
-
-	private final Stage stage;
+public final class WelcomeScreen extends AbstractScreen {
 
 	public WelcomeScreen(final ChessGame chessGame) {
 		this.stage = new Stage(new FitViewport(GuiUtils.WORLD_WIDTH, GuiUtils.WORLD_HEIGHT), new SpriteBatch());
 
-		Gdx.input.setInputProcessor(this.stage);
 		Gdx.graphics.setTitle(LanguageManager.get("app_name"));
 
 		final Table table = new Table(GuiUtils.UI_SKIN);
@@ -56,7 +52,6 @@ public final class WelcomeScreen implements Screen {
 				// 		GameScreen.BOARD_STATE.NEW_GAME.getBoard(chessGame.getGameScreen(),
 				// 				BoardUtils.DEFAULT_TIMER_MINUTE, BoardUtils.DEFAULT_TIMER_SECOND,
 				// 				BoardUtils.DEFAULT_TIMER_MILLISECOND));
-				Gdx.input.setInputProcessor(chessGame.getSetupGameScreen().getStage());
 				chessGame.setScreen(chessGame.getSetupGameScreen());
 			}
 		});
@@ -80,7 +75,6 @@ public final class WelcomeScreen implements Screen {
 		textButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(final InputEvent event, final float x, final float y) {
-				Gdx.input.setInputProcessor(chessGame.getAboutScreen().getStage());
 				chessGame.setScreen(chessGame.getAboutScreen());
 			}
 		});
@@ -92,7 +86,6 @@ public final class WelcomeScreen implements Screen {
 		textButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(final InputEvent event, final float x, final float y) {
-				Gdx.input.setInputProcessor(chessGame.getCreditsScreen().getStage());
 				chessGame.setScreen(chessGame.getCreditsScreen());
 			}
 		});
@@ -124,7 +117,6 @@ public final class WelcomeScreen implements Screen {
 		textButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				Gdx.input.setInputProcessor(chessGame.getLoadingScreen().getStage());
 				chessGame.getLoadingScreen().setGames();
 				chessGame.setScreen(chessGame.getLoadingScreen());
 			}
@@ -137,8 +129,7 @@ public final class WelcomeScreen implements Screen {
 		textButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				Gdx.input.setInputProcessor(chessGame.getSettingsScreen().getStage());
-				chessGame.setScreen(chessGame.getScreen());
+				chessGame.setScreen(chessGame.getSettingsScreen());
 			}
 		});
 		return textButton;
@@ -156,30 +147,9 @@ public final class WelcomeScreen implements Screen {
 	}
 
 	@Override
-	public void resize(final int width, final int height) {
-		this.stage.getViewport().update(width, height, true);
-	}
-
-	@Override
 	public void dispose() {
 		this.stage.dispose();
 		this.stage.getBatch().dispose();
-	}
-
-	@Deprecated
-	public void show() {
-	}
-
-	@Deprecated
-	public void pause() {
-	}
-
-	@Deprecated
-	public void resume() {
-	}
-
-	@Deprecated
-	public void hide() {
 	}
 
 }

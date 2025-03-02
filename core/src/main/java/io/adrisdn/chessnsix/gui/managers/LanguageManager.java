@@ -15,6 +15,11 @@ public class LanguageManager {
 
 	private static String currentLang = "es";
 
+	public static String getCurrentLang() {
+		return currentLang;
+	}
+
+
 	private LanguageManager() {
 		throw new IllegalStateException("Cannot instantiate LanguageManager");
 	}

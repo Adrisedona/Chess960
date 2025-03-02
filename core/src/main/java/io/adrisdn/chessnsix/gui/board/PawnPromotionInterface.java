@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import io.adrisdn.chessnsix.chess.engine.board.Board;
 import io.adrisdn.chessnsix.chess.engine.board.Move;
 import io.adrisdn.chessnsix.chess.engine.pieces.Piece;
+import io.adrisdn.chessnsix.gui.managers.AudioManager;
 import io.adrisdn.chessnsix.gui.managers.GuiUtils;
 import io.adrisdn.chessnsix.gui.managers.LanguageManager;
 import io.adrisdn.chessnsix.gui.screens.GameScreen;
@@ -18,6 +19,7 @@ import io.adrisdn.chessnsix.gui.screens.GameScreen;
 import java.util.List;
 
 public final class PawnPromotionInterface {
+
 
     public void startLibGDXPromotion(final GameScreen gameScreen, final Move.PawnPromotion pawnPromotion) {
         gameScreen.updateChessBoard(this.promoteLibGDXPawn(gameScreen.getChessBoard(), pawnPromotion));
@@ -58,6 +60,7 @@ public final class PawnPromotionInterface {
                 public void clicked(final InputEvent event, final float x, final float y) {
                     pawnPromotion.setPromotedPiece(getPromotionPieces.get(finalI));
                     promoteDialog.remove();
+					gameScreen.getChessGame().getPromotionSound().play(AudioManager.getSoundVolume());
                     gameScreen.updateChessBoard(promoteLibGDXPawn(gameScreen.getChessBoard(), pawnPromotion));
                     gameScreen.getGameBoard().drawBoard(gameScreen, gameScreen.getChessBoard(), gameScreen.getDisplayOnlyBoard());
                     gameScreen.getMoveHistory().getMoveLog().addMove(pawnPromotion);

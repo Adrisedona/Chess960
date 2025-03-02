@@ -1,12 +1,10 @@
 package io.adrisdn.chessnsix.gui.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -17,18 +15,14 @@ import io.adrisdn.chessnsix.gui.ChessGame;
 import io.adrisdn.chessnsix.gui.managers.GuiUtils;
 import io.adrisdn.chessnsix.gui.managers.LanguageManager;
 
-public final class About implements Screen {
-
-    private final Stage stage;
+public final class About extends AbstractScreen {
 
     public About(final ChessGame chessGame) {
         this.stage = new Stage(new FitViewport(GuiUtils.WORLD_WIDTH, GuiUtils.WORLD_HEIGHT), new SpriteBatch());
-        Gdx.input.setInputProcessor(this.stage);
         final Table table = new Table(GuiUtils.UI_SKIN);
 		final Label label = new Label(LanguageManager.get("tutorial"), GuiUtils.UI_SKIN);
 		label.setWrap(true);
         table.add(LanguageManager.get("tutorial_title")).padBottom(20).row();
-        table.add(new Image(GuiUtils.LOGO)).padBottom(20).row();
         table.add(label).padBottom(20).width(GuiUtils.WORLD_WIDTH - (2 * GuiUtils.PAD)).row();
         table.add(this.backButton(chessGame)).padBottom(20);
         table.setFillParent(true);
@@ -44,7 +38,6 @@ public final class About implements Screen {
         textButton.addListener(new ClickListener() {
             @Override
             public void clicked(final InputEvent event, final float x, final float y) {
-                Gdx.input.setInputProcessor(chessGame.getWelcomeScreen().getStage());
                 chessGame.setScreen(chessGame.getWelcomeScreen());
             }
         });
@@ -66,33 +59,6 @@ public final class About implements Screen {
         this.stage.getBatch().draw(GuiUtils.BACKGROUND, 0, 0);
         this.stage.getBatch().end();
         this.stage.draw();
-    }
-
-    @Override
-    public void resize(final int width, final int height) {
-        this.stage.getViewport().update(width, height, true);
-    }
-
-    @Override
-    public void dispose() {
-        this.stage.dispose();
-        this.stage.getBatch().dispose();
-    }
-
-    @Deprecated
-    public void show() {
-    }
-
-    @Deprecated
-    public void pause() {
-    }
-
-    @Deprecated
-    public void resume() {
-    }
-
-    @Deprecated
-    public void hide() {
     }
 
 }

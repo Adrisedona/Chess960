@@ -15,7 +15,9 @@ import io.adrisdn.chessnsix.chess.engine.board.BoardUtils;
 import io.adrisdn.chessnsix.chess.engine.board.Move;
 import io.adrisdn.chessnsix.chess.engine.board.MoveTransition;
 import io.adrisdn.chessnsix.chess.engine.pieces.Piece;
+import io.adrisdn.chessnsix.chess.engine.player.Player;
 import io.adrisdn.chessnsix.gui.board.MoveDisambiguationInterface.DialogResultListener;
+import io.adrisdn.chessnsix.gui.managers.AudioManager;
 import io.adrisdn.chessnsix.gui.managers.GuiUtils;
 import io.adrisdn.chessnsix.gui.screens.GameScreen;
 
@@ -72,6 +74,7 @@ public final class TileActor extends Image {
             }
 
 			private void processMove(final GameScreen gameScreen, final int tileID, final Move move) {
+				Player opponent = gameScreen.getChessBoard().currentPlayer().getOpponent();
 				final MoveTransition transition = gameScreen.getChessBoard().currentPlayer().makeMove(move);
 				if (transition.getMoveStatus().isDone()) {
 				    gameScreen.getGameBoard().updateHumanPiece(null);
@@ -91,11 +94,22 @@ public final class TileActor extends Image {
 				            gameScreen.getGameBoard().displayEndGameMessage(gameScreen.getChessBoard(), gameScreen.getStage());
 				        }
 				    }
-					//TODO: play sound here
+					if (move.isCastlingMove()) {
+						gameScreen.getChessGame().getCastleSound().play(AudioManager.getSoundVolume());
+					} else if (move.isAttack()) {
+						gameScreen.getChessGame().getCaptureSound().play(AudioManager.getSoundVolume());
+					} else {
+						gameScreen.getChessGame().getMoveSound().play(AudioManager.getSoundVolume());
+					}
+					if (opponent.isInCheck()) {
+						gameScreen.getChessGame().getCheckSound().play(AudioManager.getSoundVolume());
+					}
+
+
 				} else {
 				    gameScreen.getGameBoard().updateHumanPiece(getPiece(gameScreen.getChessBoard(), gameScreen.getGameBoard().getHumanPiece(), tileID));
 				    gameScreen.getGameBoard().drawBoard(gameScreen, gameScreen.getChessBoard(), gameScreen.getDisplayOnlyBoard());
-					if (GuiUtils.IS_SMARTPHONE) {
+					if (GuiUtils.IS_SMARTPHONE && AudioManager.isVibration()) {
 						Gdx.input.vibrate(500);
 					}
 				    if (getPiece(gameScreen.getChessBoard(), gameScreen.getGameBoard().getHumanPiece(), tileID) != null && gameScreen.getGameBoard().isHighlightMove()) {
