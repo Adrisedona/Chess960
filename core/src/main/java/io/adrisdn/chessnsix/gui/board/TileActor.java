@@ -31,7 +31,7 @@ public final class TileActor extends Image {
 				try {
 					super.clicked(event, x, y);
 					if (gameScreen.getGameBoard().isGameEnd()
-							|| gameScreen.getGameBoard().getArtificialIntelligenceWorking()) {
+							|| gameScreen.getGameBoard().isArtificialIntelligenceWorking()) {
 						return;
 					}
 

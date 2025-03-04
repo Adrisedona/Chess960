@@ -46,11 +46,11 @@ public class SetupGame extends AbstractScreen {
 		this.table = new Table(GuiUtils.UI_SKIN);
 		this.minutes = BoardUtils.DEFAULT_TIMER_MINUTE;
 
-		this.table.add(this.timerButton()).pad(GuiUtils.PAD).width(GuiUtils.WIDTH);
-		this.table.add(this.aiButton).pad(GuiUtils.PAD).width(GuiUtils.WIDTH).row();
-		this.table.add(this.boardColorButton).pad(GuiUtils.PAD).width(GuiUtils.WIDTH);
-		this.table.add(this.startGameButton()).pad(GuiUtils.PAD).width(GuiUtils.WIDTH).row();
-		this.table.add(this.backButton()).width(GuiUtils.WIDTH * 2 + GuiUtils.PAD * 2).pad(GuiUtils.PAD).colspan(2);
+		this.table.add(this.timerButton()).pad(GuiUtils.PAD).width(GuiUtils.WIDTH + 50);
+		this.table.add(this.aiButton).pad(GuiUtils.PAD).width(GuiUtils.WIDTH  + 50).row();
+		this.table.add(this.boardColorButton).pad(GuiUtils.PAD).width(GuiUtils.WIDTH + 50);
+		this.table.add(this.startGameButton()).pad(GuiUtils.PAD).width(GuiUtils.WIDTH + 50).row();
+		this.table.add(this.backButton()).width(GuiUtils.WIDTH * 2 + GuiUtils.PAD * 2 + 100).pad(GuiUtils.PAD).colspan(2);
 
 		this.table.setWidth(GuiUtils.WORLD_WIDTH);
 		this.table.setPosition(0, GuiUtils.WORLD_HEIGHT / 2);
@@ -273,8 +273,6 @@ public class SetupGame extends AbstractScreen {
     }
 
 	private void startGame() {
-		// gameScreen.updateChessBoard(Board.createStandardBoard(minute, BoardUtils.DEFAULT_TIMER_SECOND,
-		// 		BoardUtils.DEFAULT_TIMER_MILLISECOND));
 		gameScreen.updateChessBoard(GameScreen.BOARD_STATE.NEW_CHESS960_GAME.getBoard(gameScreen, minutes, BoardUtils.DEFAULT_TIMER_SECOND, BoardUtils.DEFAULT_TIMER_MILLISECOND));
 		gameScreen.getMoveHistory().getMoveLog().clear();
 		gameScreen.getGameBoard().updateHumanPiece(null);

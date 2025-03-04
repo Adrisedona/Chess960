@@ -12,14 +12,23 @@ import io.adrisdn.chessnsix.gui.managers.GuiUtils;
 import io.adrisdn.chessnsix.gui.managers.LanguageManager;
 import io.adrisdn.chessnsix.gui.screens.GameScreen;
 
+/**
+ * Handles the timers of both players
+ */
 public final class TimerPanel extends Table {
 
-    public static final int SIZE = GuiUtils.GAME_BOARD_SR_SIZE / 2;
+	/**
+	 * Size of the TimerPanel
+	 */
+    public static final int SIZE = GuiUtils.GAME_BOARD_SR_SIZE / 2 - 15;
 
     private final PlayerTimerTable whitePlayerTimerTable, blackPlayerTimerTable;
     private boolean continueTimer, pauseTimerOption, noTimer;
     private TIMER_PANEL_DIRECTION timer_panel_direction;
 
+	/**
+	 * The possible values for the orientation of the TimerPanel
+	 */
     private enum TIMER_PANEL_DIRECTION {
         FLIPPED {
             @Override
@@ -48,10 +57,23 @@ public final class TimerPanel extends Table {
             }
         };
 
+		/**
+		 * Flips the timerPanel vertically
+		 * @param timerPanel component to flip
+		 */
         abstract void flip(final TimerPanel timerPanel);
 
+		/**
+		 * Obtains the opposite value of the current orientation
+		 * @return the opposite value of the current orientation
+		 */
         abstract TIMER_PANEL_DIRECTION getOpposite();
 
+		/**
+		 * Updates the TimerPanel in a GameScreen
+		 * @param timerPanel the component to update
+		 * @param gameScreen the screen where the timerPanel belongs
+		 */
         private void update(final TimerPanel timerPanel, final GameScreen gameScreen) {
             if (gameScreen.getGameBoard().isGameEnd()) {
                 return;
@@ -65,6 +87,9 @@ public final class TimerPanel extends Table {
         }
     }
 
+	/**
+	 * Initializes the properties of the TimerPanel
+	 */
     public TimerPanel() {
         this.setVisible(true);
         this.whitePlayerTimerTable = new PlayerTimerTable(Color.WHITE, Color.BLACK, LanguageManager.get("white_player"));
@@ -132,19 +157,7 @@ public final class TimerPanel extends Table {
         }
 
         private String getTimeFormat(final int minute, final int second, final int millisecond) {
-            if (millisecond / 10 == 0) {
-                if (second / 10 == 0) {
-                    return minute + " : 0" + second + " : 0" + millisecond;
-                } else {
-                    return minute + " : " + second + " : 0" + millisecond;
-                }
-            } else {
-                if (second / 10 == 0) {
-                    return minute + " : 0" + second + " : " + millisecond;
-                } else {
-                    return minute + " : " + second + " : " + millisecond;
-                }
-            }
+			return String.format("%02d : %02d : %02d", minute, second, millisecond);
         }
 
         private void updateTimer(final Player player) {

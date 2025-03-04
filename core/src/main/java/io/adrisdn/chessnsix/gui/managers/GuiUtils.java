@@ -28,7 +28,7 @@ public final class GuiUtils {
     public static final TextureRegion WHITE_TEXTURE_REGION = GAME_TEXTURE_ATLAS.findRegion("white");
     public static final TextureRegion TRANSPARENT_TEXTURE_REGION = GAME_TEXTURE_ATLAS.findRegion("transparent");
     //public
-    public static final int WORLD_WIDTH = 1200, WORLD_HEIGHT = 675;
+    public static final int WORLD_WIDTH = 1250, WORLD_HEIGHT = 675;
     public static final int GAME_BOARD_SR_SIZE = 630, TILE_SIZE = 75;
     public static final String MOVE_LOG_STATE = "MOVE_LOG_STATE";
     public static final Preferences MOVE_LOG_PREF = Gdx.app.getPreferences("MoveLogPreferences");

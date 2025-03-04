@@ -25,6 +25,8 @@ public class AudioManager {
 	public static final String CHECK_SOUND = "check";
 	public static final String CHECKMATE_SOUND = "checkmate";
 
+	public static final String GAME_MUSIC_KEY = "game_music";
+	public static final String MENU_MUSIC_KEY = "menu_music";
 
 	private static AssetManager manager = null;
 	private static HashMap<String, String> res = null;
@@ -66,8 +68,8 @@ public class AudioManager {
 		}
 		manager = new AssetManager();
 		res = new HashMap<>();
-		res.put("game_music", "audio/music/game_music.wav");
-		res.put("menu_music", "audio/music/menu_music.wav");
+		res.put(GAME_MUSIC_KEY, "audio/music/game_music.wav");
+		res.put(MENU_MUSIC_KEY, "audio/music/menu_music.wav");
 
 		res.put(MOVE_SOUND, "audio/sounds/move.wav");
 		res.put(PROMOTION_SOUND, "audio/sounds/promotion.wav");
@@ -78,8 +80,8 @@ public class AudioManager {
 
 		musicVolume = PREFERENCES.getFloat("music_volume", 1.0f);
 
-		manager.load(res.get("game_music"), Music.class);
-		manager.load(res.get("menu_music"), Music.class);
+		manager.load(res.get(GAME_MUSIC_KEY), Music.class);
+		manager.load(res.get(MENU_MUSIC_KEY), Music.class);
 
 		manager.load(res.get(MOVE_SOUND), Sound.class);
 		manager.load(res.get(PROMOTION_SOUND), Sound.class);

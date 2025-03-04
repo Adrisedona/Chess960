@@ -59,7 +59,7 @@ public final class GameBoard extends Table {
 			if (isAIPlayer(gameScreen.getChessBoard().currentPlayer())
 					&& !gameScreen.getChessBoard().currentPlayer().isInCheckmate()
 					&& !gameScreen.getChessBoard().currentPlayer().isInStalemate()) {
-				if (!getArtificialIntelligenceWorking()) {
+				if (!isArtificialIntelligenceWorking()) {
 					updateArtificialIntelligenceWorking(GameProps.ArtificialIntelligenceWorking.WORKING);
 					this.artificialIntelligence.startAI(gameScreen);
 				}
@@ -145,7 +145,7 @@ public final class GameBoard extends Table {
 		this.gameSetupPropertyChangeSupport.firePropertyChange(null, null, null);
 	}
 
-	public boolean getArtificialIntelligenceWorking() {
+	public boolean isArtificialIntelligenceWorking() {
 		return this.artificialIntelligenceWorking.isArtificialIntelligenceWorking();
 	}
 

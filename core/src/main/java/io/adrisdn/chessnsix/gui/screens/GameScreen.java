@@ -111,8 +111,6 @@ public final class GameScreen extends AbstractScreen {
 		this.displayOnlyBoard = new GameBoard.DisplayOnlyBoard();
 		this.gameTimerPanel = new TimerPanel();
 
-		Gdx.graphics.setTitle(LanguageManager.get("app_name"));
-
 		final VerticalGroup verticalGroup = new VerticalGroup();
 
 		final HorizontalGroup horizontalGroup = new HorizontalGroup();
@@ -164,10 +162,13 @@ public final class GameScreen extends AbstractScreen {
 		Dialog dialog = new Dialog(LanguageManager.get("new_game_title"), GuiUtils.UI_SKIN) {
 			@Override
 			protected void result(Object object) {
-				this.remove();
 				if ((boolean)object) {
 					chessGame.getGameMusic().stop();
 					chessGame.getMenuMusic().play();
+					this.remove();
+					if (gameBoard.isArtificialIntelligenceWorking()) {
+						gameBoard.getArtificialIntelligence().setStopAI(true);
+					}
 					chessGame.setScreen(chessGame.getSetupGameScreen());
 				} else {
 					GameScreen.this.getGameTimerPanel().continueTimer(true);
@@ -202,6 +203,10 @@ public final class GameScreen extends AbstractScreen {
 				if ((boolean)object) {
 					chessGame.getGameMusic().stop();
 					chessGame.getMenuMusic().play();
+					this.remove();
+					if (gameBoard.isArtificialIntelligenceWorking()) {
+						gameBoard.getArtificialIntelligence().setStopAI(true);
+					}
 					chessGame.setScreen(chessGame.getWelcomeScreen());
 				} else {
 					GameScreen.this.getGameTimerPanel().continueTimer(true);

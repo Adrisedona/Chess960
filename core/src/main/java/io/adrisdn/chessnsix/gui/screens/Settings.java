@@ -77,7 +77,7 @@ public class Settings extends AbstractScreen {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
 				LanguageManager.setLanguage(lang.getSelected().getCode());
-				chessGame.reload(Settings.this);
+				chessGame.reload();
 			}
 		});
 		table.add(lang).width(GuiUtils.WIDTH).pad(GuiUtils.PAD).align(Align.left).row();

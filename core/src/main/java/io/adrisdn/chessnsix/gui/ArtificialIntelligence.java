@@ -11,34 +11,45 @@ import io.adrisdn.chessnsix.gui.board.GameProps;
 import io.adrisdn.chessnsix.gui.managers.GuiUtils;
 import io.adrisdn.chessnsix.gui.screens.GameScreen;
 
+/**
+ * Handles the AI and its level
+ */
 public final class ArtificialIntelligence {
 
     private final SelectBox<Integer> level;
     private MiniMax miniMax;
 
+	//Initializes the level selector and the AI
     public ArtificialIntelligence() {
         this.level = new SelectBox<>(GuiUtils.UI_SKIN);
-        this.level.setItems(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        this.level.setItems(1, 2, 3, 4, 5);
         this.miniMax = new MiniMax(0);
     }
 
+	/**
+	 * Starts or stops the AI
+	 * @param stopAI true to stop, false to start
+	 */
     public void setStopAI(final boolean stopAI) {
         this.miniMax.setTerminateProcess(stopAI);
     }
 
+	/**
+	 * Obtains the AI level selector
+	 * @return the AI level selector
+	 */
     public SelectBox<Integer> getLevelSelector() {
         return this.level;
     }
 
 
-    public int getMoveCount() {
-        return this.miniMax.getMoveCount();
-    }
-
-
+	/**
+	 * Starts the AI to play in the game screen
+	 * @param gameScreen game screen where the game is played
+	 */
     public void startAI(final GameScreen gameScreen) {
-        if (this.level.getSelected() < 0 || this.level.getSelected() > 10) {
-            throw new IllegalStateException("AI range from 1 to 10 ONLY");
+        if (this.level.getSelected() < 0 || this.level.getSelected() > 5) {
+            throw new IllegalStateException("AI range from 1 to 5 ONLY");
         }
         Executors.newSingleThreadExecutor().execute(() -> {
             this.miniMax = new MiniMax(this.level.getSelected());
