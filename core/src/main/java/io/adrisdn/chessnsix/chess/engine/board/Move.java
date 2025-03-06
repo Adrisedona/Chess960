@@ -38,8 +38,10 @@ public abstract class Move {
 	/**
 	 * Initializes a move with a given board and destination coordinate.
 	 *
-	 * @param board
-	 * @param destinationCoordinate
+	 * @param board                 The current state of the chessboard on which the
+	 *                              move is being made.
+	 * @param destinationCoordinate The destination coordinate (in the form of an
+	 *                              index) where the piece is moving to.
 	 */
 	private Move(final Board board, final int destinationCoordinate) {
 		this(board, null, destinationCoordinate);
@@ -304,8 +306,21 @@ public abstract class Move {
 		}
 	}
 
+	/**
+	 * Represents pawn moves
+	 */
 	public static final class PawnMove extends Move {
 
+		/**
+		 * Initializes a pawn move with the given board, the piece being moved and the
+		 * destination coordinate
+		 *
+		 * @param board                 The current state of the chessboard on which the
+		 *                              move is being made.
+		 * @param movePiece             The piece being moved in this move
+		 * @param destinationCoordinate The destination coordinate (in the form of an
+		 *                              index) where the piece is moving to.
+		 */
 		public PawnMove(final Board board, final Piece movePiece, final int destinationCoordinate) {
 			super(board, movePiece, destinationCoordinate);
 		}
@@ -321,6 +336,18 @@ public abstract class Move {
 		}
 	}
 
+	/**
+	 * Initializes a pawn attack move with the given board, the piece being moved,
+	 * the
+	 * destination coordinate, and the attacked piece.
+	 *
+	 * @param board                 The current state of the chessboard on which the
+	 *                              move is being made.
+	 * @param movePiece             The piece being moved in this move
+	 * @param destinationCoordinate The destination coordinate (in the form of an
+	 *                              index) where the piece is moving to.
+	 * @param attackedPiece         piece to be taken in the capture.
+	 */
 	public static class PawnAttackMove extends AttackMove {
 
 		public PawnAttackMove(final Board board, final Piece movePiece, final int destinationCoordinate,
@@ -340,8 +367,22 @@ public abstract class Move {
 		}
 	}
 
+	/**
+	 * Represents an en passant capture
+	 */
 	public static final class PawnEnPassantAttackMove extends PawnAttackMove {
 
+		/**
+		 * Initializes an en passant capture move with the given board, the piece being
+		 * moved, the destination coordinate, and the attacked piece.
+		 *
+		 * @param board                 The current state of the chessboard on which the
+		 *                              move is being made.
+		 * @param movePiece             The piece being moved in this move
+		 * @param destinationCoordinate The destination coordinate (in the form of an
+		 *                              index) where the piece is moving to.
+		 * @param attackedPiece         piece to be taken in the capture.
+		 */
 		public PawnEnPassantAttackMove(final Board board, final Piece movePiece, final int destinationCoordinate,
 				final Piece attackedPiece) {
 			super(board, movePiece, destinationCoordinate, attackedPiece);
@@ -385,6 +426,9 @@ public abstract class Move {
 		}
 	}
 
+	/**
+	 * Represents a promotion of a pawn
+	 */
 	public static final class PawnPromotion extends Move {
 
 		private final Move decoratedMove;
@@ -392,25 +436,53 @@ public abstract class Move {
 		private Piece promotedPiece;
 		private final Piece minimaxPromotionPiece;
 
-		public PawnPromotion(final Move decoratedMove, final Piece MinimaxPromotionPiece) {
+		/**
+		 * Initializes a pawn promotion move
+		 *
+		 * @param decoratedMove         the original move
+		 * @param minimaxPromotionPiece the piece that can be promoted to, for AI
+		 *                              evaluation
+		 */
+		public PawnPromotion(final Move decoratedMove, final Piece minimaxPromotionPiece) {
 			super(decoratedMove.getBoard(), decoratedMove.getMovedPiece(), decoratedMove.getDestinationCoordinate());
 			this.decoratedMove = decoratedMove;
 			this.promotedPawn = (Pawn) decoratedMove.getMovedPiece();
-			this.minimaxPromotionPiece = MinimaxPromotionPiece;
+			this.minimaxPromotionPiece = minimaxPromotionPiece;
 		}
 
+		/**
+		 * Sets the piece that the pawn is promoted to (e.g., Queen, Rook, Bishop, or
+		 * Knight).
+		 *
+		 * @param piece the piece that the pawn is promoted to.
+		 */
 		public void setPromotedPiece(final Piece piece) {
 			this.promotedPiece = piece;
 		}
 
+		/**
+		 * Returns the original move before the promotion was applied.
+		 *
+		 * @return the original move before the promotion was applied.
+		 */
 		public Move getDecoratedMove() {
 			return this.decoratedMove;
 		}
 
+		/**
+		 * Returns the piece that replaced the promoted pawn.
+		 *
+		 * @return the piece that replaced the promoted pawn.
+		 */
 		public Piece getPromotedPiece() {
 			return this.promotedPiece;
 		}
 
+		/**
+		 * Returns the original pawn that was promoted.
+		 *
+		 * @return the original pawn that was promoted.
+		 */
 		public Pawn getPromotedPawn() {
 			return this.promotedPawn;
 		}
@@ -507,12 +579,25 @@ public abstract class Move {
 		}
 	}
 
+	/**
+	 * Represents a castling move
+	 */
 	private static abstract class CastleMove extends Move {
 
 		protected final Rook castleRook;
 
 		protected final int castleRookStart, castleRookDestination;
 
+		/**
+		 * Initializes a castling move
+		 *
+		 * @param board                 the board where the move happened
+		 * @param movePiece             the king moved in this move
+		 * @param destinationCoordinate the tile where the king goes
+		 * @param castleRook            the rook involved int this castling move
+		 * @param castleRookStart       the initial tile where the rook was
+		 * @param castleRookDestination the tile where the rook goes
+		 */
 		public CastleMove(final Board board, final Piece movePiece, final int destinationCoordinate,
 				final Rook castleRook, final int castleRookStart, final int castleRookDestination) {
 			super(board, movePiece, destinationCoordinate);
@@ -521,6 +606,11 @@ public abstract class Move {
 			this.castleRookDestination = castleRookDestination;
 		}
 
+		/**
+		 * Returns the rook involved in the castling move.
+		 *
+		 * @return the rook involved in the castling move.
+		 */
 		public Rook getCastleRook() {
 			return this.castleRook;
 		}
@@ -576,8 +666,21 @@ public abstract class Move {
 		}
 	}
 
+	/**
+	 * Represents a king side castling move
+	 */
 	public static final class KingSideCastleMove extends CastleMove {
 
+		/**
+		 * Initializes a king side castling move
+		 *
+		 * @param board                 the board where the move happened
+		 * @param movePiece             the king moved in this move
+		 * @param destinationCoordinate the tile where the king goes
+		 * @param castleRook            the rook involved int this castling move
+		 * @param castleRookStart       the initial tile where the rook was
+		 * @param castleRookDestination the tile where the rook goes
+		 */
 		public KingSideCastleMove(final Board board, final Piece movePiece, final int destinationCoordinate,
 				final Rook castleRook, final int castleRookStart, final int castleRookDestination) {
 			super(board, movePiece, destinationCoordinate, castleRook, castleRookStart, castleRookDestination);
@@ -594,8 +697,21 @@ public abstract class Move {
 		}
 	}
 
+	/**
+	 * Represents a queen side caslting move
+	 */
 	public static final class QueenSideCastleMove extends CastleMove {
 
+		/**
+		 * Initializes a queen side castling move
+		 *
+		 * @param board                 the board where the move happened
+		 * @param movePiece             the king moved in this move
+		 * @param destinationCoordinate the tile where the king goes
+		 * @param castleRook            the rook involved int this castling move
+		 * @param castleRookStart       the initial tile where the rook was
+		 * @param castleRookDestination the tile where the rook goes
+		 */
 		public QueenSideCastleMove(final Board board, final Piece movePiece, final int destinationCoordinate,
 				final Rook castleRook, final int castleRookStart, final int castleRookDestination) {
 			super(board, movePiece, destinationCoordinate, castleRook, castleRookStart, castleRookDestination);
@@ -612,7 +728,14 @@ public abstract class Move {
 		}
 	}
 
+	/**
+	 * Represents a null move, used when a piece doesn't have any legal moves
+	 */
 	private static final class NullMove extends Move {
+
+		/**
+		 * Initializes a null move
+		 */
 		private NullMove() {
 			super(null, 65);
 		}
@@ -628,6 +751,9 @@ public abstract class Move {
 		}
 	}
 
+	/**
+	 * Builds moves for boards
+	 */
 	public static final class MoveFactory {
 
 		private static final Move NULL_MOVE = new NullMove();
@@ -636,14 +762,30 @@ public abstract class Move {
 			throw new RuntimeException("Not instantiatable");
 		}
 
+		/**
+		 * Obtains a null move.
+		 *
+		 * @return a null move.
+		 */
 		public static Move getNullMove() {
 			return NULL_MOVE;
 		}
 
+		/**
+		 * Obtains all the legal moves for a piece that goes to a certain coordinate.
+		 *
+		 * @param board                 the board where the move is happening
+		 * @param piece                 the piece to calculate its legal moves
+		 * @param destinationCoordinate the coordinate in the board where the piece
+		 *                              wants to move
+		 * @return a list with the legal moves (usually will contain only one move,
+		 *         except when castling in certain starting positions)
+		 */
 		public static ImmutableList<Move> createMove(final Board board, final Piece piece,
 				final int destinationCoordinate) {
 			ArrayList<Move> possibleMoves = new ArrayList<>();
-			for (Move move : piece.calculateLegalMoves(board)) {
+			ImmutableList<Move> legalMoves = piece.calculateLegalMoves(board);
+			for (Move move : legalMoves) {
 				if (move.getCurrentCoordinate() == piece.getPiecePosition()
 						&& move.getDestinationCoordinate() == destinationCoordinate) {
 					if (move.getClass() == Move.PawnPromotion.class) {
@@ -663,15 +805,5 @@ public abstract class Move {
 			// destinationCoordinate).findFirst().orElseGet(MoveFactory::getNullMove);
 		}
 
-		public static Move createMoveFromMoveHistory(final Board board, final int currentCoordinate,
-				final int destinationCoordinate) {
-			final Piece pieceToMove = board.getAllPieces().stream()
-					.filter(piece -> piece.getPiecePosition() == currentCoordinate).findAny()
-					.orElseThrow(() -> new IllegalStateException("no such piece"));
-			return pieceToMove.calculateLegalMoves(board).stream()
-					.filter(move -> move.getCurrentCoordinate() == currentCoordinate
-							&& move.getDestinationCoordinate() == destinationCoordinate)
-					.findFirst().orElseGet(MoveFactory::getNullMove);
-		}
 	}
 }

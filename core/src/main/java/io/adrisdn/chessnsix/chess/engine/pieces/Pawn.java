@@ -14,10 +14,19 @@ import io.adrisdn.chessnsix.chess.engine.board.Move.PawnPromotion;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a pawn in a chess game
+ */
 public final class Pawn extends Piece {
 
 	private static final int[] MOVE_VECTOR_COORDINATE = { 8, 16, 7, 9 };
 
+	/**
+	 * Initializes a pawn with a given color and position.
+	 *
+	 * @param league        color of the piece.
+	 * @param piecePosition position of the piece.
+	 */
 	public Pawn(final League league, final int piecePosition) {
 		super(PieceType.PAWN, piecePosition, league, true);
 	}
@@ -167,6 +176,11 @@ public final class Pawn extends Piece {
 		return PieceType.PAWN.toString();
 	}
 
+	/**
+	 * Obtains a list of pieces the pawn can promote to.
+	 * @param destinationCoordinate coordinate where the promotion happens
+	 * @return a list of pieces the pawn can promote to
+	 */
 	public ImmutableList<Piece> getPromotionPieces(final int destinationCoordinate) {
 		return ImmutableList.of(new Queen(super.getLeague(), destinationCoordinate, false),
 				new Rook(super.getLeague(), destinationCoordinate, false),

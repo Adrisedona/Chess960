@@ -45,13 +45,6 @@ public final class About extends AbstractScreen {
         return textButton;
     }
 
-    // private String aboutText() {
-    //     return "This lightweight application is about a simple chess game that implemented MiniMax AI concept\n\n" +
-    //             "AlphaBeta-pruning, Pawn Structure Analysis and Move Ordering which maximize the search time of MiniMax.\n\n" +
-    //             "In this game, you can choose to play against yourself or your friend or an AI, range from Level 1 to Level 10\n\n" +
-    //             "1. Start a new game with different timer, board color, flip board.\n\n2. Save a game\n\n3. Load a saved game\n\n4. Export game in FEN format.\n\n5. Import game in FEN format.\n\n6. Undo moves";
-    // }
-
     @Override
     public void render(final float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

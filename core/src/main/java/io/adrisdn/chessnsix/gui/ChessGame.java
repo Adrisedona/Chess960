@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.sql.SQLiteGdxException;
 
 import io.adrisdn.chessnsix.chess.database.ConnectionDatabase;
-import io.adrisdn.chessnsix.chess.engine.FEN.FenFisherRandom;
+import io.adrisdn.chessnsix.chess.engine.FEN.FenFischerRandom;
 import io.adrisdn.chessnsix.gui.managers.AudioManager;
 import io.adrisdn.chessnsix.gui.managers.GuiUtils;
 import io.adrisdn.chessnsix.gui.managers.LanguageManager;
@@ -55,7 +55,7 @@ public final class ChessGame extends Game {
 	@Override
 	public void create() {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		FenFisherRandom.InitFisherRandomList();
+		FenFischerRandom.InitFischerRandomList();
 		LanguageManager.loadLanguage();
 		AudioManager.load();
 		this.connectionDatabase = new ConnectionDatabase();

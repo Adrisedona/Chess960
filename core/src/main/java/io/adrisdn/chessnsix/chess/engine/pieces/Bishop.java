@@ -1,18 +1,20 @@
 package io.adrisdn.chessnsix.chess.engine.pieces;
 
-import static io.adrisdn.chessnsix.chess.engine.board.Move.MajorAttackMove;
-import static io.adrisdn.chessnsix.chess.engine.board.Move.MajorMove;
-
 import com.google.common.collect.ImmutableList;
 import io.adrisdn.chessnsix.chess.engine.League;
 import io.adrisdn.chessnsix.chess.engine.board.Board;
 import io.adrisdn.chessnsix.chess.engine.board.BoardUtils;
 import io.adrisdn.chessnsix.chess.engine.board.Move;
+import io.adrisdn.chessnsix.chess.engine.board.Move.MajorAttackMove;
+import io.adrisdn.chessnsix.chess.engine.board.Move.MajorMove;
 import io.adrisdn.chessnsix.chess.engine.board.Tile;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a bishop in a chess game.
+ */
 public final class Bishop extends Piece {
 
     private static final int[] MOVE_VECTOR_COORDINATE = {-9, -7, 7, 9};
@@ -69,10 +71,22 @@ public final class Bishop extends Piece {
         return PieceType.BISHOP.toString();
     }
 
+	/**
+	 * Prevents bishops from wrapping around the board when moving left.
+	 * @param currentPosition current position of the piece
+	 * @param candidateOFFSET candidate destination for the piece.
+	 * @return true to exclude the column, false if otherwise.
+	 */
     private static boolean isFirstColumnExclusion(final int currentPosition, final int candidateOFFSET) {
         return BoardUtils.FIRST_COLUMN.get(currentPosition) && (candidateOFFSET == -9 || candidateOFFSET == 7);
     }
 
+	/**
+	 * Prevents bishops from wrapping around the board when moving right.
+	 * @param currentPosition current position of the piece.
+	 * @param candidateOFFSET candidate destination for the piece.
+	 * @return true to exclude the column, false if otherwise.
+	 */
     private static boolean isEighthColumnExclusion(final int currentPosition, final int candidateOFFSET) {
         return BoardUtils.EIGHTH_COLUMN.get(currentPosition) && (candidateOFFSET == 9 || candidateOFFSET == -7);
     }

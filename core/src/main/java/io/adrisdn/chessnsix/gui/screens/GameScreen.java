@@ -16,7 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
-import io.adrisdn.chessnsix.chess.engine.FEN.FenFisherRandom;
+import io.adrisdn.chessnsix.chess.engine.FEN.FenFischerRandom;
 import io.adrisdn.chessnsix.chess.engine.FEN.FenUtilities;
 import io.adrisdn.chessnsix.chess.engine.board.Board;
 import io.adrisdn.chessnsix.chess.engine.board.BoardUtils;
@@ -48,17 +48,10 @@ public final class GameScreen extends AbstractScreen {
 				return Board.createStandardBoard(minutes, seconds, milliseconds);
 			}
 		},
-		LOAD_GAME {
-			@Override
-			public Board getBoard(final GameScreen gameScreen, int minutes, int seconds, int milliseconds) {
-				return FenUtilities.createGameFromSavedData(GuiUtils.MOVE_LOG_PREF.getString(GuiUtils.MOVE_LOG_STATE),
-						gameScreen.getMoveHistory().getMoveLog());
-			}
-		},
 		NEW_CHESS960_GAME {
 			@Override
 			public Board getBoard(final GameScreen gameScreen, int minutes, int seconds, int milliseconds) {
-				return FenUtilities.createGameFromFEN(FenFisherRandom.getRandomFen(), minutes, seconds, milliseconds);
+				return FenUtilities.createGameFromFEN(FenFischerRandom.getRandomFen(), minutes, seconds, milliseconds);
 			}
 		};
 
@@ -257,12 +250,6 @@ public final class GameScreen extends AbstractScreen {
 		this.stage.getBatch().draw(GuiUtils.BACKGROUND, 0, 0);
 		this.stage.getBatch().end();
 		this.stage.draw();
-	}
-
-	@Override
-	public void dispose() {
-		this.stage.dispose();
-		this.stage.getBatch().dispose();
 	}
 
 }

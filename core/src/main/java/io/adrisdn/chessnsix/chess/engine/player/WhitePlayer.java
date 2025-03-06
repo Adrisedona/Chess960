@@ -17,6 +17,7 @@ import io.adrisdn.chessnsix.chess.engine.pieces.Rook;
 import io.adrisdn.chessnsix.gui.managers.LanguageManager;
 
 public final class WhitePlayer extends Player {
+
 	public WhitePlayer(final Board board, final ImmutableList<Move> whiteStandardLegalMoves,
 			final ImmutableList<Move> blackStandardLegalMoves, final int minute, final int second,
 			final int millisecond) {
@@ -170,5 +171,10 @@ public final class WhitePlayer extends Player {
 				? ImmutableList.copyOf(Arrays.asList(new Move[] {
 						this.getKingSideCastleMove(opponentLegals), this.getQueenSideCastleMove(opponentLegals)
 				}).stream().filter(Objects::nonNull).collect(Collectors.toList())) : ImmutableList.of();
+	}
+
+	@Override
+	public String getCode() {
+		return "w";
 	}
 }

@@ -52,7 +52,7 @@ public class Settings extends AbstractScreen {
 
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
-				AudioManager.setSoundVolume(sliderSound.getValue(), chessGame);
+				AudioManager.setSoundVolume(sliderSound.getValue());
 			}
 
 		});
@@ -102,11 +102,6 @@ public class Settings extends AbstractScreen {
 
 	public Stage getStage() {
 		return stage;
-	}
-
-	@Override
-	public void show() {
-
 	}
 
 	@Override

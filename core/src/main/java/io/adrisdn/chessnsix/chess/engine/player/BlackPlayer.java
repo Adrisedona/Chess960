@@ -172,4 +172,9 @@ public final class BlackPlayer extends Player {
 				}).stream().filter(Objects::nonNull).collect(Collectors.toList()))
 				: ImmutableList.of();
 	}
+
+	@Override
+	public String getCode() {
+		return "b";
+	}
 }

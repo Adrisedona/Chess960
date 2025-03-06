@@ -59,11 +59,6 @@ public class SetupGame extends AbstractScreen {
 	}
 
 	@Override
-	public void show() {
-
-	}
-
-	@Override
 	public void render(float delta) {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		this.stage.act(delta);

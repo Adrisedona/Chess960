@@ -8,15 +8,22 @@ import com.badlogic.gdx.Gdx;
 
 import com.google.common.collect.ImmutableList;
 
-public class FenFisherRandom {
+/**
+ * Holds the FEN string for the possible starting positions in FischerRandom
+ */
+public class FenFischerRandom {
+
 	private static ImmutableList<String> FISHER_RANDOM_FEN;
 	private static boolean initiable = true;
 
-	private FenFisherRandom() {
+	private FenFischerRandom() {
 		throw new RuntimeException("Non instantiable");
 	}
 
-	public static void InitFisherRandomList() {
+	/**
+	 * Initializes the list of possible position from the file.
+	 */
+	public static void InitFischerRandomList() {
 		if (!initiable) {
 			throw new IllegalArgumentException("List already inicialiced");
 		}
@@ -30,6 +37,10 @@ public class FenFisherRandom {
 		initiable = false;
 	}
 
+	/**
+	 * Obtains a random starting position from the list
+	 * @return the FEN string representing the starting position
+	 */
 	public static String getRandomFen() {
 		if (initiable) {
 			throw new IllegalStateException("The list hasn't been inicialized");

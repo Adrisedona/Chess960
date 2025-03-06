@@ -102,7 +102,10 @@ public final class TimerPanel extends Table {
         this.add(this.whitePlayerTimerTable).size(SIZE);
     }
 
-    //setter
+    /**
+	 * Stablishes if the timer is paused or not
+	 * @param pauseTimerOption if the timer is paused or not
+	 */
     public void setPauseTimerOption(final boolean pauseTimerOption) {
         this.pauseTimerOption = pauseTimerOption;
     }
@@ -111,7 +114,10 @@ public final class TimerPanel extends Table {
         this.continueTimer = continueTimer;
     }
 
-    //getter
+    /**
+	 * Obtains if the timer is paused or not
+	 * @param pauseTimerOption true if the timer is paused, false if not
+	 */
     public boolean isPauseTimerOption() {
         return this.pauseTimerOption;
     }

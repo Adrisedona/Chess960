@@ -93,7 +93,7 @@ public class AudioManager {
 		manager.finishLoading();
 	}
 
-	public static Sound getSound(String key) {
+	public static Sound getSound(final String key) {
 		if (manager == null || res == null) {
 			throw new IllegalStateException("Assets not loaded, call load()");
 		}
@@ -103,7 +103,7 @@ public class AudioManager {
 		throw new IllegalStateException("Asset not found");
 	}
 
-	public static Music getMusic(String key) {
+	public static Music getMusic(final String key) {
 		if (manager == null || res == null) {
 			throw new IllegalStateException("Assets not loaded, call load()");
 		}
@@ -119,7 +119,7 @@ public class AudioManager {
 		manager = null;
 	}
 
-	public static void setSoundVolume(float soundVolume, ChessGame chessGame) {
+	public static void setSoundVolume(final float soundVolume) {
 		if (soundVolume < 0 || soundVolume > 1) {
 			throw new IllegalArgumentException("Volume must be be between 0 and 1");
 		}
@@ -128,7 +128,7 @@ public class AudioManager {
 		AudioManager.soundVolume = soundVolume;
 	}
 
-	public static void setVibration(boolean vibration) {
+	public static void setVibration(final boolean vibration) {
 		PREFERENCES.putFloat(VIBRATION_KEY, musicVolume);
 		PREFERENCES.flush();
 		AudioManager.vibration = vibration;

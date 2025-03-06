@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
-// import io.adrisdn.chessnsix.chess.engine.board.BoardUtils;
 import io.adrisdn.chessnsix.gui.ChessGame;
 import io.adrisdn.chessnsix.gui.managers.GuiUtils;
 import io.adrisdn.chessnsix.gui.managers.LanguageManager;
@@ -48,10 +47,6 @@ public final class WelcomeScreen extends AbstractScreen {
 		textButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(final InputEvent event, final float x, final float y) {
-				// chessGame.gotoGameScreen(GameScreen.BOARD_STATE.NEW_GAME,
-				// 		GameScreen.BOARD_STATE.NEW_GAME.getBoard(chessGame.getGameScreen(),
-				// 				BoardUtils.DEFAULT_TIMER_MINUTE, BoardUtils.DEFAULT_TIMER_SECOND,
-				// 				BoardUtils.DEFAULT_TIMER_MILLISECOND));
 				chessGame.setScreen(chessGame.getSetupGameScreen());
 			}
 		});
@@ -64,7 +59,6 @@ public final class WelcomeScreen extends AbstractScreen {
 			@Override
 			public void clicked(final InputEvent event, final float x, final float y) {
 				Gdx.app.exit();
-				// System.exit(0);
 			}
 		});
 		return textButton;
@@ -91,26 +85,6 @@ public final class WelcomeScreen extends AbstractScreen {
 		});
 		return textButton;
 	}
-
-	// private TextButton loadGameButton(final ChessGame chessGame) {
-	// 	final TextButton textButton = new TextButton("Load Game", GuiUtils.UI_SKIN);
-	// 	textButton.addListener(new ClickListener() {
-	// 		@Override
-	// 		public void clicked(final InputEvent event, final float x, final float y) {
-	// 			try {
-	// 				chessGame.gotoGameScreen(GameScreen.BOARD_STATE.LOAD_GAME,
-	// 						GameScreen.BOARD_STATE.LOAD_GAME.getBoard(chessGame.getGameScreen(),
-	// 								BoardUtils.DEFAULT_TIMER_MINUTE, BoardUtils.DEFAULT_TIMER_SECOND,
-	// 								BoardUtils.DEFAULT_TIMER_MILLISECOND));
-	// 			} catch (final RuntimeException e) {
-	// 				final Label label = new Label("No game to load", GuiUtils.UI_SKIN);
-	// 				label.setColor(Color.BLACK);
-	// 				new Dialog("Load Game", GuiUtils.UI_SKIN).text(label).button("Ok").show(stage);
-	// 			}
-	// 		}
-	// 	});
-	// 	return textButton;
-	// }
 
 	private TextButton recordsButton(final ChessGame chessGame) {
 		final TextButton textButton = new TextButton(LanguageManager.get("records"), GuiUtils.UI_SKIN);
@@ -145,11 +119,4 @@ public final class WelcomeScreen extends AbstractScreen {
 		this.stage.getBatch().end();
 		this.stage.draw();
 	}
-
-	@Override
-	public void dispose() {
-		this.stage.dispose();
-		this.stage.getBatch().dispose();
-	}
-
 }
