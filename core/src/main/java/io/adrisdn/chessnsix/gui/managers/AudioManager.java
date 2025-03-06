@@ -10,8 +10,14 @@ import com.badlogic.gdx.audio.Sound;
 
 import io.adrisdn.chessnsix.gui.ChessGame;
 
+/**
+ * Handles the audio files in the game, and if vibration is enabled or not.
+ */
 public class AudioManager {
 
+	/**
+	 * Preferences file to save all the settings.
+	 */
 	private static final Preferences PREFERENCES = Gdx.app.getPreferences("chess960prefs");
 
 	private static final String MUSIC_KEY = "music_volume";
@@ -35,18 +41,39 @@ public class AudioManager {
 	private static float soundVolume = PREFERENCES.getFloat(SOUND_KEY, 1);
 	private static boolean vibration = PREFERENCES.getBoolean(VIBRATION_KEY, true);
 
+	/**
+	 * Obtains whether vibration is enabled or not.
+	 *
+	 * @return true if it's enabled, false otherwise.
+	 */
 	public static boolean isVibration() {
 		return vibration;
 	}
 
+	/**
+	 * Obtains the volume for sounds.
+	 *
+	 * @return the volume for sounds.
+	 */
 	public static float getSoundVolume() {
 		return soundVolume;
 	}
 
+	/**
+	 * Obtains the volume for music.
+	 *
+	 * @return the volume for music.
+	 */
 	public static float getMusicVolume() {
 		return musicVolume;
 	}
 
+	/**
+	 * Sets the volume for the music
+	 *
+	 * @param musicVolume volume to set
+	 * @param chessGame   game to set the volume for
+	 */
 	public static void setMusicVolume(final float musicVolume, final ChessGame chessGame) {
 		if (musicVolume < 0 || musicVolume > 1) {
 			throw new IllegalArgumentException("Volume must be be between 0 and 1");
@@ -57,11 +84,19 @@ public class AudioManager {
 		changeVolume(chessGame);
 	}
 
+	/**
+	 * Changes the volume of the music files.
+	 *
+	 * @param chessGame game containing the music files.
+	 */
 	private static void changeVolume(final ChessGame chessGame) {
 		chessGame.getMenuMusic().setVolume(musicVolume);
 		chessGame.getGameMusic().setVolume(musicVolume);
 	}
 
+	/**
+	 * Loads all the sounds and music of the game.
+	 */
 	public static void load() {
 		if (manager != null && res != null) {
 			throw new IllegalStateException("Assets already loaded");
@@ -93,6 +128,11 @@ public class AudioManager {
 		manager.finishLoading();
 	}
 
+	/**
+	 * Obtains a specific sound
+	 * @param key key of the sound to get
+	 * @return the correspondig sound.
+	 */
 	public static Sound getSound(final String key) {
 		if (manager == null || res == null) {
 			throw new IllegalStateException("Assets not loaded, call load()");
@@ -103,6 +143,11 @@ public class AudioManager {
 		throw new IllegalStateException("Asset not found");
 	}
 
+	/**
+	 * Obtains a specific music
+	 * @param key key of the music to get
+	 * @return the correspondig music.
+	 */
 	public static Music getMusic(final String key) {
 		if (manager == null || res == null) {
 			throw new IllegalStateException("Assets not loaded, call load()");
@@ -113,12 +158,20 @@ public class AudioManager {
 		throw new IllegalStateException("Asset not found");
 	}
 
+	/**
+	 * Frees all the auido files form memory
+	 */
 	public static void dispose() {
 		manager.dispose();
 		res = null;
 		manager = null;
 	}
 
+	/**
+	 * Sets the volume for the ssounds
+	 *
+	 * @param soundcVolume volume to set
+	 */
 	public static void setSoundVolume(final float soundVolume) {
 		if (soundVolume < 0 || soundVolume > 1) {
 			throw new IllegalArgumentException("Volume must be be between 0 and 1");
@@ -128,6 +181,10 @@ public class AudioManager {
 		AudioManager.soundVolume = soundVolume;
 	}
 
+	/**
+	 * Enables or disables the vibration
+	 * @param vibration true to enable false to disable.
+	 */
 	public static void setVibration(final boolean vibration) {
 		PREFERENCES.putFloat(VIBRATION_KEY, musicVolume);
 		PREFERENCES.flush();

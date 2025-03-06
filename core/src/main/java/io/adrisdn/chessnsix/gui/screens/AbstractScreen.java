@@ -3,10 +3,17 @@ package io.adrisdn.chessnsix.gui.screens;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
+/**
+ * Schema to create screens, so the actual screens only need to implement the methods they actually need.
+ */
 public abstract class AbstractScreen implements Screen {
 
 	protected Stage stage;
 
+	/**
+	 * Obtains this screen's stage.
+	 * @return this screen's stage.
+	 */
 	public Stage getStage() {
 		return stage;
 	}

@@ -29,6 +29,10 @@ import io.adrisdn.chessnsix.gui.managers.LanguageManager;
 import io.adrisdn.chessnsix.gui.moveHistory.MoveHistory;
 import io.adrisdn.chessnsix.gui.timer.TimerPanel;
 
+/**
+ * GameScreen represents the main screen where the chess game is played.
+ * It manages the game board, move history, timers, and user interactions.
+ */
 public final class GameScreen extends AbstractScreen {
 
 	private Board chessBoard;
@@ -40,7 +44,9 @@ public final class GameScreen extends AbstractScreen {
 
 	private final ChessGame chessGame;
 
-
+	/**
+	 * Enum representing the possible board states for new games.
+	 */
 	public enum BOARD_STATE {
 		NEW_GAME {
 			@Override
@@ -55,44 +61,86 @@ public final class GameScreen extends AbstractScreen {
 			}
 		};
 
+		/**
+		 * Obtains a game board to start a game
+		 *
+		 * @param gameScreen   screen to start the game in
+		 * @param minutes      Minutes for both players
+		 * @param seconds      Seconds for both players
+		 * @param milliseconds Milliseconds for both players
+		 * @return The corresponding starting board
+		 */
 		public abstract Board getBoard(final GameScreen gameScreen, int minutes, int seconds, int milliseconds);
 	}
 
-	// setter
+	/**
+	 * Updates the chess board.
+	 *
+	 * @param board the new board.
+	 */
 	public void updateChessBoard(final Board board) {
 		this.chessBoard = board;
 	}
 
-	// getter
+	/**
+	 * Obtains the current board.
+	 *
+	 * @return the current board.
+	 */
 	public Board getChessBoard() {
 		return this.chessBoard;
 	}
 
+	/**
+	 * Returns the game this screen belongs to.
+	 *
+	 * @return the game this screen belongs to.
+	 */
 	public ChessGame getChessGame() {
 		return chessGame;
 	}
 
+	/**
+	 * Obtains the game board.
+	 *
+	 * @return the game board.
+	 */
 	public io.adrisdn.chessnsix.gui.board.GameBoard getGameBoard() {
 		return this.gameBoard;
 	}
 
+	/**
+	 * Obtains the display only board.
+	 *
+	 * @return the display only board.
+	 */
 	public io.adrisdn.chessnsix.gui.board.GameBoard.DisplayOnlyBoard getDisplayOnlyBoard() {
 		return this.displayOnlyBoard;
 	}
 
+	/**
+	 * Obtains the move history.
+	 *
+	 * @return the move history.
+	 */
 	public io.adrisdn.chessnsix.gui.moveHistory.MoveHistory getMoveHistory() {
 		return this.moveHistory;
 	}
 
+	/**
+	 * Obtains the timer panel.
+	 *
+	 * @return the timer panel.
+	 */
 	public io.adrisdn.chessnsix.gui.timer.TimerPanel getGameTimerPanel() {
 		return this.gameTimerPanel;
 	}
 
-	public Stage getStage() {
-		return this.stage;
-	}
-
-
+	/**
+	 * Constructs a new GameScreen.
+	 *
+	 * @param chessGame The ChessGame instance managing the game.
+	 */
 	public GameScreen(final ChessGame chessGame) {
 		// init
 		this.chessGame = chessGame;
@@ -119,6 +167,11 @@ public final class GameScreen extends AbstractScreen {
 		this.stage.addActor(verticalGroup);
 	}
 
+	/**
+	 * Initializes the game board stack.
+	 *
+	 * @return A Stack containing the game board elements.
+	 */
 	private Stack initGameBoard() {
 		final Stack stack = new Stack();
 		stack.add(this.displayOnlyBoard);
@@ -126,6 +179,11 @@ public final class GameScreen extends AbstractScreen {
 		return stack;
 	}
 
+	/**
+	 * Initializes the game menu.
+	 *
+	 * @return A Table containing the game menu buttons.
+	 */
 	private Table initGameMenu() {
 		final Table table = new Table();
 		final int BUTTON_WIDTH = 250;
@@ -136,10 +194,16 @@ public final class GameScreen extends AbstractScreen {
 		return table;
 	}
 
+	/**
+	 * Creates the buttin to go to the {@link SetupGame} screen
+	 *
+	 * @return the button
+	 */
 	private TextButton newGameButton() {
 		TextButton button = new TextButton(LanguageManager.get("new_game_title"), GuiUtils.UI_SKIN);
 		button.addListener(new ClickListener() {
 			Dialog dialog = newGameDialog();
+
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				GameScreen.this.getGameTimerPanel().continueTimer(false);
@@ -149,13 +213,18 @@ public final class GameScreen extends AbstractScreen {
 		return button;
 	}
 
+	/**
+	 * Creates the dialog of confirmation to craete new game.
+	 *
+	 * @return
+	 */
 	private Dialog newGameDialog() {
 		Label label = new Label(LanguageManager.get("new_game_text"), GuiUtils.UI_SKIN);
 		label.setColor(Color.BLACK);
 		Dialog dialog = new Dialog(LanguageManager.get("new_game_title"), GuiUtils.UI_SKIN) {
 			@Override
 			protected void result(Object object) {
-				if ((boolean)object) {
+				if ((boolean) object) {
 					chessGame.getGameMusic().stop();
 					chessGame.getMenuMusic().play();
 					this.remove();
@@ -168,15 +237,21 @@ public final class GameScreen extends AbstractScreen {
 				}
 			}
 		}.text(label)
-			.button(LanguageManager.get("ok"), true)
-			.button(LanguageManager.get("cancel"), false);
+				.button(LanguageManager.get("ok"), true)
+				.button(LanguageManager.get("cancel"), false);
 		return dialog;
 	}
 
+	/**
+	 * Creates the exit game button.
+	 *
+	 * @return the exit game button.
+	 */
 	private TextButton exitGameButton() {
 		TextButton button = new TextButton(LanguageManager.get("exit_game_title"), GuiUtils.UI_SKIN);
 		button.addListener(new ClickListener() {
 			Dialog dialog = exitGameDialog();
+
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				GameScreen.this.getGameTimerPanel().continueTimer(false);
@@ -186,6 +261,11 @@ public final class GameScreen extends AbstractScreen {
 		return button;
 	}
 
+	/**
+	 * Creates the dialog for confirmation to exit game.
+	 *
+	 * @return
+	 */
 	private Dialog exitGameDialog() {
 		Label label = new Label(LanguageManager.get("exit_game_text"), GuiUtils.UI_SKIN);
 		label.setColor(Color.BLACK);
@@ -193,7 +273,7 @@ public final class GameScreen extends AbstractScreen {
 			@Override
 			protected void result(Object object) {
 				this.remove();
-				if ((boolean)object) {
+				if ((boolean) object) {
 					chessGame.getGameMusic().stop();
 					chessGame.getMenuMusic().play();
 					this.remove();
@@ -206,33 +286,42 @@ public final class GameScreen extends AbstractScreen {
 				}
 			}
 		}.text(label)
-			.button(LanguageManager.get("ok"), true)
-			.button(LanguageManager.get("cancel"), false);
+				.button(LanguageManager.get("ok"), true)
+				.button(LanguageManager.get("cancel"), false);
 		return dialog;
 	}
 
+	/**
+	 * Button to flip the board
+	 */
 	private static final class FlipBoardButton extends TextButton {
-        private FlipBoardButton(final GameScreen gameScreen) {
-            super(LanguageManager.get("flip_board"), GuiUtils.UI_SKIN);
-            this.addListener(new ClickListener() {
-                @Override
-                public void clicked(final InputEvent event, final float x, final float y) {
-                    gameScreen.getGameTimerPanel().continueTimer(false);
 
-                    gameScreen.getGameBoard().updateBoardDirection();
-                    gameScreen.getGameBoard().drawBoard(gameScreen, gameScreen.getChessBoard(), gameScreen.getDisplayOnlyBoard());
+		/**
+		 * Initializes the button to flip the board
+		 * @param gameScreen screen where this button belongs to.
+		 */
+		private FlipBoardButton(final GameScreen gameScreen) {
+			super(LanguageManager.get("flip_board"), GuiUtils.UI_SKIN);
+			this.addListener(new ClickListener() {
+				@Override
+				public void clicked(final InputEvent event, final float x, final float y) {
+					gameScreen.getGameTimerPanel().continueTimer(false);
 
-                    gameScreen.getGameTimerPanel().changeTimerPanelDirection();
-                    gameScreen.getGameTimerPanel().update(gameScreen);
+					gameScreen.getGameBoard().updateBoardDirection();
+					gameScreen.getGameBoard().drawBoard(gameScreen, gameScreen.getChessBoard(),
+							gameScreen.getDisplayOnlyBoard());
 
-                    gameScreen.getMoveHistory().changeMoveHistoryDirection();
-                    gameScreen.getMoveHistory().updateMoveHistory();
+					gameScreen.getGameTimerPanel().changeTimerPanelDirection();
+					gameScreen.getGameTimerPanel().update(gameScreen);
 
-                    gameScreen.getGameTimerPanel().continueTimer(true);
-                }
-            });
-        }
-    }
+					gameScreen.getMoveHistory().changeMoveHistoryDirection();
+					gameScreen.getMoveHistory().updateMoveHistory();
+
+					gameScreen.getGameTimerPanel().continueTimer(true);
+				}
+			});
+		}
+	}
 
 	@Override
 	public void render(final float delta) {

@@ -14,11 +14,20 @@ import io.adrisdn.chessnsix.gui.ChessGame;
 import io.adrisdn.chessnsix.gui.managers.GuiUtils;
 import io.adrisdn.chessnsix.gui.managers.LanguageManager;;
 
+/**
+ * Intermediate screen between {@link WelcomeScreen} and {@link RecordsScreen},
+ * that gets all the games played from the database before going to this last
+ * screen.
+ */
 public class LoadingScreen extends AbstractScreen {
 
 	private final ChessGame chessGame;
 	private AsyncResult<ImmutableList<Game>> games;
 
+	/**
+	 * Initializes the LoadingScreen
+	 * @param chessGame the game this screen belongs to.
+	 */
 	public LoadingScreen(final ChessGame chessGame) {
 		this.chessGame = chessGame;
 		this.stage = new Stage(new FitViewport(GuiUtils.WORLD_WIDTH, GuiUtils.WORLD_HEIGHT), new SpriteBatch());
@@ -32,6 +41,12 @@ public class LoadingScreen extends AbstractScreen {
 		this.stage.addActor(table);
 	}
 
+	/**
+	 * Starts the process of getting the games from the database-
+	 */
+	public void setGames() {
+		this.games = this.chessGame.getConnectionDatabase().getGamesAsync();
+	}
 
 	@Override
 	public void render(float delta) {
@@ -40,6 +55,7 @@ public class LoadingScreen extends AbstractScreen {
 		this.stage.getBatch().begin();
 		this.stage.getBatch().draw(GuiUtils.BACKGROUND, 0, 0);
 
+		//Every frame check if it has to go to the next screen
 		if (games.isDone()) {
 			chessGame.getRecordsScreen().setGames(games.get());
 			chessGame.getRecordsScreen().initScreen();
@@ -49,25 +65,5 @@ public class LoadingScreen extends AbstractScreen {
 		this.stage.getBatch().end();
 		this.stage.draw();
 	}
-
-
-
-
-	public Stage getStage() {
-		return stage;
-	}
-
-
-
-	public ChessGame getChessGame() {
-		return chessGame;
-	}
-
-
-
-	public void setGames() {
-		this.games = this.chessGame.getConnectionDatabase().getGamesAsync();
-	}
-
 
 }

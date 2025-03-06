@@ -17,7 +17,7 @@ import com.badlogic.gdx.sql.*;
 /**
  * Handles the connection with the database
  */
-public class ConnectionDatabase implements AutoCloseable {
+public final class ConnectionDatabase implements AutoCloseable {
 
 	protected Database databaseHandler;
 

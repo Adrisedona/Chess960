@@ -63,7 +63,7 @@ public final class ChessGame extends Game {
 		this.aboutScreen = new About(this);
 		this.setupGameScreen = new SetupGame(this);
 		this.loadingScreen = new LoadingScreen(this);
-		this.recordsScreen = new RecordsScreen(this, null);
+		this.recordsScreen = new RecordsScreen(this);
 		this.creditsScreen = new Credits(this);
 		this.welcomeScreen = new WelcomeScreen(this);
 		this.settingsScreen = new Settings(this);
@@ -250,7 +250,7 @@ public final class ChessGame extends Game {
 		this.aboutScreen = new About(this);
 		this.setupGameScreen = new SetupGame(this);
 		this.loadingScreen = new LoadingScreen(this);
-		this.recordsScreen = new RecordsScreen(this, null);
+		this.recordsScreen = new RecordsScreen(this);
 		this.creditsScreen = new Credits(this);
 		this.settingsScreen = new Settings(this);
 		this.welcomeScreen = new WelcomeScreen(this);

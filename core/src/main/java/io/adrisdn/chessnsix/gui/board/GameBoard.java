@@ -38,6 +38,11 @@ public final class GameBoard extends Table {
 	private GameProps.BoardDirection boardDirection;
 	private GameScreen gameScreen;
 
+	/**
+	 * Initializes the GameBoard with the given GameScreen.
+	 *
+	 * @param gameScreen the screen where this gameboard belongs
+	 */
 	public GameBoard(final GameScreen gameScreen) {
 		// mutable
 		this.humanPiece = null;
@@ -81,132 +86,266 @@ public final class GameBoard extends Table {
 		this.validate();
 	}
 
-	// object updater
+	/**
+	 * Updates the humanPiece field with the piece controlled by the human player.
+	 *
+	 * @param humanPiece piece to update to.
+	 */
 	public void updateHumanPiece(final Piece humanPiece) {
 		this.humanPiece = humanPiece;
 	}
 
+	/**
+	 * Updates the humanMove field with the last move made by the human player.
+	 *
+	 * @param humanMove move to update to.
+	 */
 	public void updateHumanMove(final Move humanMove) {
 		this.humanMove = humanMove;
 	}
 
+	/**
+	 * Updates the aiMove field with the last move made by the AI.
+	 *
+	 * @param aiMove move to update to.
+	 */
 	public void updateAiMove(final Move aiMove) {
 		this.aiMove = aiMove;
 	}
 
-	// enum updater
+	/**
+	 * Updates the state of the AI
+	 *
+	 * @param AIThinking state to update to.
+	 */
 	public void updateArtificialIntelligenceWorking(final GameProps.ArtificialIntelligenceWorking AIThinking) {
 		this.artificialIntelligenceWorking = AIThinking;
 	}
 
+	/**
+	 * Updates the game end state.
+	 *
+	 * @param gameEnd state to update to.
+	 */
 	public void updateGameEnd(final GameProps.GameEnd gameEnd) {
 		if (gameEnd == GameProps.GameEnd.ENDED) {
 			this.gameScreen.getChessGame().getConnectionDatabase().insertGameAsync(
-					gameScreen.getMoveHistory().getMoveLog(), gameScreen.getChessBoard().currentPlayer(), gameScreen.getChessBoard());
+					gameScreen.getMoveHistory().getMoveLog(), gameScreen.getChessBoard().currentPlayer(),
+					gameScreen.getChessBoard());
 
 		}
 		this.gameEnd = gameEnd;
 	}
 
+	/**
+	 * Updates whether moves should be highlighted.
+	 *
+	 * @param highlightMove state to update to.
+	 */
 	public void updateHighlightMove(final GameProps.HighlightMove highlightMove) {
 		this.highlightMove = highlightMove;
 	}
 
+	/**
+	 * Updates whether previous moves should be highlighted.
+	 *
+	 * @param highlightPreviousMove state to update to.
+	 */
 	public void updateHighlightPreviousMove(final GameProps.HighlightPreviousMove highlightPreviousMove) {
 		this.highlightPreviousMove = highlightPreviousMove;
 	}
 
+	/**
+	 * Updates the board direction.
+	 */
 	public void updateBoardDirection() {
 		this.boardDirection = this.boardDirection.opposite();
 	}
 
+	/**
+	 * Updates the player type for the white player.
+	 *
+	 * @param playerType type to update to.
+	 */
 	public void updateWhitePlayerType(final GameProps.PlayerType playerType) {
 		this.whitePlayerType = playerType;
 	}
 
+	/**
+	 * Updates the player type for the black player.
+	 *
+	 * @param playerType type to update to.
+	 */
 	public void updateBlackPlayerType(final GameProps.PlayerType playerType) {
 		this.blackPlayerType = playerType;
 	}
 
-	// getter
+	/**
+	 * Returns the piece currently controlled by the human player.
+	 *
+	 * @return the piece currently controlled by the human player.
+	 */
 	public Piece getHumanPiece() {
 		return this.humanPiece;
 	}
 
+	/**
+	 * Returns the last move made by the human player.
+	 *
+	 * @return the last move made by the human player.
+	 */
 	public Move getHumanMove() {
 		return this.humanMove;
 	}
 
+	/**
+	 * Returns the last move made by the AI player.
+	 *
+	 * @return the last move made by the AI player.
+	 */
 	public Move getAiMove() {
 		return this.aiMove;
 	}
 
+	/**
+	 * Triggers the gameSetupPropertyChangeSupport to notify listeners of any
+	 * changes in the game setup.
+	 */
 	public void fireGameSetupPropertyChangeSupport() {
 		this.gameSetupPropertyChangeSupport.firePropertyChange(null, null, null);
 	}
 
+	/**
+	 * Returns whether the AI is currently working.
+	 *
+	 * @return true if it's working, false otherwise.
+	 */
 	public boolean isArtificialIntelligenceWorking() {
 		return this.artificialIntelligenceWorking.isArtificialIntelligenceWorking();
 	}
 
+	/**
+	 * Returns whether the game has ended
+	 *
+	 * @return true if it has ended, false otherwise.
+	 */
 	public boolean isGameEnd() {
 		return this.gameEnd.isGameEnded();
 	}
 
+	/**
+	 * Returns whether the moves should be highlighted.
+	 *
+	 * @return true if moves should be highlighted, false otheriwse.
+	 */
 	public boolean isHighlightMove() {
 		return this.highlightMove.isHighlightMove();
 	}
 
+	/**
+	 * Returns whether the previous moves should be highlighted.
+	 *
+	 * @return true if previous moves should be highlighted, false otheriwse.
+	 */
 	public boolean isHighlightPreviousMove() {
 		return this.highlightPreviousMove.isHighlightPreviousMove();
 	}
 
+	/**
+	 * Returns the ArtificialIntelligence object that handles AI logic.
+	 *
+	 * @return the ArtificialIntelligence object that handles AI logic.
+	 */
 	public ArtificialIntelligence getArtificialIntelligence() {
 		return this.artificialIntelligence;
 	}
 
+	/**
+	 * Determines whether a given player is controlled by AI based on the player's
+	 * league and type (white or black).
+	 *
+	 * @param player playet to determine if is human or AI.
+	 * @return true if it's an AI, false if it's a player.
+	 */
 	public boolean isAIPlayer(final Player player) {
 		return player.getLeague() == League.WHITE ? this.whitePlayerType == GameProps.PlayerType.COMPUTER
 				: this.blackPlayerType == GameProps.PlayerType.COMPUTER;
 	}
 
+	/**
+	 * Draws the game board according to the current game state and direction.
+	 *
+	 * @param gameScreen       game where to paint the board
+	 * @param chessBoard       board with all the information about the game
+	 * @param displayOnlyBoard board to paint
+	 */
 	public void drawBoard(final GameScreen gameScreen, final Board chessBoard,
 			final GameBoard.DisplayOnlyBoard displayOnlyBoard) {
 		this.boardDirection.drawBoard(gameScreen, this, chessBoard, displayOnlyBoard);
 	}
 
+	/**
+	 * Displays a message if the current player has run out of time.
+	 *
+	 * @param chessBoard board with all the information about the game
+	 * @param stage      active stage to put the dialog in.
+	 */
 	public void displayTimeOutMessage(final Board chessBoard, final Stage stage) {
 		if (chessBoard.currentPlayer().isTimeOut()) {
-			final Label label = new Label(chessBoard.currentPlayer() + LanguageManager.get("timed_out_msg"), GuiUtils.UI_SKIN);
+			final Label label = new Label(chessBoard.currentPlayer() + LanguageManager.get("timed_out_msg"),
+					GuiUtils.UI_SKIN);
 			label.setColor(Color.BLACK);
-			new Dialog(LanguageManager.get("timed_out_title"), GuiUtils.UI_SKIN).text(label).button(LanguageManager.get("ok")).show(stage);
+			new Dialog(LanguageManager.get("timed_out_title"), GuiUtils.UI_SKIN).text(label)
+					.button(LanguageManager.get("ok")).show(stage);
 			this.updateGameEnd(GameProps.GameEnd.ENDED);
 		}
 	}
 
+	/**
+	 * Displays a message when the game ends, indicating whether it was a checkmate
+	 * or stalemate.
+	 *
+	 * @param chessBoard board with all the information about the game
+	 * @param stage      active stage to put the dialog in.
+	 */
 	public void displayEndGameMessage(final Board chessBoard, final Stage stage) {
 		final String state = chessBoard.currentPlayer().isInCheckmate() ? LanguageManager.get("checkmate")
 				: chessBoard.currentPlayer().isInStalemate() ? LanguageManager.get("stalemate") : null;
 		if (state == null) {
 			return;
 		}
-		final Label label = new Label(chessBoard.currentPlayer() + LanguageManager.get("player_in") + state.toLowerCase() + "!",
+		final Label label = new Label(
+				chessBoard.currentPlayer() + LanguageManager.get("player_in") + state.toLowerCase() + "!",
 				GuiUtils.UI_SKIN);
 		label.setColor(Color.BLACK);
 		new Dialog(state, GuiUtils.UI_SKIN).text(label).button(LanguageManager.get("ok")).show(stage);
 		this.updateGameEnd(GameProps.GameEnd.ENDED);
 	}
 
+	/**
+	 * Returns the texture region for a tile based on whether it is occupied by a
+	 * piece or not.
+	 *
+	 * @param board  board with the game information.
+	 * @param tileID tile to paint.
+	 * @return texture to paint.
+	 */
 	protected TextureRegion textureRegion(final Board board, final int tileID) {
 		return board.getTile(tileID).isTileOccupied()
 				? GuiUtils.GET_PIECE_TEXTURE_REGION(board.getTile(tileID).getPiece())
 				: GuiUtils.TRANSPARENT_TEXTURE_REGION;
 	}
 
+	/**
+	 * Displais the chessboard in a read-only state, without game logic.
+	 */
 	public static final class DisplayOnlyBoard extends Table {
 
 		private io.adrisdn.chessnsix.gui.managers.GuiUtils.TILE_COLOR tileColor;
 
+		/**
+		 * Initializes a display only board.
+		 */
 		public DisplayOnlyBoard() {
 			this.setFillParent(true);
 			this.tileColor = GuiUtils.TILE_COLOR.CLASSIC;
@@ -222,6 +361,13 @@ public final class GameBoard extends Table {
 			this.validate();
 		}
 
+		/**
+		 * Returns the current tile color scheme (light or dark).
+		 *
+		 * @param TILE_COLOR color palette.
+		 * @param i          index of the tile.
+		 * @return color of the tile.
+		 */
 		private static Color getTileColor(final GuiUtils.TILE_COLOR TILE_COLOR, final int i) {
 			if (BoardUtils.FIRST_ROW.get(i) || BoardUtils.THIRD_ROW.get(i) || BoardUtils.FIFTH_ROW.get(i)
 					|| BoardUtils.SEVENTH_ROW.get(i)) {
@@ -230,6 +376,13 @@ public final class GameBoard extends Table {
 			return i % 2 != 0 ? TILE_COLOR.LIGHT_TILE() : TILE_COLOR.DARK_TILE();
 		}
 
+		/**
+		 * : Determines the color of a tile based on its row and position.
+		 *
+		 * @param TILE_COLOR color palette.
+		 * @param i          index of the tile.
+		 * @return color of the tile.
+		 */
 		private static Color getHighlightTileColor(final GuiUtils.TILE_COLOR TILE_COLOR, final int i) {
 			if (BoardUtils.FIRST_ROW.get(i) || BoardUtils.THIRD_ROW.get(i) || BoardUtils.FIFTH_ROW.get(i)
 					|| BoardUtils.SEVENTH_ROW.get(i)) {
@@ -240,14 +393,30 @@ public final class GameBoard extends Table {
 					: TILE_COLOR.HIGHLIGHT_LEGAL_MOVE_DARK_TILE();
 		}
 
+		/**
+		 * Returns the current tile color scheme.
+		 *
+		 * @return the current color palette.
+		 */
 		public io.adrisdn.chessnsix.gui.managers.GuiUtils.TILE_COLOR getTileColor() {
 			return this.tileColor;
 		}
 
+		/**
+		 * Sets the tile color scheme for the board.
+		 *
+		 * @param tile_color the tile color scheme for the board.
+		 */
 		public void setTileColor(final GuiUtils.TILE_COLOR tile_color) {
 			this.tileColor = tile_color;
 		}
 
+		/**
+		 * Highlights the legal moves available for the human player's piece.
+		 *
+		 * @param gameBoard  gameboard where the game is being played.
+		 * @param chessBoard internal board for handling logic.
+		 */
 		public void highlightLegalMove(final GameBoard gameBoard, final Board chessBoard) {
 			final Piece piece = gameBoard.getHumanPiece();
 			final ImmutableList<Move> moveList = piece != null

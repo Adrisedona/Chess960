@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-// import com.badlogic.gdx.utils.async.AsyncResult;
 import com.google.common.collect.ImmutableList;
 
 import io.adrisdn.chessnsix.chess.engine.board.Board;
@@ -20,8 +19,21 @@ import io.adrisdn.chessnsix.gui.managers.AudioManager;
 import io.adrisdn.chessnsix.gui.managers.GuiUtils;
 import io.adrisdn.chessnsix.gui.screens.GameScreen;
 
+/**
+ * Represents a clickable tile on the chessboard
+ */
 public final class TileActor extends Image {
 
+	/**
+	 * Initializes the TileActor as a clickable tile. It listens for user clicks and
+	 * processes tile interactions based on the state of the game.
+	 *
+	 * @param gameScreen The current GameScreen instance used to interact with the
+	 *                   chess game.
+	 * @param region     The texture region for the tile (e.g., visual
+	 *                   representation of a chessboard square).
+	 * @param tileID     The unique identifier for the tile on the chessboard.
+	 */
 	protected TileActor(final GameScreen gameScreen, final TextureRegion region, final int tileID) {
 		super(region);
 		this.setVisible(true);
@@ -81,6 +93,15 @@ public final class TileActor extends Image {
 				}
 			}
 
+			/**
+			 * processes the move made by the player, updates the game state, and handles
+			 * any special moves (like castling or promotion).
+			 *
+			 * @param gameScreen The current GameScreen instance, used to update the board
+			 *                   and game state.
+			 * @param tileID     The tile that the player clicked.
+			 * @param move       The move that the player made.
+			 */
 			private void processMove(final GameScreen gameScreen, final int tileID, final Move move) {
 				Player opponent = gameScreen.getChessBoard().currentPlayer().getOpponent();
 				final MoveTransition transition = gameScreen.getChessBoard().currentPlayer().makeMove(move);
@@ -135,6 +156,16 @@ public final class TileActor extends Image {
 		});
 	}
 
+	/**
+	 * Checks whether a piece at a specified tile belongs to the current player and
+	 * matches the selected piece.
+	 *
+	 * @param chessBoard The current Board state.
+	 * @param humanPiece The piece selected by the player.
+	 * @param tileID     The tile ID to check.
+	 * @return The Piece on the specified tile if it belongs to the current player
+	 *         and matches the selected piece. Returns null otherwise.
+	 */
 	private Piece getPiece(final Board chessBoard, final Piece humanPiece, final int tileID) {
 		final Piece piece = chessBoard.getTile(tileID).getPiece();
 		if (piece == null) {
@@ -146,16 +177,32 @@ public final class TileActor extends Image {
 		return null;
 	}
 
+	/**
+	 * Represents a tile on the board that is only used for displaying purposes,
+	 * without interaction.
+	 */
 	protected static final class DisplayOnlyTile extends Image {
 
 		private final int tileID;
 
+		/**
+		 * This constructor initializes a tile for display purposes with a specific
+		 * texture and visibility.
+		 *
+		 * @param tileID The unique identifier for the tile.
+		 */
 		protected DisplayOnlyTile(final int tileID) {
 			super(GuiUtils.GET_TILE_TEXTURE_REGION("white"));
 			this.tileID = tileID;
 			this.setVisible(true);
 		}
 
+		/**
+		 * Determines the color of the tile based on its position on the board.
+		 *
+		 * @param TILE_COLOR the color palette.
+		 * @return The Color object representing the tile's color.
+		 */
 		private Color getTileColor(final GuiUtils.TILE_COLOR TILE_COLOR) {
 			if (BoardUtils.FIRST_ROW.get(this.tileID) || BoardUtils.THIRD_ROW.get(this.tileID)
 					|| BoardUtils.FIFTH_ROW.get(this.tileID) || BoardUtils.SEVENTH_ROW.get(this.tileID)) {
@@ -164,6 +211,15 @@ public final class TileActor extends Image {
 			return this.tileID % 2 != 0 ? TILE_COLOR.LIGHT_TILE() : TILE_COLOR.DARK_TILE();
 		}
 
+		/**
+		 * This method determines the tile color when highlighting the human player's
+		 * move.
+		 *
+		 * @param gameBoard        The GameBoard instance.
+		 * @param displayOnlyBoard he DisplayOnlyBoard instance.
+		 * @return The Color representing the highlight color for the human player's
+		 *         move.
+		 */
 		private Color getHumanMoveColor(final GameBoard gameBoard, final GameBoard.DisplayOnlyBoard displayOnlyBoard) {
 			if (this.tileID == gameBoard.getHumanMove().getCurrentCoordinate()) {
 				return GuiUtils.HUMAN_PREVIOUS_TILE;
@@ -173,6 +229,13 @@ public final class TileActor extends Image {
 			return this.getTileColor(displayOnlyBoard.getTileColor());
 		}
 
+		/**
+		 * Determines the tile color when highlighting the AI player's move.
+		 *
+		 * @param gameBoard        The GameBoard instance.
+		 * @param displayOnlyBoard he DisplayOnlyBoard instance.
+		 * @returnThe Color representing the highlight color for the AI player's move.
+		 */
 		private Color getAIMoveColor(final GameBoard gameBoard, final GameBoard.DisplayOnlyBoard displayOnlyBoard) {
 			if (this.tileID == gameBoard.getAiMove().getCurrentCoordinate()) {
 				return GuiUtils.AI_PREVIOUS_TILE;
@@ -182,6 +245,15 @@ public final class TileActor extends Image {
 			return this.getTileColor(displayOnlyBoard.getTileColor());
 		}
 
+		/**
+		 * Updates the visual appearance of the tile based on the current game state
+		 *
+		 * @param gameBoard        The GameBoard instance.
+		 * @param chessBoard       The Board instance representing the current state of
+		 *                         the chess game.
+		 * @param displayOnlyBoard The DisplayOnlyBoard instance used for rendering
+		 *                         purposes.
+		 */
 		public void repaint(final GameBoard gameBoard, final Board chessBoard,
 				final GameBoard.DisplayOnlyBoard displayOnlyBoard) {
 			if (chessBoard.currentPlayer().isInCheck()

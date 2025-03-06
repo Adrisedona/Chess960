@@ -9,9 +9,16 @@ import io.adrisdn.chessnsix.gui.managers.GuiUtils;
 import io.adrisdn.chessnsix.gui.managers.LanguageManager;
 import io.adrisdn.chessnsix.gui.screens.GameScreen;
 
-
+/**
+ * Button to cancel dialogs
+ */
 public final class CancelButton extends TextButton {
 
+	/**
+	 * Creates a button that cancels dialogs
+	 * @param gameScreen The GameScreen instance
+	 * @param dialog The dialog this button belongs to.
+	 */
     protected CancelButton(final GameScreen gameScreen, final Dialog dialog) {
         super(LanguageManager.get("cancel"), GuiUtils.UI_SKIN);
         this.addListener(new ClickListener() {

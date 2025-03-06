@@ -14,8 +14,15 @@ import io.adrisdn.chessnsix.gui.ChessGame;
 import io.adrisdn.chessnsix.gui.managers.GuiUtils;
 import io.adrisdn.chessnsix.gui.managers.LanguageManager;
 
+/**
+ * Main screen of the game
+ */
 public final class WelcomeScreen extends AbstractScreen {
 
+	/**
+	 * Initializes the screen, with all the button to go to different screens.
+	 * @param chessGame game this screen belongs to.
+	 */
 	public WelcomeScreen(final ChessGame chessGame) {
 		this.stage = new Stage(new FitViewport(GuiUtils.WORLD_WIDTH, GuiUtils.WORLD_HEIGHT), new SpriteBatch());
 
@@ -38,10 +45,11 @@ public final class WelcomeScreen extends AbstractScreen {
 		this.stage.addActor(table);
 	}
 
-	public Stage getStage() {
-		return this.stage;
-	}
-
+	/**
+	 * Creates the button to go to the {@link SetupGame} screen.
+	 * @param chessGame game that handles the change of screen
+	 * @return the created button
+	 */
 	private TextButton startGameButton(final ChessGame chessGame) {
 		final TextButton textButton = new TextButton(LanguageManager.get("start_game"), GuiUtils.UI_SKIN);
 		textButton.addListener(new ClickListener() {
@@ -53,6 +61,10 @@ public final class WelcomeScreen extends AbstractScreen {
 		return textButton;
 	}
 
+	/**
+	 * Creates the button to exit the application
+	 * @return the created button
+	 */
 	private TextButton exitGameButton() {
 		final TextButton textButton = new TextButton(LanguageManager.get("exit_game"), GuiUtils.UI_SKIN);
 		textButton.addListener(new ClickListener() {
@@ -64,6 +76,11 @@ public final class WelcomeScreen extends AbstractScreen {
 		return textButton;
 	}
 
+	/**
+	 * Creates the button to go to the {@link About} screen.
+	 * @param chessGame game that handles the change of screen
+	 * @return the created button
+	 */
 	private TextButton aboutButton(final ChessGame chessGame) {
 		final TextButton textButton = new TextButton(LanguageManager.get("tutorial_title"), GuiUtils.UI_SKIN);
 		textButton.addListener(new ClickListener() {
@@ -75,6 +92,11 @@ public final class WelcomeScreen extends AbstractScreen {
 		return textButton;
 	}
 
+	/**
+	 * Creates the button to go to the {@link Credits} screen.
+	 * @param chessGame game that handles the change of screen
+	 * @return the created button
+	 */
 	private TextButton creditsButton(final ChessGame chessGame) {
 		final TextButton textButton = new TextButton(LanguageManager.get("credits_title"), GuiUtils.UI_SKIN);
 		textButton.addListener(new ClickListener() {
@@ -86,6 +108,11 @@ public final class WelcomeScreen extends AbstractScreen {
 		return textButton;
 	}
 
+	/**
+	 * Creates the button to go to the {@link RecordsScreen}.
+	 * @param chessGame game that handles the change of screen
+	 * @return the created button
+	 */
 	private TextButton recordsButton(final ChessGame chessGame) {
 		final TextButton textButton = new TextButton(LanguageManager.get("records"), GuiUtils.UI_SKIN);
 		textButton.addListener(new ClickListener() {
@@ -98,6 +125,11 @@ public final class WelcomeScreen extends AbstractScreen {
 		return textButton;
 	}
 
+	/**
+	 * Creates the button to go to the {@link Settings} screen.
+	 * @param chessGame game that handles the change of screen
+	 * @return the created button
+	 */
 	private TextButton settingsButton(final ChessGame chessGame) {
 		final TextButton textButton = new TextButton(LanguageManager.get("settings"), GuiUtils.UI_SKIN);
 		textButton.addListener(new ClickListener() {

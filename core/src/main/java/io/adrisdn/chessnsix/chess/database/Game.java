@@ -6,7 +6,7 @@ import com.google.common.collect.ImmutableList;
  * Represents a chess game with metadata including ID, date, number of moves,
  * result, and final position in FEN format.
  */
-public class Game {
+public final class Game {
 	private final int id;
 	private final String date;
 	private final int numberMoves;

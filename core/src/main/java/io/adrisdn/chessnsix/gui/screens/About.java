@@ -15,44 +15,54 @@ import io.adrisdn.chessnsix.gui.ChessGame;
 import io.adrisdn.chessnsix.gui.managers.GuiUtils;
 import io.adrisdn.chessnsix.gui.managers.LanguageManager;
 
+/**
+ * Screen with the tutorial of the game.
+ */
 public final class About extends AbstractScreen {
 
-    public About(final ChessGame chessGame) {
-        this.stage = new Stage(new FitViewport(GuiUtils.WORLD_WIDTH, GuiUtils.WORLD_HEIGHT), new SpriteBatch());
-        final Table table = new Table(GuiUtils.UI_SKIN);
+	/**
+	 * Initializes the screen
+	 *
+	 * @param chessGame game where this screen belongs
+	 */
+	public About(final ChessGame chessGame) {
+		this.stage = new Stage(new FitViewport(GuiUtils.WORLD_WIDTH, GuiUtils.WORLD_HEIGHT), new SpriteBatch());
+		final Table table = new Table(GuiUtils.UI_SKIN);
 		final Label label = new Label(LanguageManager.get("tutorial"), GuiUtils.UI_SKIN);
 		label.setWrap(true);
 		final int WIDTH = 300;
-        table.add(LanguageManager.get("tutorial_title")).padBottom(20).row();
-        table.add(label).padBottom(20).width(GuiUtils.WORLD_WIDTH - (2 * GuiUtils.PAD)).row();
-        table.add(this.backButton(chessGame)).width(WIDTH).padBottom(GuiUtils.PAD);
-        table.setFillParent(true);
-        this.stage.addActor(table);
-    }
+		table.add(LanguageManager.get("tutorial_title")).padBottom(20).row();
+		table.add(label).padBottom(20).width(GuiUtils.WORLD_WIDTH - (2 * GuiUtils.PAD)).row();
+		table.add(this.backButton(chessGame)).width(WIDTH).padBottom(GuiUtils.PAD);
+		table.setFillParent(true);
+		this.stage.addActor(table);
+	}
 
-    public Stage getStage() {
-        return this.stage;
-    }
+	/**
+	 * Button to go back to the {@link WelcomeScreen}
+	 *
+	 * @param chessGame game that handles the screen change
+	 * @return
+	 */
+	private TextButton backButton(final ChessGame chessGame) {
+		final TextButton textButton = new TextButton(LanguageManager.get("back_menu"), GuiUtils.UI_SKIN);
+		textButton.addListener(new ClickListener() {
+			@Override
+			public void clicked(final InputEvent event, final float x, final float y) {
+				chessGame.setScreen(chessGame.getWelcomeScreen());
+			}
+		});
+		return textButton;
+	}
 
-    private TextButton backButton(final ChessGame chessGame) {
-        final TextButton textButton = new TextButton(LanguageManager.get("back_menu"), GuiUtils.UI_SKIN);
-        textButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(final InputEvent event, final float x, final float y) {
-                chessGame.setScreen(chessGame.getWelcomeScreen());
-            }
-        });
-        return textButton;
-    }
-
-    @Override
-    public void render(final float delta) {
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        this.stage.act(delta);
-        this.stage.getBatch().begin();
-        this.stage.getBatch().draw(GuiUtils.BACKGROUND, 0, 0);
-        this.stage.getBatch().end();
-        this.stage.draw();
-    }
+	@Override
+	public void render(final float delta) {
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		this.stage.act(delta);
+		this.stage.getBatch().begin();
+		this.stage.getBatch().draw(GuiUtils.BACKGROUND, 0, 0);
+		this.stage.getBatch().end();
+		this.stage.draw();
+	}
 
 }

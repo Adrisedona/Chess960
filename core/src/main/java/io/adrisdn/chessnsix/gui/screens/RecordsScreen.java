@@ -17,6 +17,9 @@ import io.adrisdn.chessnsix.gui.ChessGame;
 import io.adrisdn.chessnsix.gui.managers.GuiUtils;
 import io.adrisdn.chessnsix.gui.managers.LanguageManager;
 
+/**
+ * Screen that shows all the games played.
+ */
 public class RecordsScreen extends AbstractScreen {
 
 	private final ChessGame chessGame;
@@ -25,15 +28,20 @@ public class RecordsScreen extends AbstractScreen {
 	private Table table;
 	private Table tableGames;
 
-	public RecordsScreen(final ChessGame chessGame, final ImmutableList<Game> games) {
+	/**
+	 * Initializes the screen without games
+	 *
+	 * @param chessGame the game this screen belongs to.
+	 */
+	public RecordsScreen(final ChessGame chessGame) {
 		this.chessGame = chessGame;
-		this.games = games;
-
+		this.games = null;
 		this.stage = new Stage(new FitViewport(GuiUtils.WORLD_WIDTH, GuiUtils.WORLD_HEIGHT), new SpriteBatch());
 	}
 
-
-
+	/**
+	 * Initializes the screens with all the games it has
+	 */
 	public void initScreen() {
 		stage.clear();
 		table = new Table(GuiUtils.UI_SKIN);
@@ -55,11 +63,18 @@ public class RecordsScreen extends AbstractScreen {
 		final ScrollPane scrollPane = new ScrollPane(tableGames);
 		scrollPane.setScrollingDisabled(true, false);
 		scrollPane.setFillParent(true);
-		table.add(scrollPane).pad(GuiUtils.PAD).width(GuiUtils.WORLD_WIDTH - 200).height(GuiUtils.WORLD_HEIGHT).center();
+		table.add(scrollPane).pad(GuiUtils.PAD).width(GuiUtils.WORLD_WIDTH - 200).height(GuiUtils.WORLD_HEIGHT)
+				.center();
 		table.add(backButton()).width(300).padLeft(-250).padTop(GuiUtils.PAD).top().row();
 		this.stage.addActor(table);
 	}
 
+	/**
+	 * Button to go back to the {@link WelcomeScreen}
+	 *
+	 * @param chessGame game that handles the screen change
+	 * @return
+	 */
 	private TextButton backButton() {
 		TextButton button = new TextButton(LanguageManager.get("back_menu"), GuiUtils.UI_SKIN);
 		button.addListener(new ClickListener() {
@@ -71,7 +86,14 @@ public class RecordsScreen extends AbstractScreen {
 		return button;
 	}
 
-
+	/**
+	 * Sets the list of games.
+	 *
+	 * @param games the list of games to set.
+	 */
+	public void setGames(ImmutableList<Game> games) {
+		this.games = games;
+	}
 
 	@Override
 	public void render(float delta) {
@@ -83,28 +105,5 @@ public class RecordsScreen extends AbstractScreen {
 		this.stage.getBatch().end();
 		this.stage.draw();
 	}
-
-
-
-	public ChessGame getChessGame() {
-		return chessGame;
-	}
-
-
-
-	public ImmutableList<Game> getGames() {
-		return games;
-	}
-
-
-	public void setGames(ImmutableList<Game> games) {
-		this.games = games;
-	}
-
-
-	public Stage getStage() {
-		return stage;
-	}
-
 
 }

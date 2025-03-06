@@ -24,9 +24,16 @@ import io.adrisdn.chessnsix.gui.managers.AudioManager;
 import io.adrisdn.chessnsix.gui.managers.GuiUtils;
 import io.adrisdn.chessnsix.gui.managers.LanguageManager;
 
+/**
+ * Screen to handle the music and sound volume, the enabling and disabling of vibration, and the language.
+ */
 public class Settings extends AbstractScreen {
 
 
+	/**
+	 * Initializes the screen with the values loaded in the managers
+	 * @param chessGame the game this screen belongs to.
+	 */
 	public Settings(final ChessGame chessGame) {
 		this.stage = new Stage(new FitViewport(GuiUtils.WORLD_WIDTH, GuiUtils.WORLD_HEIGHT), new SpriteBatch());
 
@@ -70,9 +77,9 @@ public class Settings extends AbstractScreen {
 			table.add(checkBoxVibration).width(GuiUtils.WIDTH).pad(GuiUtils.PAD).align(Align.left).row();
 		}
 
-		final SelectBox<LangLocales> lang = new  SelectBox<>(GuiUtils.UI_SKIN);
-		lang.setItems(LangLocales.getLocales().toArray(new LangLocales[] {}));
-		lang.setSelected(new LangLocales(LanguageManager.get(LanguageManager.getCurrentLang().equals("en") ? "english" : "spanish"), LanguageManager.getCurrentLang()));
+		final SelectBox<LangLocale> lang = new  SelectBox<>(GuiUtils.UI_SKIN);
+		lang.setItems(LangLocale.getLocales().toArray(new LangLocale[] {}));
+		lang.setSelected(new LangLocale(LanguageManager.get(LanguageManager.getCurrentLang().equals("en") ? "english" : "spanish"), LanguageManager.getCurrentLang()));
 		lang.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
@@ -89,6 +96,12 @@ public class Settings extends AbstractScreen {
 		this.stage.addActor(table);
 	}
 
+	/**
+	 * Button to go back to the {@link WelcomeScreen}
+	 *
+	 * @param chessGame game that handles the screen change
+	 * @return
+	 */
 	private TextButton backButton(final ChessGame chessGame) {
 		final TextButton textButton = new TextButton(LanguageManager.get("back_menu"), GuiUtils.UI_SKIN);
 		textButton.addListener(new ClickListener() {
@@ -98,10 +111,6 @@ public class Settings extends AbstractScreen {
 			}
 		});
 		return textButton;
-	}
-
-	public Stage getStage() {
-		return stage;
 	}
 
 	@Override
@@ -115,15 +124,27 @@ public class Settings extends AbstractScreen {
 		this.stage.draw();
 	}
 
-	private static class LangLocales {
+	/**
+	 * Handles the diferentes languages
+	 */
+	private static class LangLocale {
 		private final String name;
 		private final String code;
 
-		public LangLocales(String name, String code) {
+		/**
+		 * Initializes a new locale based on it's name and code.
+		 * @param name name of the language.
+		 * @param code code o the language.
+		 */
+		public LangLocale(String name, String code) {
 			this.name = name;
 			this.code = code;
 		}
 
+		/**
+		 * Returns the code of this language.
+		 * @return the code of this language.
+		 */
 		public String getCode() {
 			return code;
 		}
@@ -135,16 +156,20 @@ public class Settings extends AbstractScreen {
 
 		@Override
 		public boolean equals(Object obj) {
-			if (obj instanceof LangLocales) {
-				return ((LangLocales)obj).code.equals(this.code);
+			if (obj instanceof LangLocale) {
+				return ((LangLocale)obj).code.equals(this.code);
 			}
 			return false;
 		}
 
-		public static ImmutableList<LangLocales> getLocales() {
-			ArrayList<LangLocales> langLocales = new ArrayList<>();
-			langLocales.add(new LangLocales(LanguageManager.get("english"), "en"));
-			langLocales.add(new LangLocales(LanguageManager.get("spanish"), "es"));
+		/**
+		 * Obtains the differents languages in the game.
+		 * @return a list with all the languages avaliables
+		 */
+		public static ImmutableList<LangLocale> getLocales() {
+			ArrayList<LangLocale> langLocales = new ArrayList<>();
+			langLocales.add(new LangLocale(LanguageManager.get("english"), "en"));
+			langLocales.add(new LangLocale(LanguageManager.get("spanish"), "es"));
 			return ImmutableList.copyOf(langLocales);
 		}
 
