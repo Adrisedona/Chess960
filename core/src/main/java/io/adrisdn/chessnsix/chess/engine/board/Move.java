@@ -543,8 +543,20 @@ public abstract class Move {
 		}
 	}
 
+	/**
+	 * Represents a pawn move that moves two tiles instead of one
+	 */
 	public static final class PawnJump extends Move {
 
+		/**
+		 * Initializes a pawn jump move
+		 *
+		 * @param board                 The current state of the chessboard on which the
+		 *                              move is being made.
+		 * @param movePiece             The piece being moved in this move
+		 * @param destinationCoordinate The destination coordinate (in the form of an
+		 *                              index) where the piece is moving to.
+		 */
 		public PawnJump(final Board board, final Piece movePiece, final int destinationCoordinate) {
 			super(board, movePiece, destinationCoordinate);
 		}
@@ -799,10 +811,6 @@ public abstract class Move {
 				possibleMoves.add(NULL_MOVE);
 			}
 			return ImmutableList.copyOf(possibleMoves);
-			// return piece.calculateLegalMoves(board).stream().filter(move ->
-			// move.getCurrentCoordinate() == piece.getPiecePosition() &&
-			// move.getDestinationCoordinate() ==
-			// destinationCoordinate).findFirst().orElseGet(MoveFactory::getNullMove);
 		}
 
 	}
