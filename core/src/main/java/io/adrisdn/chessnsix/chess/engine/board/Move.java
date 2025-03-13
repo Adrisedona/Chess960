@@ -800,11 +800,10 @@ public abstract class Move {
 			for (Move move : legalMoves) {
 				if (move.getCurrentCoordinate() == piece.getPiecePosition()
 						&& move.getDestinationCoordinate() == destinationCoordinate) {
+					possibleMoves.add(move);
 					if (move.getClass() == Move.PawnPromotion.class) {
-						possibleMoves.add(move);
 						break;
 					}
-					possibleMoves.add(move);
 				}
 			}
 			if (possibleMoves.isEmpty()) {

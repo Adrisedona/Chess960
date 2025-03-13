@@ -30,7 +30,7 @@ public final class MoveDisambiguationInterface {
 	 * @param listener The listener that will handle the result when the dialog is
 	 *                 closed.
 	 */
-	public void setListener(DialogResultListener listener) {
+	public void setListener(final DialogResultListener listener) {
 		this.listener = listener;
 	}
 
